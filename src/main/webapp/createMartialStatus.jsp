@@ -5,7 +5,14 @@
 
 <!DOCTYPE html>
 <html>
-<jsp:include page="head.jsp"></jsp:include>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>HRMS | Create Martial Status</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:include page="css.jsp"></jsp:include>
+</head>
 <body class="hold-transition sidebar-mini layout-fixed">
 	<%
 		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -34,6 +41,7 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
+								<li class="breadcrumb-item"><a href="adminDeveloperSetup.jsp">Developer Setup</a></li>
 								<li class="breadcrumb-item active">Create Martial Status</li>
 							</ol>
 						</div>

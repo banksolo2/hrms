@@ -2,8 +2,7 @@ package com.cust.hrms.dao;
 
 import java.sql.*;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -435,11 +434,50 @@ public class EmployeeDao {
 		}
 	}
 	
+	public int getEmployeeLevelId(int employeeId) {
+		int result = 0;
+		query = "select level_id from employees where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("level_id");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		
+		return result;
+	}
+	
+	public int getEmployeeDepartmentId(int employeeId) {
+		int result = 0;
+		query = "select department_id from employees where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("department_id");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		
+		return result;
+	}
 	
 	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();
-		boolean result = ed.isPersonalProductionTargetValid("20000.0");
-		System.out.println(result);
-	}
+		int levelId = ed.getEmployeeLevelId(2);
+		System.out.println(levelId);
+	}	
 }

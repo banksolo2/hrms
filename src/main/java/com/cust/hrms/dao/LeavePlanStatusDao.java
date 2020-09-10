@@ -210,6 +210,58 @@ public class LeavePlanStatusDao {
 		return rs;
 	}
 	
+	// Get employee leave plan statues
+	public ResultSet getEmployeeLeavePlanStatues() {
+		query = "select * from leave_plan_statues where code in (?, ?) order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "drafted");
+			ps.setString(2, "send_for_approval");
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		
+		return rs;
+	}
+	
+	//Get employee leave plan status on update
+	public ResultSet getEmployeeLeavePlanStatuesOnUpdate(int leavePlanStatusId) {
+		query = "select * from leave_plan_statues where code in (?, ?) and leave_plan_status_id != ? order by name asc";
+		dbcon.getConnection();
+		try {
+			ps =  dbcon.con.prepareStatement(query);
+			ps.setString(1, "drafted");
+			ps.setString(2, "send_for_approval");
+			ps.setInt(3, leavePlanStatusId);
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	//Get department head leave plan status on update
+	public ResultSet getDepartmentHeadLeavePlanStatusOnUpdate(int leavePlanStatusId) {
+		query = "select * from leave_plan_statues where code not in (?, ?) and leave_plan_status_id != ? order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "drafted");
+			ps.setString(2, "send_for_approval");
+			ps.setInt(3, leavePlanStatusId);
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		
+		return rs;
+	}
+	
 	public static void main(String args[]) {
 		LeavePlanStatusDao lpsd = new LeavePlanStatusDao();
 		ResultSet rs = lpsd.getAllLeavePlanStatues();

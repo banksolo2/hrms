@@ -240,9 +240,29 @@ public class LevelDao {
 		return value;
 	}
 	
+	public int getLevelLeaveDays(int levelId) {
+		int result = 0;
+		query = "select leave_days from levels where level_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, levelId);
+			rs = ps.executeQuery();
+			if(rs.next()) { 
+				result = rs.getInt("leave_days");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		
+		return result;
+	}
+	
 	public static void main(String args[]) {
 		LevelDao ld = new LevelDao();
-		String result = ld.getLevelName(1);
-		System.out.println(result);
+		int leaveDays = ld.getLevelLeaveDays(1);
+		System.out.println(leaveDays);
 	}
 }

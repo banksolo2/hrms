@@ -13,6 +13,7 @@ public class CreateEmployeeController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		final String DEFAULT_PASSWORD = "Lagos@123";
 		int count = 0;
+		DateDao dda = new DateDao();
 		String message = null;
 		PrintWriter out = response.getWriter();
 		String title = request.getParameter("title").trim();
@@ -22,7 +23,7 @@ public class CreateEmployeeController extends HttpServlet {
 		String nameInitials = request.getParameter("nameInitials").toUpperCase().trim();
 		String email = request.getParameter("email").trim();
 		int employeeStatusId = Integer.parseInt(request.getParameter("employeeStatusId"));
-		String dateOfEmployment = request.getParameter("dateOfEmployment").trim();
+		String dateOfEmployment = dda.convertDateFormat(request.getParameter("dateOfEmployment").trim(), "/");
 		String mobileNumber = request.getParameter("mobileNumber").trim();
 		int stateId = Integer.parseInt(request.getParameter("stateId"));
 		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
@@ -37,6 +38,8 @@ public class CreateEmployeeController extends HttpServlet {
 		String dateOfBirth = request.getParameter("dateOfBirth").trim();
 		int leaveSupervisorId = Integer.parseInt(request.getParameter("leaveSupervisorId"));
 		RequestDispatcher rd = request.getRequestDispatcher("createEmployee.jsp");
+		
+		
 		
 		//create a http session object
 		HttpSession session = request.getSession();

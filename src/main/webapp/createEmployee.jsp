@@ -41,6 +41,7 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
+								<li class="breadcrumb-item"><a href="adminEmployeeSetup.jsp">Employee Setup</a></li>
 								<li class="breadcrumb-item active">Create Employee</li>
 							</ol>
 						</div>
@@ -371,7 +372,7 @@
 											if(dateOfEmployment == null) dateOfEmployment="";
 											%>
 
-											<div class="input-group">
+											<!-- <div class="input-group">
 												<div class="input-group-prepend">
 													<span class="input-group-text"><i
 														class="far fa-calendar-alt"></i></span>
@@ -379,14 +380,14 @@
 												<input type="text" name="dateOfEmployment" value="<%=dateOfEmployment %>"
 													class="form-control" data-inputmask-alias="datetime"<%=dateOfEmployment %>
 													data-inputmask-inputformat="yyyy-mm-dd" data-mask>
-											</div>
-											<!--div class="input-group date" id="reservationdate" data-target-input="nearest">
+											</div> -->
+											<div class="input-group date" id="reservationdate" data-target-input="nearest">
 												<input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" 
 												name="dateOfEmployment" value="<%=dateOfEmployment %>"/>
 												<div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
 											    	<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 												</div>
-											</div-->
+											</div>
 											<!-- /.input group -->
 										</div>
 										<div class="form-group">
@@ -503,7 +504,14 @@
 												<input type="text" name="dateOfBirth" value="<%=dateOfBirth %>"
 													class="form-control" data-inputmask-alias="datetime"
 													data-inputmask-inputformat="yyyy-mm-dd" data-mask>
-											</div>
+											</div> 
+											<!-- <div class="input-group date" id="reservationdate" data-target-input="nearest">
+												<input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" 
+												name="dateOfBirth" value="<%=dateOfBirth %>"/>
+												<div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+											    	<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+												</div>
+											</div> -->
 											<!-- /.input group -->
 										</div>
 										<div class="form-group">

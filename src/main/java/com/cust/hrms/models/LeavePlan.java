@@ -5,6 +5,7 @@ public class LeavePlan {
 	private int employeeId;
 	private int departmentId;
 	private int departmentHeadId;
+	private int leaveTypeId;
 	private String startDate;
 	private String endDate;
 	private int noOfDays;
@@ -15,6 +16,7 @@ public class LeavePlan {
 	private int createdBy;
 	private String updatedAt;
 	private int updatedBy;
+	
 	
 	public int getLeavePlanId() {
 		return leavePlanId;
@@ -103,10 +105,10 @@ public class LeavePlan {
 	@Override
 	public String toString() {
 		return "LeavePlan [leavePlanId=" + leavePlanId + ", employeeId=" + employeeId + ", departmentId=" + departmentId
-				+ ", departmentHeadId=" + departmentHeadId + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", noOfDays=" + noOfDays + ", leavePlanStatusId=" + leavePlanStatusId + ", onBehalf=" + onBehalf
-				+ ", comment=" + comment + ", createdAt=" + createdAt + ", createdBy=" + createdBy + ", updatedAt="
-				+ updatedAt + ", updatedBy=" + updatedBy + "]";
+				+ ", departmentHeadId=" + departmentHeadId + ", leaveTypeId=" + leaveTypeId + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", noOfDays=" + noOfDays + ", leavePlanStatusId=" + leavePlanStatusId
+				+ ", onBehalf=" + onBehalf + ", comment=" + comment + ", createdAt=" + createdAt + ", createdBy="
+				+ createdBy + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + "]";
 	}
 	
 	

@@ -3,7 +3,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">HRMS</span>
@@ -68,14 +68,19 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-            	<li class="nav-item has-treeview">
-	                <a href="createEmployee.jsp" class="nav-link">
+            	<li class="nav-item">
+	                <a href="employeeLeavePlanSetup.jsp" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Employee
-	                  <i class="fas fa-angle-left right"></i>
-	                  </p>
+	                  <p>Employee Setup</p>
 	                </a>
               	</li>
+              	<li class="nav-item">
+	                <a href="hodLeavePlanSetup.jsp" class="nav-link">
+	                  <i class="far fa-circle nav-icon"></i>
+	                  <p>Department Head Setup</p>
+	                </a> 
+              	</li>
+              	
             </ul>
           </li>
           <li class="nav-item has-treeview">
@@ -100,39 +105,21 @@
             </a>
             <ul class="nav nav-treeview">
             	<li class="nav-item">
-	                <a href="createEmployee.jsp" class="nav-link">
+	                <a href="adminEmployeeSetup.jsp" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Employee</p>
+	                  <p>Employee Setup</p>
 	                </a>
               	</li>
               	<li class="nav-item">
-	                <a href="allEmployees.jsp" class="nav-link">
+	                <a href="adminDepartmentSetup.jsp" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>All Employees</p>
+	                  <p>Department Setup</p>
 	                </a>
               	</li>
               	<li class="nav-item">
-	                <a href="createDepartment.jsp" class="nav-link">
+	                <a href="adminDeveloperSetup.jsp" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Department</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="allDepartments.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>All Departments</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="createDepartmentHead.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Department Head</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="allDepartmentHeads.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>All Department Heads</p>
+	                  <p>Developer Setup</p>
 	                </a>
               	</li>
               	<li class="nav-item">
@@ -166,42 +153,6 @@
 	                </a>
               	</li>
               	<li class="nav-item">
-	                <a href="createRole.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Role</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="allRoles.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>All Roles</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="createEmployeeRole.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Employee Role</p>
-	                </a>
-              	</li><li class="nav-item">
-	                <a href="allEmployeeRoles.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>All Employee Roles</p>
-	                </a>
-              	</li>
-              	
-              	<li class="nav-item">
-	                <a href="createState.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create State</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="allStates.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>All States</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
 	                <a href="createBranch.jsp" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>Create Branch</p>
@@ -226,30 +177,6 @@
               		</a>
                 </li>
                 <li class="nav-item">
-              		<a href="createGender.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>Create Gender</p>
-              		</a>
-                </li>
-                <li class="nav-item">
-              		<a href="allGenders.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>All Genders</p>
-              		</a>
-                </li>
-                <li class="nav-item">
-              		<a href="createMartialStatus.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>Create Martial Status</p>
-              		</a>
-                </li>
-                <li class="nav-item">
-              		<a href="allMartialStatus.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>All Martial Status</p>
-              		</a>
-                </li>
-                <li class="nav-item">
               		<a href="createHoliday.jsp" class="nav-link">
               			<i class="far fa-circle nav-icon"></i>
               			<p>Create Holiday</p>
@@ -262,18 +189,6 @@
               		</a>
                 </li>
                 <li class="nav-item">
-              		<a href="createLeaveStatus.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>Create Leave Status</p>
-              		</a>
-                </li>
-                <li class="nav-item">
-              		<a href="allLeaveStatues.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>All Leave Statues</p>
-              		</a>
-                </li>
-                <li class="nav-item">
               		<a href="createLeaveType.jsp" class="nav-link">
               			<i class="far fa-circle nav-icon"></i>
               			<p>Create Leave Type</p>
@@ -283,18 +198,6 @@
               		<a href="allLeaveTypes.jsp" class="nav-link">
               			<i class="far fa-circle nav-icon"></i>
               			<p>All Leave Types</p>
-              		</a>
-                </li>
-                <li class="nav-item">
-              		<a href="createLeavePlanStatus.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>Create Leave Plan Status</p>
-              		</a>
-                </li>
-                <li class="nav-item">
-              		<a href="allLeavePlanStatues.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>All Leave Plan Statues</p>
               		</a>
                 </li>
             </ul>

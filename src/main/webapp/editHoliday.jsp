@@ -6,7 +6,14 @@
 
 <!DOCTYPE html>
 <html>
-<jsp:include page="head.jsp"></jsp:include>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>HRMS | Edit Holiday</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:include page="css.jsp"></jsp:include>
+</head>
 <body class="hold-transition sidebar-mini layout-fixed">
 	<%
 		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -29,13 +36,13 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">Create Holiday</h1>
+							<h1 class="m-0 text-dark">Edit Holiday</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
-								<li class="breadcrumb-item active">Create Holiday</li>
+								<li class="breadcrumb-item active">Edit Holiday</li>
 							</ol>
 						</div>
 						<!-- /.col -->

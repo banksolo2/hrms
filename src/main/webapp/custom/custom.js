@@ -1,5 +1,9 @@
 $(document).ready(function(){
 	
+	$('#createCompany').one('submit', function() {
+	    $(this).find('input[type="submit"]').attr('disabled','disabled');
+	});
+
 	$('#createCompany').validate({
 		rules:{
 			name: {
@@ -913,6 +917,94 @@ $(document).ready(function(){
 			},
 			leaveDays: {
 				required : "Please provide leave days"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	$('#createLeavePlan').validate({
+		rules : {
+			dates : {
+				required : true
+			},
+			leavePlanStatusId : {
+				required : true
+			}
+		},
+		messages : {
+			dates : {
+				required : "Please provide start to end dates"
+			},
+			leavePlanStatusId: {
+				required : "Please provide save as option"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
+	$('#editLeavePlanSentForCorrection').validate({
+		rules: {
+			dates : {
+				requried : true
+			},
+			comment : {
+				required : true
+			}
+		},
+		message: {
+			dates : {
+				required : "Please provide start to end date"
+			},
+			comment : {
+				required : "Please provide comment"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	$('#editLeavePlanPendingApproval').validate({
+		rules : {
+			leavePlanStatusId : {
+				required : true
+			},
+			comment : {
+				required : true
+			}
+		},
+		messages : {
+			leavePlanStatusId : {
+				required : "Please provide a save as option"
+			},
+			comment: {
+				required : "Please provide a comment"
 			}
 		},
 		errorElement: 'span',

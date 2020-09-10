@@ -18,6 +18,11 @@
     $('#reservationdate').datetimepicker({
         format: 'L'
     });
+    
+  //Date range picker
+    $('#dateOfBirth').datetimepicker({
+        format: 'L'
+    });
     //Date range picker
     $('#reservation').daterangepicker()
     //Date range picker with time picker
