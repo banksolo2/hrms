@@ -14,6 +14,17 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "leave_plan");
+	session.setAttribute("page", "hod_leave_plan_setup");
+	if(session.getAttribute("isDepartmentHead") != null){
+		boolean isDepartmentHead = (boolean) session.getAttribute("isDepartmentHead");
+		if(isDepartmentHead == false){
+			response.sendRedirect("index.jsp");
+		}
+	}
+	
+		
+	
 	%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">

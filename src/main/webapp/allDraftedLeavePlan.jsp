@@ -14,6 +14,8 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "leave_plan");
+	session.setAttribute("page", "employee_leave_plan_setup");
 	%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -107,22 +109,14 @@
 										LeavePlanStatusDao lpsd = new LeavePlanStatusDao();
 										ResultSet rs = lpd.getEmployeeDraftedLeavePlanReport(employeeId);
 										String comment = "";
-										DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-										String dateFrom = "";
-										String dateTo = "";
-										java.util.Date startDate;
-										java.util.Date endDate;
+										DateDao dd = new DateDao();
 										while(rs.next()){
 											comment = rs.getString("comment");
 											comment = (comment == null) ? "" : comment;
-											dateFrom = rs.getDate("start_date").toString();
-											dateTo = rs.getDate("end_date").toString();
-											startDate = df.parse(dateFrom);
-											endDate = df.parse(dateTo);
 										%>
 											<tr>
-												<td><%=startDate.toString().replace(" 00:00:00 WAT", ", ") %></td>
-												<td><%=endDate.toString().replace(" 00:00:00 WAT", ", ") %></td>
+												<td><%=dd.changeFormatDate(rs.getDate("start_date").toString()) %></td>
+												<td><%=dd.changeFormatDate(rs.getDate("end_date").toString()) %></td>
 												<td><%=rs.getInt("no_of_days") %></td>
 												<td><%=lpsd.getLeavePlanStatusName(rs.getInt("leave_plan_status_id")) %></td>
 												<td>
@@ -141,17 +135,18 @@
 											</tr>
 										<%
 										}
+										rs.close();
 										%>
 										</tbody>
 										<tfoot>
-											<tr>
+											<!--<tr>
 												<th>Start Date</th>
 												<th>End Date</th>
 												<th>No Of Days</th>
 												<th>Status</th>
 												<th></th>
 												<th></th>
-											</tr>
+											</tr>-->
 										</tfoot>
 									</table>
 					</div>

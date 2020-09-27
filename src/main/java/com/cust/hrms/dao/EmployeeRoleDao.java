@@ -55,6 +55,27 @@ public class EmployeeRoleDao {
 		return result;
 	}
 	
+	public boolean isEmployeeRoleExistByParam(int employeeId, int roleId) {
+		boolean result = false;
+		query = "select count(*) as count_no from employee_roles where employee_id = ? and role_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			ps.setInt(2, roleId);
+			rs = ps.executeQuery();
+			if(rs.next()) { 
+				count = rs.getInt("count_no");
+			}
+			result = (count >= 1);
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
 	public EmployeeRole getEmployeeRole(int employeeId, int roleId) {
 		er = new EmployeeRole();
 		query = "select * from employee_roles where employee_id = ? and role_id = ?";

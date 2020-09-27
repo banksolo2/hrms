@@ -14,12 +14,14 @@ public class RoleDao {
 	
 	public int createRole(Role role) {
 		r = role;
-		query = "insert into roles (name,created_by) values(?, ?)";
+		query = "insert into roles (name,created_by) values(?, ?, ?)";
+		r.setCode(r.getName().replace(" ", "_").toLowerCase());
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setString(1, r.getName());
-			ps.setInt(2, r.getCreatedBy());
+			ps.setString(2, r.getCode());
+			ps.setInt(3, r.getCreatedBy());
 			count = ps.executeUpdate();
 			dbcon.con.close();
 		}
@@ -84,6 +86,7 @@ public class RoleDao {
 			if(rs.next()) {
 				r.setRoleId(rs.getInt("role_id"));
 				r.setName(rs.getString("name"));
+				r.setCode(rs.getString("code"));
 				r.setCreatedAt(rs.getTimestamp("created_at").toString());
 				r.setUpdatedAt(rs.getTimestamp("updated_at").toString());
 				r.setCreatedBy(rs.getInt("created_by"));
@@ -98,15 +101,18 @@ public class RoleDao {
 		return r;
 	}
 	
+	
 	public int updateRole(Role ro) {
 		r = ro;
-		query = "update roles set name = ?, updated_by = ? where role_id = ?";
+		query = "update roles set name = ?, updated_by = ?, code = ? where role_id = ?";
+		r.setCode(r.getName().replace(" ", "_").toLowerCase());
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setString(1, r.getName());
 			ps.setInt(2, r.getUpdatedBy());
-			ps.setInt(3, r.getRoleId());
+			ps.setString(3, r.getCode());
+			ps.setInt(4, r.getRoleId());
 			count = ps.executeUpdate();
 			dbcon.con.close();
 		}
@@ -217,6 +223,7 @@ public class RoleDao {
 			if(rs.next()) {
 				r.setRoleId(rs.getInt("role_id"));
 				r.setName(rs.getString("name"));
+				r.setCode(rs.getString("code"));
 				r.setCreatedAt(rs.getTimestamp("created_at").toString());
 				r.setUpdatedAt(rs.getTimestamp("updated_at").toString());
 				r.setCreatedBy(rs.getInt("created_by"));
@@ -229,6 +236,48 @@ public class RoleDao {
 		}
 		
 		return r;
+	}
+	
+	public Role getRoleByCode(String code) {
+		r = new Role();
+		query = "select * from roles where lower(code) = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, code.toLowerCase());
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				r.setRoleId(rs.getInt("role_id"));
+				r.setName(rs.getString("name"));
+				r.setCode(rs.getString("code"));
+				r.setCreatedAt(rs.getTimestamp("created_at").toString());
+				r.setUpdatedAt(rs.getTimestamp("updated_at").toString());
+				r.setCreatedBy(rs.getInt("created_by"));
+				r.setUpdatedBy(rs.getInt("updated_by"));
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return r;
+	}
+	
+	public int getRoleIdBycode(String code) {
+		int result = 0;
+		query = "select role_id from roles where lower(code) = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, code.toLowerCase());
+			rs = ps.executeQuery();
+			if(rs.next()) result = rs.getInt("role_id");
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
 	}
 	
 	public static void main(String args[]) {

@@ -5,6 +5,7 @@ import com.cust.hrms.models.*;
 
 public class LeaveStatusDao {
 	private DbConnection dbcon = new DbConnection();
+	private LeaveTypeDao ltd = new LeaveTypeDao();
 	private LeaveStatus ls;
 	private String query;
 	private int count;
@@ -232,9 +233,160 @@ public class LeaveStatusDao {
 		return result;
 	}
 	
+	//Get employee save as option
+	public ResultSet getEmployeeSaveAsOptions() {
+		query = "select * from leave_statues where code in (?, ?) order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "drafted");
+			ps.setString(2, "sent_to_supervisor_for_approval");
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public ResultSet getEmployeeSaveAsOptionsOnUpdateById(int leaveStatusId) {
+		query = "select * from leave_statues where code in (?, ?) and leave_status_id != ? order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "drafted");
+			ps.setString(2, "sent_to_supervisor_for_approval");
+			ps.setInt(3, leaveStatusId);
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public ResultSet getEmployeeSaveAsOptionsOnUpdateByCode(String code) {
+		query = "select * from leave_statues where lower(code) in (?, ?) and code != ? order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1,  "drafted");
+			ps.setString(2, "sent_to_supervisor_for_approval");
+			ps.setString(3, code.toLowerCase());
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	//Get leave status name by code
+	public String getLeaveStatusNameByCode(String code) {
+		String result = null;
+		query = "select name from leave_statues where lower(code) = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, code.toLowerCase());
+			rs = ps.executeQuery();
+			if(rs.next()) result = rs.getString("name");
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
+	//Get supervisor save as options
+	public ResultSet getSupervisorSaveAsOptionOne(int leaveStatusId) {
+		query = "select * from leave_statues where code in (?, ?, ?) and leave_status_id != ? order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "approved");
+			ps.setString(2, "sent_back_for_correction");
+			ps.setString(3, "declined");
+			ps.setInt(4, leaveStatusId);
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public ResultSet getSupervisorSaveAsOptionTwo(int leaveStatusId) {
+		query = "select * from leave_statues where code in (?, ?, ?) and leave_status_id != ? order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "sent_to_hr_for_approval");
+			ps.setString(2, "declined");
+			ps.setString(3, "send_back_for_correction");
+			ps.setInt(4, leaveStatusId);
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		
+		return rs;
+	}
+	
+	public ResultSet getSupervisorSaveAsOption(int leaveTypeId, int leaveStatusId, String withPay) {
+		if(leaveTypeId == ltd.getLeaveTypeId("annual")  && withPay.toLowerCase().equals("yes")) {
+			rs = getSupervisorSaveAsOptionOne(leaveStatusId);
+		}
+		else {
+			rs = getSupervisorSaveAsOptionTwo(leaveStatusId);
+		}
+		return rs;
+	}
+	
+	public ResultSet getHrSaveAsOption() {
+		query = "select * from leave_statues where code in (?, ?, ?)  order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "approved");
+			ps.setString(2, "declined");
+			ps.setString(3, "sent_back_for_correction");
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public ResultSet getHrLeaveOptionForPendingRecallBack() {
+		query = "select * from leave_statues where code in (?, ?) order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "approved_recalled_back");
+			ps.setString(2, "decline_leave_recall_back");
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	
 	public static void main(String args[]) {
 		LeaveStatusDao lsd = new LeaveStatusDao();
-		String name = lsd.getName(1);
-		System.out.println(name);
+		ResultSet rs = lsd.getEmployeeSaveAsOptionsOnUpdateByCode("drafted");
+		try {
+			while(rs.next()) {
+				System.out.println(rs.getString("name"));
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
 	}
 }

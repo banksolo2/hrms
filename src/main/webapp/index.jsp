@@ -18,6 +18,9 @@ if(session.getAttribute("employeeId") == null || session.getAttribute("email") =
 	response.sendRedirect("login.jsp");
 	
 }
+session.setAttribute("parent", "home");
+session.setAttribute("page", "home");
+
 %>
 <div class="wrapper">
 <jsp:include page="topNav.jsp"></jsp:include>

@@ -23,6 +23,8 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "leave_plan");
+	session.setAttribute("page", "employee_leave_plan_setup");
 	%>
 	<div class="wrapper">
 		<jsp:include page="topNav.jsp"></jsp:include>

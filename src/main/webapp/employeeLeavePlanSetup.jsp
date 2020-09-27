@@ -14,6 +14,8 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "leave_plan");
+	session.setAttribute("page", "employee_leave_plan_setup");
 	%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">

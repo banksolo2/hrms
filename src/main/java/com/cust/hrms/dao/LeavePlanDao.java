@@ -395,12 +395,34 @@ public class LeavePlanDao {
 		return rs;
 	}
 	
-
+	//Check if leave request is in with leave plan
+	public boolean isLeaveRequestInLineWithLeavePlan(LeavePlan lp) {
+		boolean result = false;
+		query = "select count(*) as count_no from leave_plans where employee_id = ? and start_date = ? and end_date = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, lp.getEmployeeId());
+			ps.setDate(2, Date.valueOf(lp.getStartDate()));
+			ps.setDate(3, Date.valueOf(lp.getEndDate()));
+			rs = ps.executeQuery();
+			if(rs.next()) count = rs.getInt("count_no");
+			result = (count >= 1);
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
 	
 	public static void main(String args[]) {
 		LeavePlanDao lpd = new LeavePlanDao();
-		LeavePlan lp = lpd.getLeavePlan(1);
-		lpd.count = lpd.deleteLeavePlan(lp);
-		System.out.println(lpd.count);
+		LeavePlan lp = new LeavePlan();
+		lp.setEmployeeId(5);
+		lp.setStartDate("2020-09-28");
+		lp.setEndDate("2020-10-02");
+		boolean result = lpd.isLeaveRequestInLineWithLeavePlan(lp);
+		System.out.println(result);
 	}
 }

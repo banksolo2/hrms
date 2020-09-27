@@ -15,11 +15,19 @@ public class Leave {
 	private String staffToNotify;
 	private String comment;
 	private String inlineWithLeavePlan;
+	private String withPay;
 	private int leaveStatusId;
 	private int createdBy;
 	private String createdAt;
 	private int updatedBy;
 	private String updatedAt;
+	
+	public String getWithPay() {
+		return withPay;
+	}
+	public void setWithPay(String withPay) {
+		this.withPay = withPay;
+	}
 	public int getLeaveId() {
 		return leaveId;
 	}
@@ -141,9 +149,9 @@ public class Leave {
 				+ ", endDate=" + endDate + ", resumptionDate=" + resumptionDate + ", noOfDays=" + noOfDays
 				+ ", primaryReliefOfficeId=" + primaryReliefOfficeId + ", secondaryReliefOfficeId="
 				+ secondaryReliefOfficeId + ", staffToNotify=" + staffToNotify + ", comment=" + comment
-				+ ", inlineWithLeavePlan=" + inlineWithLeavePlan + ", leaveStatusId=" + leaveStatusId + ", createdBy="
-				+ createdBy + ", createdAt=" + createdAt + ", updatedBy=" + updatedBy + ", updatedAt=" + updatedAt
-				+ "]";
+				+ ", inlineWithLeavePlan=" + inlineWithLeavePlan + ", withPay=" + withPay + ", leaveStatusId="
+				+ leaveStatusId + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", updatedBy=" + updatedBy
+				+ ", updatedAt=" + updatedAt + "]";
 	}
 	
 	

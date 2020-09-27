@@ -191,6 +191,26 @@ public class DepartmentHeadDao {
 		return result;
 	}
 	
+	public boolean isEmployeeDepartmentHead(int employeeId) {
+		boolean result = false;
+		query = "select count(*) as count_no from department_heads where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("count_no");
+			}
+			result = (count >= 1);
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
 	public static void main(String args[]) {
 		DepartmentHeadDao dhd = new DepartmentHeadDao();
 		int result = dhd.getDepartmentHeadId(3);

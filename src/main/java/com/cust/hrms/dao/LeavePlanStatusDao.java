@@ -244,6 +244,8 @@ public class LeavePlanStatusDao {
 		return rs;
 	}
 	
+
+	
 	//Get department head leave plan status on update
 	public ResultSet getDepartmentHeadLeavePlanStatusOnUpdate(int leavePlanStatusId) {
 		query = "select * from leave_plan_statues where code not in (?, ?) and leave_plan_status_id != ? order by name asc";

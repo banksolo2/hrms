@@ -214,9 +214,62 @@ public class LeaveTypeDao {
 		return rs;
 	}
 	
+	public ResultSet getAllLeaveTypeOnUpdate(int leaveTypeId) {
+		query = "select * from leave_types where leave_type_id != ? order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, leaveTypeId);
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public int getLeaveTypeDays(int leaveTypeId) {
+		int result = 0;
+		query = "select days from leave_types where leave_type_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, leaveTypeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("days");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		
+		return result;
+	}
+	
+	public String getLeaveTypeCode(int leaveTypeId) {
+		String result = null;
+		query = "select code from leave_types where leave_type_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, leaveTypeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getString("code");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
 	public static void main(String args[]) {
 		LeaveTypeDao ltd = new LeaveTypeDao();
-		String result = ltd.getLeaveTypeName(1);
-		System.out.println(result);
+		int days = ltd.getLeaveTypeDays(5);
+		System.out.println(days);
 	}
 }

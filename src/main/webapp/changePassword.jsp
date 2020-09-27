@@ -21,6 +21,8 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "profile");
+	session.setAttribute("page", "change_password");
 	%>
 	<div class="wrapper">
 		<jsp:include page="topNav.jsp"></jsp:include>
@@ -163,8 +165,8 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Save</button>
-			                </div>
+			                  <button type="submit" onsubmit="disableButton()" id="save" class="btn btn-primary">Save</button>
+			                </div> 
 						</div>
 						<!-- /.card -->
 					</div>

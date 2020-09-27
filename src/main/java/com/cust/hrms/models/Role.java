@@ -4,12 +4,19 @@ public class Role {
 	
 	private int roleId;
 	private String name;
+	private String code;
 	private String createdAt;
 	private String updatedAt;
 	private int createdBy;
 	private int updatedBy;
 	
 	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public int getCreatedBy() {
 		return createdBy;
 	}
@@ -48,8 +55,8 @@ public class Role {
 	}
 	@Override
 	public String toString() {
-		return "Role [roleId=" + roleId + ", name=" + name + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
+		return "Role [roleId=" + roleId + ", name=" + name + ", code=" + code + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
 	}
 	
 	

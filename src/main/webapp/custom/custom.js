@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	
+	
 	$('#createCompany').one('submit', function() {
 	    $(this).find('input[type="submit"]').attr('disabled','disabled');
 	});
@@ -1019,4 +1020,187 @@ $(document).ready(function(){
 	        $(element).removeClass('is-invalid');
 	      }
 	});
+	
+	$('#makeLeaveRequestWithPay').validate({
+		rules : {
+			leaveTypeId : {
+				required : true
+			},
+			dates : {
+				required : true
+			},
+			inLineWithLeavePlan : { 
+				required : true
+			},
+			primaryReliefOfficeId : {
+				required : true
+			},
+			leaveStatusId : {
+				required : true
+			}
+		},
+		messages : {
+			leaveType : {
+				required : "Please provide leave type"
+			},
+			dates : {
+				required : "Please provide start and end dates"
+			},
+			inLineWithLeavePlan : {
+				required : "Please select option if leave request is in line with leave plan"
+			},
+			primaryReliefOfficeId : {
+				required : "Please provide primary relief officer"
+			},
+			leaveStatusId : {
+				required : "Please select save as option"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
+	$('#editSendBackForCorrectWithPay').validate({
+		rules : {
+			dates : {
+				required : true
+			},
+			comment : {
+				required : true
+			}
+		},
+		messages : {
+			dates : {
+				required : "Please provide start and end dates."
+			},
+			comment : {
+				required : "Please provide comment."
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
+	$('#editSupervisorPendingLeaveRequest').validate({
+		rules: {
+			leaveStatusId : {
+				required : true
+			},
+			comment : {
+				required : true
+			}
+		},
+		messages : {
+			leaveStatusId : {
+				required : "Please select a save as option"
+			},
+			comment : {
+				required : "Please provide comment"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	$('#initiateRecallBack').validate({
+		rules : {
+			comment : {
+				required : true
+			}
+		},
+		messages : {
+			comment : {
+				required : "Please provide comment"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	$('#makeLeaveRequestWithoutPay').validate({
+		rules : {
+			leaveTypeId : {
+				required : true
+			},
+			dates : {
+				required : true
+			},
+			primaryReliefOfficeId : {
+				required : true
+			},
+			leaveStatusId : {
+				required : true
+			}
+		},
+		messages : {
+			leaveType : {
+				required : "Please provide leave type"
+			},
+			dates : {
+				required : "Please provide start and end dates"
+			},
+			primaryReliefOfficeId : {
+				required : "Please provide primary relief officer"
+			},
+			leaveStatusId : {
+				required : "Please select save as option"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
 });
+function changeLeaveType() {
+	  var leaveTypeCode = document.getElementById("leaveTypeId").value;
+	  document.getElementById("noOfLeaveDays").value = document.getElementById(leaveTypeCode+"Days").value;
+	  document.getElementById("noOfLeaveDaysUsed").value = document.getElementById(leaveTypeCode+"UsedDays").value;
+	  document.getElementById("noOfLeaveDaysLeft").value = document.getElementById(leaveTypeCode+"LeftDays").value;
+	}
+function disableButton(){
+	document.getElementById("save").disabled = true;
+}
+

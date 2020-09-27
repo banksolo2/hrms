@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.*;
 
 public class DateDao {
 	
@@ -110,9 +111,36 @@ public class DateDao {
 		return dates;
 	}
 	
+	public String addDaysSkippingWeekends(String date, int days) {
+	    String dateArr[] = date.split("-");
+		LocalDate result = LocalDate.of(Integer.parseInt(dateArr[0]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[2])) ;
+	    int addedDays = 0;
+	    while (addedDays < days) {
+	        result = result.plusDays(1);
+	        if (!(result.getDayOfWeek() == DayOfWeek.SATURDAY || result.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+	            ++addedDays;
+	        }
+	    }
+	    return result.toString();
+	}
+	
+	public String changeFormatDate(String date) {
+		String result = null;
+		try {
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+			Date dateObj = sdf1.parse(date);
+			SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMMM, yyyy");
+			result = sdf2.format(dateObj);
+		}
+		catch(Exception ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
 	public static void main(String args[]) {
 		DateDao dd = new DateDao();
-		String result = dd.joinStartDateAndEndDateToWord("2020-06-21", "2020-06-29");
+		String result = dd.changeFormatDate("2020-10-21");
 		System.out.println(result);
 	}
 }

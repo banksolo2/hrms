@@ -21,6 +21,15 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "admin");
+	session.setAttribute("page", "admin_leave_setup");
+	if(session.getAttribute("isSupervisor") != null || session.getAttribute("isSuperAdmin") != null){
+		boolean isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
+		boolean isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
+		if(isHrAdmin == false && isSuperAdmin == false){
+			response.sendRedirect("index.jsp");
+		}
+	}
 	%>
 	<div class="wrapper">
 		<jsp:include page="topNav.jsp"></jsp:include>
@@ -41,6 +50,7 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
+								<li class="breadcrumb-item"><a href="adminLeaveSetup.jsp">Admin Leave Setup</a></li>
 								<li class="breadcrumb-item active">All Holidays</li>
 							</ol>
 						</div>
@@ -85,6 +95,7 @@
 										int updatedById;
 										String createdBy;
 										String updatedBy;
+										DateDao dd = new DateDao();
 										while(rs.next()){
 											createdById = rs.getInt("created_by");
 											updatedById = rs.getInt("updated_by");
@@ -94,7 +105,7 @@
 											<tr>
 												<td><%=rs.getString("name") %></td>
 												<td><%=rs.getString("description") %></td>
-												<td><%=rs.getDate("date_at") %></td>
+												<td><%=dd.changeFormatDate(rs.getDate("date_at").toString()) %></td>
 												<td><%=createdBy %></td>
 												<td><%=updatedBy %></td>
 												<td>
@@ -113,10 +124,11 @@
 											</tr>
 										<%
 										}
+										rs.close();
 										%>
 										</tbody>
 										<tfoot>
-											<tr>
+											<!--<tr>
 												<th>Name</th>
 												<th>Description</th>
 												<th>Date At</th>
@@ -124,7 +136,7 @@
 												<th>Updated By</th>
 												<th></th>
 												<th></th>
-											</tr>
+											</tr> -->
 										</tfoot>
 									</table>
 								</div>

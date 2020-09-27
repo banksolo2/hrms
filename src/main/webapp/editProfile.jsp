@@ -22,6 +22,8 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "profile");
+	session.setAttribute("page", "edit_profile");
 	%>
 	<div class="wrapper">
 		<jsp:include page="topNav.jsp"></jsp:include>

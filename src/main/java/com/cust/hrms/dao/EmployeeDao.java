@@ -474,10 +474,29 @@ public class EmployeeDao {
 		return result;
 	}
 	
+	public int getEmployeeLeaveSupervisorId(int employeeId) {
+		int result = 0;
+		query = "select leave_supervisor_id from employees where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("leave_supervisor_id");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
 	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();
-		int levelId = ed.getEmployeeLevelId(2);
-		System.out.println(levelId);
+		int supervisorId = ed.getEmployeeLeaveSupervisorId(5);
+		System.out.println(supervisorId);
 	}	
 }

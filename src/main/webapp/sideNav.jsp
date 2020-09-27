@@ -20,6 +20,24 @@
           <a href="#" class="d-block">${firstName} ${lastName}</a>
         </div>
       </div>
+      <%
+      String parent = "";
+      String pages = "";
+      if (session.getAttribute("parent") != null && session.getAttribute("page") != null){
+      	parent =(String) session.getAttribute("parent");
+      	pages = (String) session.getAttribute("page");
+      }
+      boolean isSuperAdmin = false;
+      boolean isDepartmentHead = false;
+      boolean isHrAdmin = false;
+      boolean isSupervisor = false;
+      if(session.getAttribute("email") != null){
+    	  isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
+    	  isDepartmentHead = (boolean) session.getAttribute("isDepartmentHead");
+    	  isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
+    	  isSupervisor = (boolean) session.getAttribute("isSupervisor");
+      }
+      %>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -27,7 +45,8 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="index.jsp" class="nav-link active">
+            <% if(parent.equals("home")){ %><a href="index.jsp" class="nav-link active">
+            <%}else{%><a href="index.jsp" class="nav-link"><% } %>
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -37,7 +56,19 @@
          
           </li>
           <li class="nav-item has-treeview">
+          
+            <%
+            
+            if(parent.equals("profile")){
+            %>
+            <a href="#" class="nav-link active">
+            <%
+            }
+            else{
+            %>
             <a href="#" class="nav-link">
+            <%} %>
+         
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Profile
@@ -46,13 +77,22 @@
             </a>
             <ul class="nav nav-treeview">
             	<li class="nav-item">
-	                <a href="editProfile.jsp" class="nav-link">
+            	<% if(pages.equals("edit_profile")){ %> <a href="editProfile.jsp" class="nav-link active">
+	            <%}else{ %>  <a href="editProfile.jsp" class="nav-link"><%} %>
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>Edit Profile</p>
 	                </a>
               	</li>
               	<li class="nav-item">
+              		<%
+              		if(pages.equals("change_password")){
+              		%>
+	                <a href="changePassword.jsp" class="nav-link active">
+	                <%
+              		}else{
+	                %>
 	                <a href="changePassword.jsp" class="nav-link">
+	                <%} %>
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>Change Password</p>
 	                </a>
@@ -60,7 +100,8 @@
             </ul>
           </li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <%if(parent.equals("leave_plan")){ %><a href="#" class="nav-link active">
+            <%}else{ %><a href="#" class="nav-link"><%} %>
               <i class="nav-icon fas fa-tree"></i>
               <p>
                 Leave Plan
@@ -69,22 +110,29 @@
             </a>
             <ul class="nav nav-treeview">
             	<li class="nav-item">
-	                <a href="employeeLeavePlanSetup.jsp" class="nav-link">
+	                <%if(pages.equals("employee_leave_plan_setup")){%><a href="employeeLeavePlanSetup.jsp" class="nav-link active">
+	                <%}else{ %><a href="employeeLeavePlanSetup.jsp" class="nav-link"><%} %>
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>Employee Setup</p>
 	                </a>
               	</li>
+              	<%
+              	 if(isDepartmentHead == true){
+              	%>
               	<li class="nav-item">
-	                <a href="hodLeavePlanSetup.jsp" class="nav-link">
+	                <% if(pages.equals("hod_leave_plan_setup")){%><a href="hodLeavePlanSetup.jsp" class="nav-link active">
+	                <%}else{ %><a href="hodLeavePlanSetup.jsp" class="nav-link"><%} %>
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>Department Head Setup</p>
 	                </a> 
               	</li>
+              	<%}%>
               	
             </ul>
           </li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <% if(parent.equals("leave")){ %><a href="#" class="nav-link active">
+            <%}else{ %><a href="#" class="nav-link"><%} %>
               <i class="nav-icon fas fa-tree"></i>
               <p>
                 Leave
@@ -92,11 +140,29 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-            	
+            	<li class="nav-item">
+	                <% if(pages.equals("employee_leave_setup")){ %><a href="employeeLeaveSetup.jsp" class="nav-link active">
+	                <%}else{ %><a href="employeeLeaveSetup.jsp" class="nav-link"><% } %>
+	                  <i class="far fa-circle nav-icon"></i>
+	                  <p>Employee Leave Setup</p>
+	                </a>
+              	</li>
+              	<%if(isSupervisor == true || isSuperAdmin == true){ %>
+              	<li class="nav-item">
+	                <% if(pages.equals("supervisor_leave_setup")){ %><a href="SupervisorLeaveSetup.jsp" class="nav-link active">
+	                <%}else{ %><a href="SupervisorLeaveSetup.jsp" class="nav-link"><%} %>
+	                  <i class="far fa-circle nav-icon"></i>
+	                  <p>Supervisor Leave Setup</p>
+	                </a>
+              	</li>
+              	<%} %>
             </ul>
+            
           </li>
+          <% if(isHrAdmin == true || isSuperAdmin == true){ %>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <%if(parent.equals("admin")){ %><a href="#" class="nav-link active">
+            <%}else{ %><a href="#" class="nav-link "><%} %>
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Admin
@@ -108,6 +174,13 @@
 	                <a href="adminEmployeeSetup.jsp" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>Employee Setup</p>
+	                </a>
+              	</li>
+              	<li class="nav-item">
+	                <%if(pages.equals("admin_leave_setup")){ %><a href="adminLeaveSetup.jsp" class="nav-link active">
+	                <%}else{ %><a href="adminLeaveSetup.jsp" class="nav-link "><% } %>
+	                  <i class="far fa-circle nav-icon"></i>
+	                  <p>Leave Setup</p>
 	                </a>
               	</li>
               	<li class="nav-item">
@@ -135,24 +208,6 @@
 	                </a>
               	</li>
               	<li class="nav-item">
-	                <a href="createRedZone.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Red Zone</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="createRedZoneAllDepartment.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Red Zone All Department</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="allRedZone.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>All Red Zone</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
 	                <a href="createBranch.jsp" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>Create Branch</p>
@@ -176,32 +231,9 @@
               			<p>All Companies</p>
               		</a>
                 </li>
-                <li class="nav-item">
-              		<a href="createHoliday.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>Create Holiday</p>
-              		</a>
-                </li>
-                <li class="nav-item">
-              		<a href="allHolidays.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>All Holidays</p>
-              		</a>
-                </li>
-                <li class="nav-item">
-              		<a href="createLeaveType.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>Create Leave Type</p>
-              		</a>
-                </li>
-                <li class="nav-item">
-              		<a href="allLeaveTypes.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>All Leave Types</p>
-              		</a>
-                </li>
             </ul>
            </li>
+           <%} %>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

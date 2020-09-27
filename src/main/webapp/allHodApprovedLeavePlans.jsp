@@ -22,6 +22,15 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "leave_plan");
+	session.setAttribute("page", "hod_leave_plan_setup");
+
+	if(session.getAttribute("isDepartmentHead") != null){
+		boolean isDepartmentHead = (boolean) session.getAttribute("isDepartmentHead");
+		if(isDepartmentHead == false){
+			response.sendRedirect("index.jsp");
+		}
+	}
 	%>
 	<div class="wrapper">
 		<jsp:include page="topNav.jsp"></jsp:include>
@@ -112,43 +121,36 @@
 										LeavePlanStatusDao lpsd = new LeavePlanStatusDao();
 										ResultSet rs = lpd.getEmployeesApprovedLeavePlansReport(employeeId);
 										String comment = "";
-										DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-										String dateFrom = "";
-										String dateTo = "";
-										java.util.Date startDate;
-										java.util.Date endDate;
+										DateDao dd = new DateDao();
 										EmployeeDao ed = new EmployeeDao();
 										DepartmentDao ded = new DepartmentDao();
 										while(rs.next()){
 											comment = rs.getString("comment");
 											comment = (comment == null) ? "" : comment;
-											dateFrom = rs.getDate("start_date").toString();
-											dateTo = rs.getDate("end_date").toString();
-											startDate = df.parse(dateFrom);
-											endDate = df.parse(dateTo);
 											String department = ded.getDepartmentName(rs.getInt("department_id"));
 										%>
 											<tr>
 												<td><%=ed.getEmployeeName(rs.getInt("employee_id")) %></td>
 												<td><%=department %></td>
-												<td><%=startDate.toString().replace(" 00:00:00 WAT", ", ") %></td>
-												<td><%=endDate.toString().replace(" 00:00:00 WAT", ", ") %></td>
+												<td><%=dd.changeFormatDate(rs.getDate("start_date").toString()) %></td>
+												<td><%=dd.changeFormatDate(rs.getDate("end_date").toString()) %></td>
 												<td><%=rs.getInt("no_of_days") %></td>
 												<td><%=lpsd.getLeavePlanStatusName(rs.getInt("leave_plan_status_id")) %></td>
 											</tr>
 										<%
 										}
+										rs.close();
 										%>
 										</tbody>
 										<tfoot>
-											<tr>
+											<!--<tr>
 												<th>Employee</th>
 												<th>Department</th>
 												<th>Start Date</th>
 												<th>End Date</th>
 												<th>No Of Days</th>
 												<th>Status</th>
-											</tr>
+											</tr>-->
 										</tfoot>
 									</table>
 								</div>

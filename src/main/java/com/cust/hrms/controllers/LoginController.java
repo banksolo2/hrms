@@ -20,6 +20,9 @@ public class LoginController extends HttpServlet {
 		
 		//Check if employee email exist
 		EmployeeDao ed = new EmployeeDao();
+		DepartmentHeadDao dhd = new DepartmentHeadDao();
+		EmployeeRoleDao erd = new EmployeeRoleDao();
+		RoleDao rod = new RoleDao();
 		boolean isValidEmail = ed.isEmailExist(email);
 		
 		if(isValidEmail == true) {
@@ -33,6 +36,10 @@ public class LoginController extends HttpServlet {
 				session.setAttribute("firstName", e.getFirstName());
 				session.setAttribute("lastName", e.getLastName());
 				session.setAttribute("staffId", e.getStaffId());
+				session.setAttribute("isDepartmentHead", dhd.isEmployeeDepartmentHead(e.getEmployeeId()));
+				session.setAttribute("isSupervisor", erd.isEmployeeRoleExistByParam(e.getEmployeeId(), rod.getRoleIdBycode("supervisor")));
+				session.setAttribute("isHrAdmin", erd.isEmployeeRoleExistByParam(e.getEmployeeId(), rod.getRoleIdBycode("hr_admin")));
+				session.setAttribute("isSuperAdmin", erd.isEmployeeRoleExistByParam(e.getEmployeeId(), rod.getRoleIdBycode("super_admin")));
 				response.sendRedirect("index.jsp");
 			}
 			else {

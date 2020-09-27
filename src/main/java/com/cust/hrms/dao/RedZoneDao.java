@@ -154,7 +154,7 @@ public class RedZoneDao {
 		Date startDate = Date.valueOf(rz.getDateFrom());
 		Date endDate = Date.valueOf(rz.getDateTo());
 		query = "select count(*) as count_no from red_zones where department_id = ? and "
-				+ "date_from between ? and ? or date_to between ? and ? ";
+				+ "(date_from between ? and ?) or (date_to between ? and ?) ";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
