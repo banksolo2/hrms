@@ -26,7 +26,7 @@
 	%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HRMS | Supervisor Leave Setup</title>
+  <title>HRMS | Admin Leave Setup</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <jsp:include page="css.jsp"></jsp:include>
@@ -82,7 +82,7 @@
                   <div class="tab-pane text-left fade show active" id="vert-tabs-leave-with-pay-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-with-pay-inquiry-tab">
                      <ul class="chart-legend clearfix">
                       <li><a href="hrLeavePendingApprovalWithPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Pending Approval </a></li>
-                      <li><a href="hrLeaveSentBackForCorrectionWithPay.jsp"><i class="far fa-circle text-primary"></i>Leave Request Sent Back For Correction</a></li>
+                      <li><a href="hrLeaveSentBackForCorrectionWithPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Sent Back For Correction</a></li>
                       <li><a href="hrLeaveApprovedWithPay.jsp"><i class="far fa-circle text-primary"></i> Approved Leave Request </a></li>
                       <li><a href="hrLeaveDeclinedWithPay.jsp"><i class="far fa-circle text-primary"></i> Declined Leave Request </a></li>
                       <li><a href="hrLeaveRecallBackPendingApproval.jsp"><i class="far fa-circle text-primary"></i> Leave Recall Back Pending Approval </a></li>
@@ -92,7 +92,13 @@
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-leave-without-pay-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-without-pay-inquiry-tab">
                      <ul class="chart-legend clearfix">
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Leave Request Pending Approval </a></li>
+                      <li><a href="hrLeavePendingApprovalWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Pending Approval </a></li>
+                      <li><a href="hrLeaveSentBackForCorrectionWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Sent Back For Correction</a></li>
+                      <li><a href="hrLeaveApprovedWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Approved Leave Request </a></li>
+                      <li><a href="hrLeaveDeclinedWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Declined Leave Request </a></li>
+                      <li><a href="hrLeaveRecallBackPendingApprovalWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Recall Back Pending Approval </a></li>
+                      <li><a href="hrApprovedLeaveRecallBackWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Approved Leave Recalled Back </a></li>
+                      <li><a href="hrLeaveHistoryWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave History </a></li>
                     </ul> 
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-leave-type-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-type-inquiry-tab">

@@ -92,12 +92,12 @@
                      <ul class="chart-legend clearfix">
                       <li><a href="employeeApprovedLeaveRequestWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Approved Leave Request </a></li>
                       <li><a href="employeeDraftedLeaveRequestWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Drafted Leave Request </a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Leave Request Send Back For Correction</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Pending Leave Request</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Declined Leave Request</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Leave Recall Back Pending Approval</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Approved Leave Recalled Back</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Leave History</a></li>
+                      <li><a href="employeeLeaveRequestSentBackForCorrectionWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Send Back For Correction</a></li>
+                      <li><a href="employeePendingLeaveRequestWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Pending Leave Request</a></li>
+                      <li><a href="employeeDeclinedLeaveRequestWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Declined Leave Request</a></li>
+                      <li><a href="employeeLeaveRecallBackPendingApprovalWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Recall Back Pending Approval</a></li>
+                      <li><a href="employeeApprovedLeaveRecalledBackWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Approved Leave Recalled Back</a></li>
+                      <li><a href="employeeLeaveHistoryWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave History</a></li>
                     </ul> 
                   </div>
                   

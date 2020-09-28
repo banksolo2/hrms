@@ -317,15 +317,14 @@ public class LeaveStatusDao {
 		return rs;
 	}
 	
-	public ResultSet getSupervisorSaveAsOptionTwo(int leaveStatusId) {
-		query = "select * from leave_statues where code in (?, ?, ?) and leave_status_id != ? order by name asc";
+	public ResultSet getSupervisorSaveAsOptionTwo() {
+		query = "select * from leave_statues where code in (?, ?, ?) order by name asc";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setString(1, "sent_to_hr_for_approval");
 			ps.setString(2, "declined");
-			ps.setString(3, "send_back_for_correction");
-			ps.setInt(4, leaveStatusId);
+			ps.setString(3, "sent_back_for_correction");
 			rs = ps.executeQuery();
 		}
 		catch(SQLException ex) {
@@ -340,7 +339,7 @@ public class LeaveStatusDao {
 			rs = getSupervisorSaveAsOptionOne(leaveStatusId);
 		}
 		else {
-			rs = getSupervisorSaveAsOptionTwo(leaveStatusId);
+			rs = getSupervisorSaveAsOptionTwo();
 		}
 		return rs;
 	}

@@ -70,7 +70,7 @@
             <div class="row">
               <div class="col-5 col-sm-3">
                 <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
-                  <a class="nav-link" id="vert-tabs-leave-with-pay-inquiry-tab" data-toggle="pill" href="#vert-tabs-leave-with-pay-inquiry" role="tab" aria-controls="vert-tabs-leave-with-pay-inquiry" aria-selected="false">Leave With Pay Inquiry</a>
+                  <a class="nav-link active" id="vert-tabs-leave-with-pay-inquiry-tab" data-toggle="pill" href="#vert-tabs-leave-with-pay-inquiry" role="tab" aria-controls="vert-tabs-leave-with-pay-inquiry" aria-selected="false">Leave With Pay Inquiry</a>
                   <a class="nav-link" id="vert-tabs-leave-without-pay-inquiry-tab" data-toggle="pill" href="#vert-tabs-leave-without-pay-inquiry" role="tab" aria-controls="vert-tabs-leave-without-pay-inquiry" aria-selected="false">Leave Without Pay Inquiry</a>
                 </div>
               </div>
@@ -90,14 +90,14 @@
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-leave-without-pay-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-without-pay-inquiry-tab">
                      <ul class="chart-legend clearfix">
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Leave Request Pending Approval </a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Leave Request To HR For Approval </a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Leave Request Send Back For Correction</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Approved Leave Request</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Declined Leave Request</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Leave Recall Back Pending Approval</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Approved Leave Recalled Back</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> Leave History</a></li>
+                      <li><a href="supervisorLeavePendingApprovalWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Pending Approval </a></li>
+                      <li><a href="supervisorLeaveRequestSentToHrForApprovalWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request To HR For Approval </a></li>
+                      <li><a href="supervisorLeaveRequestSentBackForCorrectionReportWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Send Back For Correction</a></li>
+                      <li><a href="supervisorApprovedLeaveRequestReportWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Approved Leave Request</a></li>
+                      <li><a href="supervisorDeclinedLeaveRequestReportWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Declined Leave Request</a></li>
+                      <li><a href="supervisorLeaveRecallBackPendingApprovalReportWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Recall Back Pending Approval</a></li>
+                      <li><a href="supervisorLeaveRecallBackApprovedWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Approved Leave Recalled Back</a></li>
+                      <li><a href="supervisorLeaveHistoryReportWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave History</a></li>
                     </ul> 
                   </div>
                   
