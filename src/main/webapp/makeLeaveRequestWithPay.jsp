@@ -286,7 +286,7 @@
 							                </div>
 							                <div class="col-md-6">
 							                <div class="form-group">
-							                	<label>Primary Relief Office</label>
+							                	<label>Primary Relief Officer</label>
 							                	<%
 							                	String primaryReliefOffice = request.getParameter("primaryReliefOfficeId");
 							                	int primaryReliefOfficeId = (primaryReliefOffice == null) ? 0 : Integer.parseInt(primaryReliefOffice);
@@ -297,7 +297,7 @@
 													if(primaryReliefOfficeId == 0){
 												%>
 												<option selected="selected" value="">SELECT PRIMARY
-													RELIEF OFFICE</option>
+													RELIEF OFFICER</option>
 												<%
 													} else {
 												%>
@@ -316,7 +316,7 @@
 							                </div>
 							                <div class="col-md-6">
 							                <div class="form-group">
-							                	<label>Secondary Relief Office</label>
+							                	<label>Secondary Relief Officer</label>
 							                	<%
 							                	String secondaryReliefOffice = request.getParameter("secondaryReliefOfficeId");
 							                	int secondaryReliefOfficeId = (secondaryReliefOffice == null) ? 0 : Integer.parseInt(secondaryReliefOffice);
@@ -327,7 +327,7 @@
 													if(secondaryReliefOfficeId == 0){
 												%>
 												<option selected="selected" value="">SELECT SECONDARY
-													RELIEF OFFICE</option>
+													RELIEF OFFICER</option>
 												<%
 													} else {
 												%>

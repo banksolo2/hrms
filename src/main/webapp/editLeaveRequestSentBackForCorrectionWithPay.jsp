@@ -264,7 +264,7 @@
 							                </div>
 							                <div class="col-md-6">
 							                <div class="form-group">
-							                	<label>Primary Relief Office</label>
+							                	<label>Primary Relief Officer</label>
 							                	<%
 							                	int primaryReliefOfficeId = l.getPrimaryReliefOfficeId(); 
 							                	rs = ed.getAllEmployeeOnUpdate(primaryReliefOfficeId);
@@ -274,7 +274,7 @@
 													if(primaryReliefOfficeId == 0){
 												%>
 												<option selected="selected" value="">SELECT PRIMARY
-													RELIEF OFFICE</option>
+													RELIEF OFFICER</option>
 												<%
 													} else {
 												%>
@@ -293,7 +293,7 @@
 							                </div>
 							                <div class="col-md-6">
 							                <div class="form-group">
-							                	<label>Secondary Relief Office</label>
+							                	<label>Secondary Relief Officer</label>
 							                	<%
 							                	int secondaryReliefOfficeId = l.getSecondaryReliefOfficeId();
 							                	rs = ed.getAllEmployeeOnUpdate(secondaryReliefOfficeId);
@@ -303,7 +303,7 @@
 													if(secondaryReliefOfficeId == 0){
 												%>
 												<option selected="selected" value="">SELECT SECONDARY
-													RELIEF OFFICE</option>
+													RELIEF OFFICER</option>
 												<%
 													} else {
 												%>
@@ -352,7 +352,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Save</button>
+			                  <button type="submit" class="btn btn-primary">Authorize</button>
 			                  <a class="btn btn-info" href="employeeLeaveRequestSentBackForCorrectionWithPay.jsp">Go Back</a> 
 			                </div>
 						</div>
