@@ -17,6 +17,7 @@ public class EditIssueTypeController extends HttpServlet {
 		IssueTypeDao itd = new IssueTypeDao();
 		IssueType it = itd.getIssueTypeById(issueTypeId);
 		String name = request.getParameter("name");
+		//String employee[] = request.getParameterValues(name)
 		it.setName(name);
 		int updatedBy = (int)session.getAttribute("employeeId");
 		it.setUpdatedBy(updatedBy);
