@@ -45,12 +45,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Department Head Setup</h1>
+            <h1>Department Head Leave Plan Setup</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Leave Plan</a></li>
-              <li class="breadcrumb-item active">Department Head Setup</li>
+              <li class="breadcrumb-item active">Department Head Leave Plan Setup</li>
             </ol>
           </div>
         </div>
@@ -90,20 +90,44 @@
       		session.setAttribute("success", null);
 	          %>
 			<div class="col-12">
-				<div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title"></h5>
-
-                <p class="card-text">
-                  
-                </p>
-                <a href="hodLeavePlanSendForApproval.jsp" class="card-link">Leave Plan Pending Approval</a><br/>
-				<a href="allHodApprovedLeavePlans.jsp" class="card-link">All Leave Plans Approved</a><br/>
-				<a href="allHodDeclinedLeavePlans.jsp" class="card-link">All Leave Plans Declined</a><br/>
-				<a href="allHodLeavePlansHistory.jsp" class="card-link">All Leave Plans History</a><br/>
+			<div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-5 col-sm-3">
+                <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                  <!-- a class="nav-link active" id="vert-tabs-make-leave-plan-tab" data-toggle="pill" href="#vert-tabs-make-leave-plan" role="tab" aria-controls="vert-tabs-make-leave-plan" aria-selected="false">Make Leave Plan</a-->
+                  <a class="nav-link active" id="vert-tabs-leave-plan-inquiry-tab" data-toggle="pill" href="#vert-tabs-leave-plan-inquiry" role="tab" aria-controls="vert-tabs-leave-plan-inquiry" aria-selected="false">Leave Plan Inquiry</a>
+                </div>
               </div>
-            </div><!-- /.card -->
-				<!-- /.card -->
+              <div class="col-7 col-sm-9">
+                <div class="tab-content" id="vert-tabs-tabContent">
+                  <!-- div class="tab-pane text-left fade show active" id="vert-tabs-make-leave-plan" role="tabpanel" aria-labelledby="vert-tabs-make-leave-plan-tab">
+                     <h5>Make Leave Plan</h5>
+                     <ul class="chart-legend clearfix">
+                      <li><a href="createLeavePlan.jsp"><i class="far fa-circle text-primary"></i> Create Leave Plan </a></li>
+                    </ul> 
+                  </div -->
+                  <div class="tab-pane fade show active" id="vert-tabs-leave-plan-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-plan-inquiry-tab">
+                     <h5>Leave Plan Inquiry</h5>
+                     <ul class="chart-legend clearfix">
+                      <li><a href="hodLeavePlanSendForApproval.jsp"><i class="far fa-circle text-primary"></i> Leave Plan Pending Approval </a></li>
+                      <li><a href="allHodApprovedLeavePlans.jsp"><i class="far fa-circle text-primary"></i> All Leave Plans Approved </a></li>
+                      <li><a href="allHodDeclinedLeavePlans.jsp"><i class="far fa-circle text-primary"></i> All Leave Plans Declined</a></li>
+                      <li><a href="allHodLeavePlansHistory.jsp"><i class="far fa-circle text-primary"></i> All Leave Plans History</a></li>
+                    </ul> 
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <!-- /.card -->
+        </div>
 			</div>
 		</div>
       </div>

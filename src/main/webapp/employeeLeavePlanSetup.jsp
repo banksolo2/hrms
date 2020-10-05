@@ -36,12 +36,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Employee Setup</h1>
+            <h1>Employee Leave Plan Setup</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Leave Plan</a></li>
-              <li class="breadcrumb-item active">Employee Setup</li>
+              <li class="breadcrumb-item active">Employee Leave Plan Setup</li>
             </ol>
           </div>
         </div>
@@ -81,23 +81,46 @@
       		session.setAttribute("success", null);
 	          %>
 			<div class="col-12">
-				<div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title"></h5>
-
-                <p class="card-text">
-                  
-                </p>
-                <a href="createLeavePlan.jsp" class="card-link">Create Leave Plan</a><br/>
-				<a href="allDraftedLeavePlan.jsp" class="card-link">All Drafted Leave Plans</a><br/>
-				<a href="allPendingLeavePlan.jsp" class="card-link">All Pending Leave Plans</a><br/>
-				<a href="allApprovedLeavePlan.jsp" class="card-link">All Approved Leave Plans</a><br/>
-				<a href="allLeavePlanSentForCorrection.jsp" class="card-link">All leave Plans Sent For Correction</a><br/>
-				<a href="allDeclinedLeavePlan.jsp" class="card-link">All Declined Leave Plans</a><br/>
-				<a href="employeeLeavePlanHistory.jsp" class="card-link">Leave Plan History</a><br/>
+			<div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-5 col-sm-3">
+                <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                  <a class="nav-link active" id="vert-tabs-make-leave-plan-tab" data-toggle="pill" href="#vert-tabs-make-leave-plan" role="tab" aria-controls="vert-tabs-make-leave-plan" aria-selected="false">Make Leave Plan</a>
+                  <a class="nav-link" id="vert-tabs-leave-plan-inquiry-tab" data-toggle="pill" href="#vert-tabs-leave-plan-inquiry" role="tab" aria-controls="vert-tabs-leave-plan-inquiry" aria-selected="false">Leave Plan Inquiry</a>
+                </div>
               </div>
-            </div><!-- /.card -->
-				<!-- /.card -->
+              <div class="col-7 col-sm-9">
+                <div class="tab-content" id="vert-tabs-tabContent">
+                  <div class="tab-pane text-left fade show active" id="vert-tabs-make-leave-plan" role="tabpanel" aria-labelledby="vert-tabs-make-leave-plan-tab">
+                     <h5>Make Leave Plan</h5>
+                     <ul class="chart-legend clearfix">
+                      <li><a href="createLeavePlan.jsp"><i class="far fa-circle text-primary"></i> Create Leave Plan </a></li>
+                    </ul> 
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-leave-plan-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-plan-inquiry-tab">
+                     <h5>Leave Plan Inquiry</h5>
+                     <ul class="chart-legend clearfix">
+                      <li><a href="allDraftedLeavePlan.jsp"><i class="far fa-circle text-primary"></i> All Drafted Leave Plans </a></li>
+                      <li><a href="allPendingLeavePlan.jsp"><i class="far fa-circle text-primary"></i> All Pending Leave Plans </a></li>
+                      <li><a href="allApprovedLeavePlan.jsp"><i class="far fa-circle text-primary"></i> All Approved Leave Plans</a></li>
+                      <li><a href="allLeavePlanSentForCorrection.jsp"><i class="far fa-circle text-primary"></i> All leave Plans Sent For Correction</a></li>
+                      <li><a href="allDeclinedLeavePlan.jsp"><i class="far fa-circle text-primary"></i> All Declined Leave Plans</a></li>
+                      <li><a href="employeeLeavePlanHistory.jsp"><i class="far fa-circle text-primary"></i> Leave Plan History</a></li>
+                    </ul> 
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <!-- /.card -->
+        </div>
 			</div>
 		</div>
       </div>

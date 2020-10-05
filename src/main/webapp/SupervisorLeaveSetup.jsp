@@ -61,7 +61,7 @@
       	<div class="row">
     
 			<div class="col-12">
-				        <div class="card card-primary card-outline">
+		<div class="card card-primary card-outline">
           <div class="card-header">
             <h3 class="card-title">
             </h3>
@@ -77,6 +77,7 @@
               <div class="col-7 col-sm-9">
                 <div class="tab-content" id="vert-tabs-tabContent">
                   <div class="tab-pane text-left fade show active" id="vert-tabs-leave-with-pay-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-with-pay-inquiry-tab">
+                     <h5>Leave With Pay Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="supervisorLeavePendingApprovalWithPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Pending Approval </a></li>
                       <li><a href="supervisorLeaveRequestSentToHrForApproval.jsp"><i class="far fa-circle text-primary"></i> Leave Request Sent To HR For Approval </a></li>
@@ -89,6 +90,7 @@
                     </ul> 
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-leave-without-pay-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-without-pay-inquiry-tab">
+                     <h5>Leave Without Pay Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="supervisorLeavePendingApprovalWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Pending Approval </a></li>
                       <li><a href="supervisorLeaveRequestSentToHrForApprovalWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request To HR For Approval </a></li>

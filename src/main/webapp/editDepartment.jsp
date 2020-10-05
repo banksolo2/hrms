@@ -22,6 +22,15 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "admin");
+	session.setAttribute("page", "core_setup");
+	if(session.getAttribute("isSupervisor") != null || session.getAttribute("isSuperAdmin") != null){
+		boolean isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
+		boolean isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
+		if(isHrAdmin == false && isSuperAdmin == false){
+			response.sendRedirect("index.jsp");
+		}
+	}
 	%>
 	<div class="wrapper">
 		<jsp:include page="topNav.jsp"></jsp:include>
@@ -41,6 +50,7 @@
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="coreSetup.jsp">Core Setup</a></li>
 								<li class="breadcrumb-item"><a href="allDepartments.jsp">All Departments</a></li>
 								<li class="breadcrumb-item active">Edit Department</li>
 							</ol>

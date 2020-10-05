@@ -61,7 +61,7 @@
       	<div class="row">
     
 			<div class="col-12">
-				        <div class="card card-primary card-outline">
+		<div class="card card-primary card-outline">
           <div class="card-header">
             <h3 class="card-title">
             </h3>
@@ -80,6 +80,7 @@
               <div class="col-7 col-sm-9">
                 <div class="tab-content" id="vert-tabs-tabContent">
                   <div class="tab-pane text-left fade show active" id="vert-tabs-leave-with-pay-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-with-pay-inquiry-tab">
+                     <h5>Leave With Pay Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="hrLeavePendingApprovalWithPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Pending Approval </a></li>
                       <li><a href="hrLeaveSentBackForCorrectionWithPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Sent Back For Correction</a></li>
@@ -91,6 +92,7 @@
                     </ul> 
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-leave-without-pay-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-without-pay-inquiry-tab">
+                     <h5>Leave Without Pay Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="hrLeavePendingApprovalWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Pending Approval </a></li>
                       <li><a href="hrLeaveSentBackForCorrectionWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Request Sent Back For Correction</a></li>
@@ -102,12 +104,14 @@
                     </ul> 
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-leave-type-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-type-inquiry-tab">
+                     <h5>Leave Type Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="createLeaveType.jsp"><i class="far fa-circle text-primary"></i> Create Leave Type </a></li>
                       <li><a href="allLeaveTypes.jsp"><i class="far fa-circle text-primary"></i> All Leave Types </a></li>
                     </ul> 
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-red-zone" role="tabpanel" aria-labelledby="vert-tabs-red-zone-tab">
+                     <h5>Red Zone Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="createRedZone.jsp"><i class="far fa-circle text-primary"></i> Create Red Zone </a></li>
                       <li><a href="createRedZoneAllDepartment.jsp"><i class="far fa-circle text-primary"></i> Create Red Zone For All Departments </a></li>
@@ -115,6 +119,7 @@
                     </ul> 
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-holiday-inquiry" role="tabpanel" aria-labelledby="vert-tabs-holiday-inquiry-tab">
+                     <h5>Holiday Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="createHoliday.jsp"><i class="far fa-circle text-primary"></i> Create Holiday </a></li>
                       <li><a href="allHolidays.jsp"><i class="far fa-circle text-primary"></i> All Holidays </a></li>

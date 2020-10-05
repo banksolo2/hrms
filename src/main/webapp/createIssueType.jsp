@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
-<%@ page import="com.cust.hrms.models.*" %>
 <%@ page import="java.sql.*"%>
 
 <!DOCTYPE html>
@@ -9,7 +8,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HRMS | Edit Employee Role</title>
+  <title>HRMS | Create Issue Type</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <jsp:include page="css.jsp"></jsp:include>
@@ -45,14 +44,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">Edit Employee Role</h1>
+							<h1 class="m-0 text-dark">Create Issue Type</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Admin</a></li>
 								<li class="breadcrumb-item"><a href="coreSetup.jsp">Core Setup</a></li>
-								<li class="breadcrumb-item"><a href="allEmployeeRoles.jsp">All Employee Roles</a></li>
-								<li class="breadcrumb-item active">Edit Employee Role</li>
+								<li class="breadcrumb-item active">Create Issue Type</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -63,7 +62,7 @@
 			</div>
 			<!-- /.content-header -->
 
-			<form action="editEmployeeRole" method="post" id="editEmployeeRole">
+			<form action="createIssueType" method="post" id="createState">
 				<!-- Main content -->
 				<section class="content">
 					<div class="container-fluid">
@@ -94,80 +93,71 @@
 									</button>
 								</div>
 							</div>
+							<%
+								String name = request.getParameter("name");
+								if(name == null)name ="";
+							%>
 							<!-- /.card-header -->
 							<div class="card-body">
 								<div class="row">
 								<%
-								String errorMessage = (String) session.getAttribute("error");
-								if(errorMessage != null){
+								String successMessage = (String) session.getAttribute("success");
+								if(successMessage != null){
 								%>
-									<!-- /.col -->
-							          <div class="col-md-12">
-							            <div class="card bg-danger">
+									<div class="col-md-12">
+							            <div class="card bg-success">
 							              <div class="card-header">
-							                <h3 class="card-title"><i class="icon fas fa-ban"></i> Error Message</h3>
-							                 <div class="card-tools">
+							                <h3 class="card-title"><i class="icon fas fa-check"></i> Success Message</h3>
+							
+							                <div class="card-tools">
 							                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
 							                  </button>
 							                </div>
 							                <!-- /.card-tools -->
 							              </div>
+							              <!-- /.card-header -->
 							              <div class="card-body">
-							                <%=errorMessage %>
+							                <%=successMessage %>
 							              </div>
 							              <!-- /.card-body -->
 							            </div>
 							            <!-- /.card -->
 							          </div>
 							          <!-- /.col -->
-							       <%
+							          <%
+								}
+								session.setAttribute("success", null);
+								String errorMessage = (String) session.getAttribute("error");
+								if(errorMessage != null){
+							          %>
+							    	 <div class="col-md-12">
+									    <div class="card bg-danger">
+									      <div class="card-header">
+									        <h3 class="card-title"><i class="icon fas fa-ban"></i> Error Message</h3>
+									        <div class="card-tools">
+									          <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+									          </button>
+									        </div>
+									        <!-- /.card-tools -->
+									      </div>
+									      <div class="card-body">
+									        <%=errorMessage %>
+									      </div>
+									      <!-- /.card-body -->
+									    </div>
+									    <!-- /.card -->
+									  </div>
+									  <!-- /.col -->
+									  <%
 								}
 								session.setAttribute("error", null);
-							       %>
+									  %>
 									<div class="col-md-12">
 										<div class="form-group">
-											<label>Employee</label>
-											<%
-											int employeeRoleId = Integer.parseInt(request.getParameter("employeeRoleId"));
-											EmployeeRoleDao erd = new EmployeeRoleDao();
-											EmployeeRole er = erd.getEmployeeRoleById(employeeRoleId);
-											EmployeeDao ed = new EmployeeDao();
-											
-											%>
-											<input type="hidden" value="<%=er.getEmployeeRoleId() %>" name="employeeRoleId" />
-											<select class="form-control select2" style="width: 100%;" name="employeeId">
-												<option selected="selected" value="<%=er.getEmployeeId() %>"><%=ed.getEmployeeName(er.getEmployeeId()).toUpperCase() %></option>
-												<%
-													
-													ResultSet rs = ed.getAllEmployeeOnUpdate(er.getEmployeeId());
-													String fullName = null;
-													while(rs.next()){
-													fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
-												%>
-												<option value="<%=rs.getInt("employee_id") %>"><%=fullName.toUpperCase() %></option>
-												<%
-													}
-												%>
-											</select>
+											<label>Name:</label> <input type="text" value="<%=name %>"
+												name="name" class="form-control" id="name"/>
 										</div>
-										<div class="form-group">
-											<label>Role</label>
-											<%
-											RoleDao rd = new RoleDao();
-											%>
-											<select class="form-control select2" style="width: 100%;" name="roleId">
-												<option selected="selected" value="<%=er.getRoleId() %>"><%=rd.getRoleName(er.getRoleId()).toUpperCase() %></option>
-												<%
-											
-												rs = rd.getAllRolesOnUpdate(er.getRoleId());
-												while(rs.next()){
-												%>
-												<option value="<%=rs.getInt("role_id") %>"><%=rs.getString("name").toUpperCase() %></option>
-												<%
-												}
-												%>
-											</select>
-										</div>
+										
 									</div>
 									<!-- /.col -->
 
@@ -176,8 +166,8 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Save</button>
-			                  <a class="btn btn-info" href="allEmployeeRoles.jsp">Go Back</a>
+			                  <button type="submit" class="btn btn-primary">Submit</button>
+			                  <!--<a class="btn btn-info" href="employeeLeaveRequestSentBackForCorrectionWithoutPay.jsp">Go Back</a>--> 
 			                </div>
 						</div>
 						<!-- /.card -->

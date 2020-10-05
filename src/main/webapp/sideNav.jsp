@@ -171,9 +171,10 @@
             </a>
             <ul class="nav nav-treeview">
             	<li class="nav-item">
-	                <a href="adminEmployeeSetup.jsp" class="nav-link">
+	                <%if(pages.equals("core_setup")){ %><a href="coreSetup.jsp" class="nav-link active">
+	                <%}else{%><a href="coreSetup.jsp" class="nav-link"><%} %>
 	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Employee Setup</p>
+	                  <p>Core Setup</p>
 	                </a>
               	</li>
               	<li class="nav-item">
@@ -184,53 +185,11 @@
 	                </a>
               	</li>
               	<li class="nav-item">
-	                <a href="adminDepartmentSetup.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Department Setup</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
 	                <a href="adminDeveloperSetup.jsp" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>Developer Setup</p>
 	                </a>
               	</li>
-              	<li class="nav-item">
-	                <a href="createLevel.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Level</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="allLevels.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>All Levels</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="createBranch.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Branch</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="allBranches.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>All Branches</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-	                <a href="createCompany.jsp" class="nav-link">
-	                  <i class="far fa-circle nav-icon"></i>
-	                  <p>Create Company</p>
-	                </a>
-              	</li>
-              	<li class="nav-item">
-              		<a href="allCompanies.jsp" class="nav-link">
-              			<i class="far fa-circle nav-icon"></i>
-              			<p>All Companies</p>
-              		</a>
-                </li>
             </ul>
            </li>
            <%} %>

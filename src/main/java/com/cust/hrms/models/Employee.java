@@ -34,8 +34,15 @@ public class Employee {
 	private double personalProductionTarget;
 	private int createdBy;
 	private int updatedBy;
+	private String imageUrl;
 	
 	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	public int getLeaveSupervisorId() {
 		return leaveSupervisorId;
 	}
@@ -223,7 +230,7 @@ public class Employee {
 				+ ", currentAddress=" + currentAddress + ", personalEmail=" + personalEmail + ", createdAt=" + createdAt
 				+ ", updatedAt=" + updatedAt + ", password=" + password + ", lastLoginAt=" + lastLoginAt
 				+ ", leaveSupervisorId=" + leaveSupervisorId + ", personalProductionTarget=" + personalProductionTarget
-				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
+				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", imageUrl=" + imageUrl + "]";
 	}
 	
 	

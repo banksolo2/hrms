@@ -8,7 +8,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HRMS | All Departments</title>
+  <title>HRMS | All Issue Types</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <jsp:include page="css.jsp"></jsp:include>
@@ -44,14 +44,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">All Departments</h1>
+							<h1 class="m-0 text-dark">All Issue Types</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
 								<li class="breadcrumb-item"><a href="coreSetup.jsp">Core Setup</a></li>
-								<li class="breadcrumb-item active">All Departments</li>
+								<li class="breadcrumb-item active">All Issue Types</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -67,6 +67,59 @@
 			<section class="content">
 				<div class="container-fluid">
 					<div class="row">
+						<%
+								String successMessage = (String) session.getAttribute("success");
+								if(successMessage != null){
+								%>
+									<div class="col-md-12">
+							            <div class="card bg-success">
+							              <div class="card-header">
+							                <h3 class="card-title"><i class="icon fas fa-check"></i> Success Message</h3>
+							
+							                <div class="card-tools">
+							                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							                  </button>
+							                </div>
+							                <!-- /.card-tools -->
+							              </div>
+							              <!-- /.card-header -->
+							              <div class="card-body">
+							                <%=successMessage %>
+							              </div>
+							              <!-- /.card-body -->
+							            </div>
+							            <!-- /.card -->
+							          </div>
+							          <!-- /.col -->
+							          <%
+								}
+								session.setAttribute("success", null);
+								String errorMessage = (String) session.getAttribute("error");
+								if(errorMessage != null){
+							       %>
+							      <!-- /.col -->
+						          <div class="col-md-12">
+						            <div class="card bg-danger">
+						              <div class="card-header">
+						                <h3 class="card-title"><i class="icon fas fa-ban"></i> Error Message</h3>
+						                <div class="card-tools">
+							                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							                  </button>
+							                </div>
+							                <!-- /.card-tools -->
+						              </div>
+						              <div class="card-body">
+						                <%=errorMessage %>
+						              </div>
+						              <!-- /.card-body -->
+						            </div>
+						            <!-- /.card -->
+						          </div>
+						          <!-- /.col -->
+						          <%
+								}
+						          session.setAttribute("error", null);
+						          %>
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
@@ -89,8 +142,8 @@
 										<tbody>
 										<%
 										EmployeeDao ed = new EmployeeDao();
-										DepartmentDao dd = new DepartmentDao();
-										ResultSet rs = dd.getAllDepartment();
+										IssueTypeDao itd = new IssueTypeDao();
+										ResultSet rs = itd.getIssueTypeReport();
 										int createdById;
 										int updatedById;
 										String createdBy;
@@ -108,15 +161,15 @@
 												<td><%=rs.getTimestamp("updated_at") %></td>
 												<td><%=updatedBy %></td>
 												<td>
-													<form action="editDepartment.jsp" method="post">
-													<input type="hidden" name="departmentId" value="<%=rs.getInt("department_id") %>" />
+													<form action="editIssueType.jsp" method="post">
+													<input type="hidden" name="issueTypeId" value="<%=rs.getInt("issue_type_id") %>" />
 													<button type="submit" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edit</button>
 													</form>
 												</td>
 												
 												<td>
-													<form action="deleteDepartment" method="post">
-													<input type="hidden" name="departmentId" value="<%=rs.getInt("department_id") %>" />
+													<form action="deleteIssueType" method="post">
+													<input type="hidden" name="issueTypeId" value="<%=rs.getInt("issue_type_id") %>" />
 													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
@@ -126,7 +179,7 @@
 										%>
 										</tbody>
 										<tfoot>
-											<tr>
+											<!--tr>
 												<th>Name</th>
 												<th>Created At</th>
 												<th>Created By</th>
@@ -134,7 +187,7 @@
 												<th>Updated By</th>
 												<th></th>
 												<th></th>
-											</tr>
+											</tr>-->
 										</tfoot>
 									</table>
 								</div>

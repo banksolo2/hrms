@@ -71,12 +71,14 @@
               <div class="col-7 col-sm-9">
                 <div class="tab-content" id="vert-tabs-tabContent">
                   <div class="tab-pane text-left fade show active" id="vert-tabs-make-request" role="tabpanel" aria-labelledby="vert-tabs-make-request-tab">
+                  	<h5>Make Leave Request</h5>
                   	<ul class="chart-legend clearfix">
                       <li><a href="makeLeaveRequestWithPay.jsp"><i class="far fa-circle text-primary"></i> Leave With Pay </a></li>
                       <li><a href="makeLeaveRequestWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Leave Without Pay </a></li>
                     </ul>
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-leave-with-pay-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-with-pay-inquiry-tab">
+                     <h5>Leave With Pay Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="employeeApprovedLeaveRequestWithPay.jsp"><i class="far fa-circle text-primary"></i> Approved Leave Request </a></li>
                       <li><a href="employeeDraftedLeaveRequestWithPay.jsp"><i class="far fa-circle text-primary"></i> Drafted Leave Request </a></li>
@@ -89,6 +91,7 @@
                     </ul>
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-leave-without-pay-inquiry" role="tabpanel" aria-labelledby="vert-tabs-leave-without-pay-inquiry-tab">
+                     <h5>Leave Without Pay Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="employeeApprovedLeaveRequestWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Approved Leave Request </a></li>
                       <li><a href="employeeDraftedLeaveRequestWithoutPay.jsp"><i class="far fa-circle text-primary"></i> Drafted Leave Request </a></li>
