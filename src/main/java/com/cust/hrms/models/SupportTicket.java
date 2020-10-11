@@ -8,13 +8,36 @@ public class SupportTicket {
 	private String fileUrl;
 	private String issueFor;
 	private int departmentId;
+	private int supportTicketStatusId;
 	private String employees;
+	private String comment;
+	private int resolvedBy;
 	private int createdBy;
 	private int updatedBy;
 	private String createdAt;
 	private String updatedAt;
+	
+	
+	public int getResolvedBy() {
+		return resolvedBy;
+	}
+	public void setResolvedBy(int resolvedBy) {
+		this.resolvedBy = resolvedBy;
+	}
 	public int getSupportTicketId() {
 		return supportTicketId;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public int getSupportTicketStatusId() {
+		return supportTicketStatusId;
+	}
+	public void setSupportTicketStatusId(int supportTicketStatusId) {
+		this.supportTicketStatusId = supportTicketStatusId;
 	}
 	public void setSupportTicketId(int supportTicketId) {
 		this.supportTicketId = supportTicketId;
@@ -89,9 +112,10 @@ public class SupportTicket {
 	public String toString() {
 		return "SupportTicket [supportTicketId=" + supportTicketId + ", issueReportDate=" + issueReportDate
 				+ ", issueTypeId=" + issueTypeId + ", issueDescription=" + issueDescription + ", fileUrl=" + fileUrl
-				+ ", issueFor=" + issueFor + ", departmentId=" + departmentId + ", employees=" + employees
-				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
+				+ ", issueFor=" + issueFor + ", departmentId=" + departmentId + ", supportTicketStatusId="
+				+ supportTicketStatusId + ", employees=" + employees + ", comment=" + comment + ", resolvedBy="
+				+ resolvedBy + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + "]";
 	}
 	
 	

@@ -159,6 +159,25 @@
             </ul>
             
           </li>
+          <li class="nav-item has-treeview">
+            <%if(parent.equals("support_ticket")){ %><a href="#" class="nav-link active">
+            <%}else{ %><a href="#" class="nav-link"> <%} %>
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Support Ticket
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+            	<li class="nav-item">
+	                <%if(pages.equals("employee_support_ticket_setup")){ %><a href="employeeSupportTicketSetup.jsp" class="nav-link active">
+	                <% }else{ %><a href="employeeSupportTicketSetup.jsp" class="nav-link"> <%} %>
+	                  <i class="far fa-circle nav-icon"></i>
+	                  <p>Support Ticket Setup</p>
+	                </a>
+              	</li>
+            </ul>
+         </li>
           <% if(isHrAdmin == true || isSuperAdmin == true){ %>
           <li class="nav-item has-treeview">
             <%if(parent.equals("admin")){ %><a href="#" class="nav-link active">

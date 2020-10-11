@@ -1193,6 +1193,108 @@ $(document).ready(function(){
 	      }
 	});
 	
+	$('#editEmployeeSupportTicket').validate({
+		rules : {
+			comment : {
+				required : true
+			},
+			supportTicketStatusId : {
+				required : true
+			}
+		},
+		messages : {
+			comment : {
+				required : "Please provide a comment"
+			},
+			supportTicketStatusId : {
+				required : "Please select a save as option"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
+	$('#editSupportTicketForEmployee').validate({
+		rules : {
+			comment : {
+				required : true
+			}
+		},
+		messages : {
+			comment : {
+				required : "Please provide comment"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
+	$('#createDepartmentSupportTicket').validate({
+		rules : {
+			issueReportDate : {
+				required : true
+			},
+			issueTypeId : {
+				required : true
+			},
+			issueDescription : {
+				required : true
+			},
+			departmentId : {
+				required : true
+			},
+			file : {
+				required : true
+			}
+		},
+		messages : {
+			issueReportDate : {
+				required : "Please provide issue report date"
+			},
+			issueTypeId : {
+				required : "Please select issue type"
+			},
+			issueDescription : {
+				required : "Please provide issue description"
+			},
+			departmentId : {
+				required : "Please select department"
+			},
+			file : {
+				required : "Please upload issue"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
 });
 function changeLeaveType() {
 	  var leaveTypeCode = document.getElementById("leaveTypeId").value;

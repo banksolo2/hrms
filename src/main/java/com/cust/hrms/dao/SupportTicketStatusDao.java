@@ -149,12 +149,62 @@ public class SupportTicketStatusDao {
 		return count;
 	}
 	
+	public int getSupportTicketStatusId(String code) {
+		int result = 0;
+		query = "select support_ticket_status_id from support_ticket_statues where lower(code) = ? ";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, code.trim().toLowerCase());
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("support_ticket_status_id");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
 	
+	public String getSupportTicketStatusName(int supportTicketStatusId) {
+		String result = null;
+		query = "select name from support_ticket_statues where support_ticket_status_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, supportTicketStatusId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getString("name");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
+	public ResultSet getSupportTicketStatusResolvedOption() {
+		query = "select * from support_ticket_statues where code in (?, ?) order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "closed");
+			ps.setString(2, "unresolved");
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
 	
 	public static void main(String args[]) {
 		SupportTicketStatusDao stsd = new SupportTicketStatusDao();
-		SupportTicketStatus sts = stsd.getSupportTicketStatusById(4);
-		int count = stsd.deleteSupportTicketStatus(sts);
-		System.out.println(count);
+		String result = stsd.getSupportTicketStatusName(3);
+		System.out.println(result);
 	}
 }

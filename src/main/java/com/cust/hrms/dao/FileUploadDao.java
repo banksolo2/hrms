@@ -9,4 +9,8 @@ public class FileUploadDao {
 	public String getEmployeeProfilePictureUrl() {
 		return url+"employeeImages/";
 	}
+	
+	public String getSupportTicketurl() {
+		return url+"supportTicketImages/";
+	}
 }

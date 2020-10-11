@@ -138,6 +138,11 @@ public class DateDao {
 		return result;
 	}
 	
+	public String changeDateBack(String date) {
+		String dateBegin[] = date.split("-");
+		return dateBegin[1]+"/"+dateBegin[2]+"/"+dateBegin[0];
+	}
+	
 	public static void main(String args[]) {
 		DateDao dd = new DateDao();
 		String result = dd.changeFormatDate("2020-10-21");

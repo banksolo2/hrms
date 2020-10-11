@@ -183,11 +183,48 @@ public class IssueTypeDao {
 		return rs;
 	}
 	
+	public int getIssueTypeId(String code) {
+		int result = 0;
+		query = "select issue_type_id from issue_types where lower(code) = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, code.trim().toLowerCase());
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("issue_type_id");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
+	public String getIssueTypeName(int issueTypeId) {
+		String result = null;
+		query = "select name from issue_types where issue_type_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, issueTypeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getString("name");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
 	public static void main(String args[]) {
 		IssueTypeDao itd = new IssueTypeDao();
-		IssueType it = itd.getIssueTypeById(2);
-		int count = itd.deleteIssueType(it);
-		System.out.println(count);
+		String result = itd.getIssueTypeName(5);
+		System.out.println(result);
 	}
 	
 }
