@@ -118,14 +118,14 @@
                      <ul class="chart-legend clearfix">
                       <li><a href="departmentPendingSupportTicketReport.jsp"><i class="far fa-circle text-primary"></i> All Pending Support Tickets </a></li>
                       <li><a href="departmentResolveSupportTicketReport.jsp"><i class="far fa-circle text-primary"></i> All Resolved Support Tickets </a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> All Closed Support Tickets </a></li>
+                      <li><a href="departmentClosedSupportTicketReport.jsp"><i class="far fa-circle text-primary"></i> All Closed Support Tickets </a></li>
                     </ul> 
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-support-ticket-inquiry" role="tabpanel" aria-labelledby="vert-tabs-support-ticket-inquiry-tab">
                      <h5>Support Ticket Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="allPendingSupportTicketReportForEmployee.jsp"><i class="far fa-circle text-primary"></i> All Pending Support Ticket (Employee)</a></li>
-                      <li><a href="#"><i class="far fa-circle text-primary"></i> All Pending Support Ticket (Department)</a></li>
+                      <li><a href="allPendingSupportTicketReportForDepartment.jsp"><i class="far fa-circle text-primary"></i> All Pending Support Ticket (Department)</a></li>
                     </ul> 
                   </div>
                   

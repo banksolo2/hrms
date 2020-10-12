@@ -332,6 +332,24 @@ public class SupportTicketDao {
 		return rs;
 	}
 	
+	public ResultSet getSupportTicketForDepartmentPendingReport(int departmentId) {
+		query = "select * from support_tickets where lower(issue_for) = ? and department_id = ? "
+				+ "and support_ticket_status_id in (?, ?) order by issue_report_date desc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "department");
+			ps.setInt(2, departmentId);
+			ps.setInt(3, stsd.getSupportTicketStatusId("pending"));
+			ps.setInt(4, stsd.getSupportTicketStatusId("unresolved"));
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
 	
 	
 	public ResultSet getHRSupportTicketReport() {

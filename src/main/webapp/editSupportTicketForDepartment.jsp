@@ -9,7 +9,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HRMS | Edit Support Ticket (Department)</title>
+  <title>HRMS | Edit Support Ticket (Employees)</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <jsp:include page="css.jsp"></jsp:include>
@@ -44,7 +44,7 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="employeeSupportTicketSetup.jsp">Support Ticket Setup</a></li>
-								<li class="breadcrumb-item"><a href="departmentResolveSupportTicketReport.jsp">All Resolved Support Tickets (Department)</a></li>
+								<li class="breadcrumb-item"><a href="allPendingSupportTicketReportForDepartment.jsp">All Pending Support Tickets (Department)</a></li>
 								<li class="breadcrumb-item active">Edit Support Ticket (Department)</li>
 							</ol>
 						</div>
@@ -57,7 +57,7 @@
 			<!-- /.content-header -->
 
 			
-				<form action="editDepartmentSupportTicket" method="post" id="editEmployeeSupportTicket">
+				<form action="editSupportTicketForDepartment" method="post" id="editSupportTicketForEmployee">
 				<!-- Main content -->
 				<section class="content">
 					<div class="container-fluid">
@@ -157,6 +157,11 @@
 						                  <label>Issue Report Date:</label>
 						                    <input type="text" class="form-control" name="issueReportDate" readonly="readonly" value="<%=dd.changeFormatDate(st.getIssueReportDate()) %>" >
 						                </div>
+						                
+										<div class="form-group">
+											<label>Created By</label>
+											<input type="text" class="form-control" readonly="readonly" value="<%=ed.getEmployeeName(st.getCreatedBy()) %>">
+										</div>
 						                <div class="form-group">
 											<label>Issue Type</label>
 											<%
@@ -170,32 +175,6 @@
 										<div class="form-group">
 											<label>Issue Description</label>
 											<textarea cols="50" readonly="readonly" rows="4" class="form-control" name="issueDescription"><%=st.getIssueDescription() %></textarea>
-										</div>
-										<div class="form-group">
-											<label>Department</label>
-											<%
-											DepartmentDao ded = new DepartmentDao();
-											%>
-											<input type="text" class="form-control" name="departmentId" value="<%=ded.getDepartmentName(st.getDepartmentId()).toUpperCase() %>" readonly="readonly" >
-										</div>
-										<div class="form-group">
-											<label>Save As</label>
-											<select class="form-control select2" style="width: 100%;" name="supportTicketStatusId">
-												<option selected="selected" value="">SELECT SAVE AS OPTION</option>
-											<%
-											SupportTicketStatusDao stsd = new SupportTicketStatusDao();
-											ResultSet rs = stsd.getSupportTicketStatusResolvedOption();
-											while(rs.next()){
-											%>
-												<option value="<%=rs.getInt("support_ticket_status_id") %>"><%=rs.getString("name").toUpperCase() %></option>
-											<%
-											}
-											%>
-											</select>
-										</div>
-										<div class="form-group">
-											<label>Resolved By</label>
-											<input type="text" class="form-control" readonly="readonly" value="<%=ed.getEmployeeName(st.getResolvedBy()) %>">
 										</div>
 										<div class="form-group">
 											<label>Uploaded Issue</label><br/>
@@ -212,8 +191,8 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Authorize</button>
-			                  <a class="btn btn-info" href="departmentResolveSupportTicketReport.jsp">Go Back</a>
+			                  <button type="submit" class="btn btn-primary">Resolved</button>
+			                  <a class="btn btn-info" href="allPendingSupportTicketReportForDepartment.jsp">Go Back</a>
 			                </div>
 						</div>
 						<!-- /.card -->
