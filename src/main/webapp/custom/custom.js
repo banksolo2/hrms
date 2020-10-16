@@ -1249,9 +1249,6 @@ $(document).ready(function(){
 	
 	$('#createDepartmentSupportTicket').validate({
 		rules : {
-			issueReportDate : {
-				required : true
-			},
 			issueTypeId : {
 				required : true
 			},
@@ -1266,9 +1263,6 @@ $(document).ready(function(){
 			}
 		},
 		messages : {
-			issueReportDate : {
-				required : "Please provide issue report date"
-			},
 			issueTypeId : {
 				required : "Please select issue type"
 			},
@@ -1280,6 +1274,48 @@ $(document).ready(function(){
 			},
 			file : {
 				required : "Please upload issue"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
+	$('#createEmployeeSupportTicket').validate({
+		rules: {
+			issueTypeId : {
+				required : true
+			},
+			issueDescription : {
+				required : true
+			},
+			employees : {
+				required : true
+			},
+			file : {
+				required : true
+			}
+		},
+		messages :{
+			issueTypeId : {
+				required : "Please provide issue type"
+			},
+			issueDescription : {
+				required : "Please provide issue description"
+			},
+			employees : {
+				required : "Please select employees option"
+			},
+			file : {
+				required : "Please upload a file"
 			}
 		},
 		errorElement: 'span',

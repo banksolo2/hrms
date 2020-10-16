@@ -493,10 +493,82 @@ public class EmployeeDao {
 		return result;
 	}
 	
+	public String getEmployeeEmail(int employeeId) {
+		String result = null;
+		query = "select email from employees where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getString("email");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
+	public String[] getEmployeesEmail(int employeesId[]) {
+		String result[] = new String[employeesId.length];
+		int i = 0;
+		for(int x : employeesId) {
+			result[i] = getEmployeeEmail(x);
+			i++;
+		}
+		return result;
+	}
+	
+	public int getDepartmentEmployeesCount(int departmentId) {
+		int result = 0;
+		query = "select count(*) as count_no from employees where department_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, departmentId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("count_no");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
+	
+	public String[] getDepartmentEmployeesEmail(int departmentId) {
+		count = getDepartmentEmployeesCount(departmentId);
+		String result[] = new String[count];
+		query = "select email from employees where department_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, departmentId);
+			rs = ps.executeQuery();
+			int i = 0;
+			while(rs.next()) {
+				result[i] = rs.getString("email");
+				i++;
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
 	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();
-		int supervisorId = ed.getEmployeeLeaveSupervisorId(5);
-		System.out.println(supervisorId);
+		String result[] = ed.getDepartmentEmployeesEmail(3);
+		for(String x : result) {
+			System.out.println(x);
+		}
 	}	
 }

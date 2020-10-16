@@ -4,13 +4,13 @@ package com.cust.hrms.dao;
 
 public class FileUploadDao {
 	
-	private String url = "/home/bankstech/eclipse-workspace/hrms/"; 
+	private final String URL = "/home/bankstech/eclipse-workspace/hrms/src/main/webapp/filesUpload/"; 
 	
 	public String getEmployeeProfilePictureUrl() {
-		return url+"employeeImages/";
+		return URL+"employeeImages/";
 	}
 	
 	public String getSupportTicketurl() {
-		return url+"supportTicketImages/";
+		return URL+"supportTickets/";
 	}
 }

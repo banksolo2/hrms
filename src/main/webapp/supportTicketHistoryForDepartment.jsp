@@ -1,0 +1,217 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="com.cust.hrms.dao.*"%>
+<%@ page import="java.sql.*"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>HRMS | Support Ticket History (Employees)</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:include page="css.jsp"></jsp:include>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<%
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	if (session.getAttribute("employeeId") == null || session.getAttribute("email") == null
+			|| session.getAttribute("staffId") == null) {
+		response.sendRedirect("login.jsp");
+
+	}
+	session.setAttribute("parent", "admin");
+	session.setAttribute("page", "core_setup");
+	if(session.getAttribute("isSupervisor") != null || session.getAttribute("isSuperAdmin") != null){
+		boolean isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
+		boolean isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
+		if(isHrAdmin == false && isSuperAdmin == false){
+			response.sendRedirect("index.jsp");
+		}
+	}
+	%>
+	<div class="wrapper">
+		<jsp:include page="topNav.jsp"></jsp:include>
+
+		<jsp:include page="sideNav.jsp"></jsp:include>
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark">Support Ticket History (Departments)</h1>
+						</div>
+						<!-- /.col -->
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Admin</a></li>
+								<li class="breadcrumb-item"><a href="coreSetup.jsp">Core Setup</a></li>
+								<li class="breadcrumb-item active">Support Ticket History (Departments)</li>
+							</ol>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<%
+								String successMessage = (String) session.getAttribute("success");
+								if(successMessage != null){
+								%>
+									<div class="col-md-12">
+							            <div class="card bg-success">
+							              <div class="card-header">
+							                <h3 class="card-title"><i class="icon fas fa-check"></i> Success Message</h3>
+							
+							                <div class="card-tools">
+							                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							                  </button>
+							                </div>
+							                <!-- /.card-tools -->
+							              </div>
+							              <!-- /.card-header -->
+							              <div class="card-body">
+							                <%=successMessage %>
+							              </div>
+							              <!-- /.card-body -->
+							            </div>
+							            <!-- /.card -->
+							          </div>
+							          <!-- /.col -->
+							          <%
+								}
+								session.setAttribute("success", null);
+								String errorMessage = (String) session.getAttribute("error");
+								if(errorMessage != null){
+							       %>
+							      <!-- /.col -->
+						          <div class="col-md-12">
+						            <div class="card bg-danger">
+						              <div class="card-header">
+						                <h3 class="card-title"><i class="icon fas fa-ban"></i> Error Message</h3>
+						                <div class="card-tools">
+							                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							                  </button>
+							                </div>
+							                <!-- /.card-tools -->
+						              </div>
+						              <div class="card-body">
+						                <%=errorMessage %>
+						              </div>
+						              <!-- /.card-body -->
+						            </div>
+						            <!-- /.card -->
+						          </div>
+						          <!-- /.col -->
+						          <%
+								}
+						          session.setAttribute("error", null);
+						          %>
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title"></h3>
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body">
+									<table id="example1" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th>Ticket No</th>
+												<th>Issue Report Date</th>
+												<th>Created By</th>
+												<th>Department</th>
+												<th>Issue Type</th>
+												<th>Issue Description</th>
+												<th>Status</th>
+												<th>Resolved By</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+										<%
+										DepartmentDao ded = new DepartmentDao();
+										EmployeeDao ed = new EmployeeDao();
+										SupportTicketDao std = new SupportTicketDao();
+										SupportTicketStatusDao stsd = new SupportTicketStatusDao();
+										DateDao dd = new DateDao();
+										IssueTypeDao itd = new IssueTypeDao();
+										ResultSet rs = std.getHRSupportTicketReport("department");
+										String resolvedBy;
+										String comment;
+										while(rs.next()){
+											comment = (rs.getString("comment") == null) ? "" : rs.getString("comment");
+											resolvedBy = (rs.getInt("resolved_by") >= 1) ? ed.getEmployeeName(rs.getInt("resolved_by")) : "";
+										%>
+											<tr>
+												<td><%=rs.getInt("support_ticket_id") %></td>
+												<td><%=dd.changeFormatDate(rs.getDate("issue_report_date").toString()) %></td>
+												<td><%=ed.getEmployeeName(rs.getInt("created_by")) %></td>
+												<td><%=ded.getDepartmentName(rs.getInt("department_id")) %></td>
+												<td><%=itd.getIssueTypeName(rs.getInt("issue_type_id")) %></td>
+												<td><%=rs.getString("issue_description") %></td>
+												<td><%=stsd.getSupportTicketStatusName(rs.getInt("support_ticket_status_id")) %></td>
+												
+												<td><%=resolvedBy %></td>
+												<td>
+													<form action="viewSupportTicketDepartment.jsp" method="post">
+													<input type="hidden" name="supportTicketId" value="<%=rs.getInt("support_ticket_id") %>" />
+													<button type="submit" class="btn btn-primary"> View </button>
+													</form>
+												</td>
+											</tr>
+										<%
+										}
+										%>
+										</tbody>
+										<tfoot>
+											<!--tr>
+												<th>Name</th>
+												<th>Created At</th>
+												<th>Created By</th>
+												<th>Updated At</th>
+												<th>Updated By</th>
+												<th></th>
+												<th></th>
+											</tr>-->
+										</tfoot>
+									</table>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- /.content -->
+
+		</div>
+		<!-- /.content-wrapper -->
+		<jsp:include page="footer.jsp"></jsp:include>
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
+	</div>
+	<!-- ./wrapper -->
+
+	<jsp:include page="javascript.jsp"></jsp:include>
+</body>
+</html>

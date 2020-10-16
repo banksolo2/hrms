@@ -152,6 +152,8 @@
                   <div class="tab-pane fade " id="vert-tabs-ticket-support-setup" role="tabpanel" aria-labelledby="vert-tabs-company-setup-tab">
                   	<h5>Ticket Support Setup</h5>
                   	<ul class="chart-legend clearfix">
+                  	  <li><a href="supportTicketHistoryForEmployee.jsp"><i class="far fa-circle text-primary"></i> Support Ticket History (Employees) </a></li>
+                  	  <li><a href="supportTicketHistoryForDepartment.jsp"><i class="far fa-circle text-primary"></i> Support Ticket History (Departments) </a></li>
                       <li><a href="createIssueType.jsp"><i class="far fa-circle text-primary"></i> Create Issue Type </a></li>
                       <li><a href="allIssueTypes.jsp"><i class="far fa-circle text-primary"></i> All Issue Type </a></li>
                     </ul> 

@@ -8,6 +8,7 @@ import com.cust.hrms.dao.*;
 import com.cust.hrms.email.*;
 import com.cust.hrms.models.*;
 import com.cust.hrms.notification.*;
+import com.cust.hrms.email.message.*;
 
 @WebServlet("/editDepartmentSupportTicket")
 public class EditDepartmentSupportTicketController extends HttpServlet {
@@ -19,6 +20,7 @@ public class EditDepartmentSupportTicketController extends HttpServlet {
 		SupportTicketStatusDao stsd = new SupportTicketStatusDao();
 		SupportTicketNotification stn = new SupportTicketNotification();
 		SupportTicketDao std = new SupportTicketDao();
+		HrmsEmail he = new HrmsEmail();
 		int supportTicketId = Integer.parseInt(request.getParameter("supportTicketId"));
 		SupportTicket st = std.getSupportTicketById(supportTicketId);
 		int supportTicketStatusId = Integer.parseInt(request.getParameter("supportTicketStatusId"));

@@ -43,6 +43,10 @@ public class SupportTicketNotification {
 		return message;
 	}
 	
+	public String getSupportTicketAlreadyExistMessage() {
+		return "Support Ticket already exist...";
+	}
+	
 	public static void main(String args[]) {
 		SupportTicketNotification stn = new SupportTicketNotification();
 		String message = stn.getClosedSupportTicketMessage(false);

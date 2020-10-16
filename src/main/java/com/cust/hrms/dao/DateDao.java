@@ -143,9 +143,14 @@ public class DateDao {
 		return dateBegin[1]+"/"+dateBegin[2]+"/"+dateBegin[0];
 	}
 	
+	public String getTodayDate() {
+		Date today = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(today);
+	}
+	
 	public static void main(String args[]) {
 		DateDao dd = new DateDao();
-		String result = dd.changeFormatDate("2020-10-21");
-		System.out.println(result);
+		System.out.println(dd.getTodayDate());	
 	}
 }

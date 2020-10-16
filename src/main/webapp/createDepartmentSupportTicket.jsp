@@ -38,14 +38,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">Create Support Ticket (Department)</h1>
+							<h1 class="m-0 text-dark">Create Support Ticket (Departments)</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Support Ticket</a></li>
 								<li class="breadcrumb-item"><a href="employeeSupportTicketSetup.jsp">Support Ticket Setup</a></li>
-								<li class="breadcrumb-item active">Create Support Ticket (Department)</li>
+								<li class="breadcrumb-item active">Create Support Ticket (Departments)</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -56,8 +56,8 @@
 			</div>
 			<!-- /.content-header -->
 
-			<!-- <form action="createDepartmentSupportTicket" method="post" id="createDepartmentSupportTicket" enctype="multipart/form-data">-->
-				<form action="createDepartmentSupportTicket" method="post" id="createDepartmentSupportTicket">
+			 <form action="createDepartmentSupportTicket" method="post" id="createDepartmentSupportTicket" enctype="multipart/form-data">
+				
 				<!-- Main content -->
 				<section class="content">
 					<div class="container-fluid">
@@ -145,18 +145,6 @@
 							          %>
 							          
 									<div class="col-md-12">
-										<div class="form-group">
-						                  <label>Issue Report Date:</label>
-						                  <%
-						                  	String issueReportDate = request.getParameter("issueReportDate");
-						                  %>
-						                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-						                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="issueReportDate" value="<%=issueReportDate %>" />
-						                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-						                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-						                        </div>
-						                    </div>
-						                </div>
 						                <div class="form-group">
 											<label>Issue Type</label>
 											<%

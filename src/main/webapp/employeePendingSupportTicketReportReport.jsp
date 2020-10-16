@@ -70,6 +70,7 @@
 									<table id="example1" class="table table-bordered table-striped">
 										<thead>
 											<tr>
+												<th>Ticket No</th>
 												<th>Issue Report Date</th>
 												<th>Issue Type</th>
 												<th>Issue Description</th>
@@ -95,12 +96,13 @@
 											comment = (rs.getString("comment") == null) ? "" : rs.getString("comment"); 
 										%>
 											<tr>
+												<td><%=rs.getInt("support_ticket_id") %></td>
 												<td><%=dd.changeFormatDate(rs.getDate("issue_report_date").toString()) %></td>
 												<td><%=itd.getIssueTypeName(rs.getInt("issue_type_id")) %></td>
 												<td><%=rs.getString("issue_description") %></td>
 												<td><%=stsd.getSupportTicketStatusName(rs.getInt("support_ticket_status_id")) %></td>
 												<td><%=comment %></td>
-												<td> <a class="btn btn-warning" href="<%=rs.getString("file_url") %>" download>Download File</a></td>
+												<td> <a target="_blank" class="btn btn-warning" href="<%=rs.getString("file_url") %>">Download File</a></td>
 											</tr>
 										<%
 										}

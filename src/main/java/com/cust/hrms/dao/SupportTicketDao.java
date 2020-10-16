@@ -65,27 +65,25 @@ public class SupportTicketDao {
 		boolean result = false;
 		if(st.getIssueFor().equals("department")) {
 			query = "select count(*) as count_no from support_tickets where created_by = ? and "
-					+ "support_ticket_status_id in (?, ?) and issue_type_id = ? and department_id = ?";
+					+ "support_ticket_status_id not in (?) and issue_type_id = ? and department_id = ?";
 		}
 		else {
 			query = "select count(*) as count_no from support_tickets where created_by = ? and "
-					+ "support_ticket_status_id in (?, ?) and issue_type_id = ?";
+					+ "support_ticket_status_id not in (?) and issue_type_id = ?";
 		}
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			if(st.getIssueFor().equals("department")) {
 				ps.setInt(1, st.getCreatedBy());
-				ps.setInt(2, stsd.getSupportTicketStatusId("pending"));
-				ps.setInt(3, stsd.getSupportTicketStatusId("resolved"));
-				ps.setInt(4, st.getIssueTypeId());
-				ps.setInt(5, st.getDepartmentId());
+				ps.setInt(2, stsd.getSupportTicketStatusId("closed"));
+				ps.setInt(3, st.getIssueTypeId());
+				ps.setInt(4, st.getDepartmentId());
 			}
 			else {
 				ps.setInt(1, st.getCreatedBy());
-				ps.setInt(2, stsd.getSupportTicketStatusId("pending"));
-				ps.setInt(3, stsd.getSupportTicketStatusId("resolved"));
-				ps.setInt(4, st.getIssueTypeId());
+				ps.setInt(2, stsd.getSupportTicketStatusId("closed"));
+				ps.setInt(3, st.getIssueTypeId());
 			}
 			rs = ps.executeQuery();
 			if(rs.next()) {
@@ -352,12 +350,13 @@ public class SupportTicketDao {
 	
 	
 	
-	public ResultSet getHRSupportTicketReport() {
-		query= "select * from support_tickets order by issue_report_date desc";
+	public ResultSet getHRSupportTicketReport(String issueFor) {
+		query= "select * from support_tickets where lower(issue_for) = ? order by issue_report_date desc";
 		dbcon.getConnection();
 		try {
-			stat = dbcon.con.createStatement();
-			rs = stat.executeQuery(query);
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, issueFor.trim().toLowerCase());
+			rs = ps.executeQuery();
 		}
 		catch(SQLException ex) {
 			System.out.println(ex.fillInStackTrace());
@@ -365,10 +364,10 @@ public class SupportTicketDao {
 		return rs;
 	}
 	
+	
+	
 	public static void main(String args[]) {
 		SupportTicketDao std = new SupportTicketDao();
-		SupportTicket st = std.getSupportTicketById(3);
-		int count = std.deleteSupportTicket(st);
-		System.out.println(count);
+		
 	}
 }

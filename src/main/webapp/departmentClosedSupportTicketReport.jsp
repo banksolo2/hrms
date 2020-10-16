@@ -98,6 +98,7 @@
 									<table id="example1" class="table table-bordered table-striped">
 										<thead>
 											<tr>
+												<th>Ticket No</th>
 												<th>Issue Report Date</th>
 												<th>Department</th>
 												<th>Issue Type</th>
@@ -126,6 +127,7 @@
 											
 										%>
 											<tr>
+												<td><%=rs.getInt("support_ticket_id") %></td>
 												<td><%=dd.changeFormatDate(rs.getDate("issue_report_date").toString()) %></td>
 												<td><%=ded.getDepartmentName(rs.getInt("department_id")).toUpperCase() %></td>
 												<td><%=itd.getIssueTypeName(rs.getInt("issue_type_id")) %></td>

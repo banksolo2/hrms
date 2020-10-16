@@ -10,7 +10,11 @@ import org.apache.commons.fileupload.*;
 import org.apache.commons.fileupload.disk.*;
 import org.apache.commons.fileupload.servlet.*;
 import com.cust.hrms.models.*;
+import com.oreilly.servlet.MultipartRequest;
 import com.cust.hrms.dao.*;
+import com.cust.hrms.notification.*;
+import com.cust.hrms.email.message.*;
+import com.cust.hrms.email.*;
 /**
  * Servlet implementation class CreateEmployeeSupportTicketController
  */
@@ -18,63 +22,75 @@ import com.cust.hrms.dao.*;
 public class CreateEmployeeSupportTicketController extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-		HttpSession session = request.getSession();
-		PrintWriter out = response.getWriter();
-		RequestDispatcher rd = request.getRequestDispatcher("createEmployeeSupportTicket.jsp");
-		//ServletFileUpload sfu = new ServletFileUpload(new DiskFileItemFactory());
-		SupportTicketDao std = new SupportTicketDao();
-		SupportTicketStatusDao stsd = new SupportTicketStatusDao();
-		FileUploadDao fud = new FileUploadDao();
-		SupportTicket st = new SupportTicket();
-		DateDao dd = new DateDao();
-		String issueReportDate = request.getParameter("issueReportDate");
-		issueReportDate = dd.convertDateFormat(issueReportDate, "/");
-		st.setFileUrl(fud.getSupportTicketurl()+"HRMS MANUAL.pdf");
-		st.setIssueReportDate(issueReportDate);
-		int issueTypeId = Integer.parseInt(request.getParameter("issueTypeId"));
-		st.setIssueTypeId(issueTypeId);
-		String issueDescription = request.getParameter("issueDescription");
-		st.setIssueDescription(issueDescription);
-		String employees[] = request.getParameterValues("employees");
-		String result = "";
-		for(int i = 0; i < employees.length; i++) {
-			result += "'"+employees[i]+"'";
-			if(i != (employees.length - 1)) {
-				result +=":";
-			}
-		}
-		st.setEmployees(result);
-		int createdBy = (int)session.getAttribute("employeeId");
-		st.setCreatedBy(createdBy);
-		st.setSupportTicketStatusId(stsd.getSupportTicketStatusId("pending"));
-		
-		int count = std.createSupportTicketByForEmployees(st);
-		if(count >= 1) {
-			session.setAttribute("success", "Support ticket has been created...");
-			response.sendRedirect("createEmployeeSupportTicket.jsp");
-		}
-		else {
-			session.setAttribute("error", "enable to create support ticket....");
-			rd.forward(request, response);
-		}
-		
-		/*if(request.getParameter("issueDescription") != null)
-		{
-		  out.println(request.getParameter("action"));
-		}
-		String fileUrl = null;
-		try {
-			List<FileItem> file = sfu.parseRequest(request);
-			
-			for(FileItem x : file) {
-				fileUrl = fud.getSupportTicketurl()+x.getName();
-				x.write(new File(fileUrl));
-			}
-			
-			
-		}
-		catch(Exception ex) {
-			System.out.println(ex.fillInStackTrace());
-		}*/
+		//fix max file size 500 Mb
+	    int maxFileSize = 500000 * 1024;
+	    int maxMemSize = maxFileSize;
+	    PrintWriter out = response.getWriter();
+	    RequestDispatcher rd = request.getRequestDispatcher("createEmployeeSupportTicket.jsp");
+	    HttpSession session = request.getSession();
+	    FileUploadDao fud = new FileUploadDao();
+	    SupportTicketStatusDao stsd = new SupportTicketStatusDao();
+	    SupportTicketDao std = new SupportTicketDao();
+	    IssueTypeDao itd = new IssueTypeDao();
+	    EmployeeDao ed = new EmployeeDao();
+	    DateDao dd = new DateDao();
+	    SupportTicket st = new SupportTicket();
+	    MultipartRequest mreq = new MultipartRequest(request, fud.getSupportTicketurl(), maxFileSize);
+	    st.setIssueReportDate(dd.getTodayDate());
+	    int issueTypeId = Integer.parseInt(mreq.getParameter("issueTypeId"));
+	    st.setIssueTypeId(issueTypeId);
+	    String issueDescription = mreq.getParameter("issueDescription");
+	    st.setIssueDescription(issueDescription);
+	    String employees[] = mreq.getParameterValues("employees");
+	    String result = "";
+	    for(int i = 0; i < employees.length; i++) {
+	    	result += "'"+employees[i]+"'";
+	    	if(i != (employees.length - 1)) {
+	    		result += ":";
+	    	}
+	    }
+	    st.setEmployees(result);
+	    int createdBy = (int)session.getAttribute("employeeId");
+	    st.setIssueFor("employees");
+	    st.setCreatedBy(createdBy);
+	    st.setFileUrl("#");
+	    st.setSupportTicketStatusId(stsd.getSupportTicketStatusId("pending"));
+	    SupportTicketNotification stn = new SupportTicketNotification();
+	    boolean isSupportTicketExist = std.isSupportTicketExist(st);
+	    if(isSupportTicketExist == false) {
+	    	String fileName = mreq.getFilesystemName("file");
+	    	st.setFileUrl("filesUpload/supportTickets/"+fileName);
+	    	int count = std.createSupportTicketByForEmployees(st);
+	    	
+	    	if(count >= 1) {
+	    		File newfileloc = new File(fud.getSupportTicketurl() + fileName);
+		    	Boolean uploadresult = mreq.getFile("file").renameTo(newfileloc);
+		    	HrmsEmail hr = new HrmsEmail();
+		    	if(hr.isEmailEnable()) {
+		    		int employeesId[] = std.getEmployeesId(st.getEmployees());
+		    		String emailAddress[] = ed.getEmployeesEmail(employeesId);
+		    		String data[] = {
+		    				dd.changeFormatDate(st.getIssueReportDate()),
+		    				ed.getEmployeeName(st.getCreatedBy()),
+		    				itd.getIssueTypeName(st.getIssueTypeId()),
+		    				st.getIssueDescription(),
+		    		};
+		    		SupportTicketEmailMessage stem = new SupportTicketEmailMessage();
+		    		stem.getinitializeSupportTicketMessage(emailAddress, data);
+		    	}
+		    	session.setAttribute("success", stn.getPendingSupportTicketMessage(true));
+		    	response.sendRedirect("createEmployeeSupportTicket.jsp");
+	    	}
+	    	else {
+	    		session.setAttribute("error", stn.getPendingSupportTicketMessage(false));
+	    		rd.forward(request, response);
+	    	}
+	    	
+	    }
+	    else {
+	    	session.setAttribute("error", stn.getSupportTicketAlreadyExistMessage());
+	    	rd.forward(request, response);
+	    }
+	    
 	}
 }

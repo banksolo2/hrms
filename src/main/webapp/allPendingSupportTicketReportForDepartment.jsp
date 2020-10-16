@@ -98,6 +98,7 @@
 									<table id="example1" class="table table-bordered table-striped">
 										<thead>
 											<tr>
+												<th>Ticket No</th>
 												<th>Issue Report Date</th>
 												<th>Created By</th>
 												<th>Issue Type</th>
@@ -127,6 +128,7 @@
 											comment = (rs.getString("comment") == null) ? "" : rs.getString("comment");
 										%>
 											<tr>
+												<td><%=rs.getInt("support_ticket_id") %></td>
 												<td><%=dd.changeFormatDate(rs.getDate("issue_report_date").toString()) %></td>
 												<td><%=ed.getEmployeeName(rs.getInt("created_by")) %></td>
 												<td><%=itd.getIssueTypeName(rs.getInt("issue_type_id")) %></td>

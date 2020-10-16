@@ -7,6 +7,8 @@ import javax.servlet.annotation.*;
 import com.cust.hrms.dao.*;
 import com.cust.hrms.models.*;
 import com.cust.hrms.notification.*;
+import com.cust.hrms.email.*;
+import com.cust.hrms.email.message.*;
 
 @WebServlet("/editSupportTicketForDepartment")
 public class EditSupportTicketForDepartmentController extends HttpServlet {
@@ -18,6 +20,8 @@ public class EditSupportTicketForDepartmentController extends HttpServlet {
 		SupportTicketNotification stn = new SupportTicketNotification();
 		SupportTicketStatusDao stsd = new SupportTicketStatusDao();
 		SupportTicketDao std = new SupportTicketDao();
+		EmployeeDao ed = new EmployeeDao();
+		HrmsEmail he = new HrmsEmail();
 		int supportTicketId = Integer.parseInt(request.getParameter("supportTicketId"));
 		SupportTicket st = std.getSupportTicketById(supportTicketId);
 		String comment = request.getParameter("comment");
@@ -30,6 +34,17 @@ public class EditSupportTicketForDepartmentController extends HttpServlet {
 		//Update database
 		int count = std.updateSupportTicket(st);
 		if(count >= 1) {
+			if(he.isEmailEnable()) {
+				Employee e = ed.getEmployeeById(st.getCreatedBy());
+				String emailAddress[] = { e.getEmail() };
+				String data[] = {
+					st.getIssueFor(),
+					e.getNameInitials(),
+					String.valueOf(st.getSupportTicketId())
+				};
+				SupportTicketEmailMessage stem = new SupportTicketEmailMessage();
+				stem.getResolveSupportTicketMessage(emailAddress, data);
+			}
 			session.setAttribute("success", stn.getResolvedSupportTicketMessage(true));
 			response.sendRedirect("allPendingSupportTicketReportForDepartment.jsp");
 		}

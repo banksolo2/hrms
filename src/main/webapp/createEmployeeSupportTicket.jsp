@@ -56,8 +56,8 @@
 			</div>
 			<!-- /.content-header -->
 
-			<!-- <form action="createEmployeeSupportTicket" method="post" id="createEmployeeSupportTicket" enctype="multipart/form-data">-->
-				<form action="createEmployeeSupportTicket" method="post" id="createEmployeeSupportTicket">
+	<form action="createEmployeeSupportTicket" method="post" id="createEmployeeSupportTicket" enctype="multipart/form-data">
+				<!-- form action="createEmployeeSupportTicket" method="post" id="createEmployeeSupportTicket"-->
 				<!-- Main content -->
 				<section class="content">
 					<div class="container-fluid">
@@ -145,18 +145,7 @@
 							          %>
 							          
 									<div class="col-md-12">
-										<div class="form-group">
-						                  <label>Issue Report Date:</label>
-						                  <%
-						                  	String issueReportDate = request.getParameter("issueReportDate");
-						                  %>
-						                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-						                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="issueReportDate" value="<%=issueReportDate %>" />
-						                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-						                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-						                        </div>
-						                    </div>
-						                </div>
+										
 						                <div class="form-group">
 											<label>Issue Type</label>
 											<%

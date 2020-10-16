@@ -8,6 +8,7 @@ import com.cust.hrms.notification.*;
 import com.cust.hrms.dao.*;
 import com.cust.hrms.models.*;
 import com.cust.hrms.email.*;
+import com.cust.hrms.email.message.*;
 
 @WebServlet("/editSupportTicketForEmployee")
 public class EditSupportTicketForEmployeeController extends HttpServlet {
@@ -31,6 +32,19 @@ public class EditSupportTicketForEmployeeController extends HttpServlet {
 		//Update database table
 		int count = std.updateSupportTicket(st);
 		if(count >= 1) {
+			HrmsEmail he = new HrmsEmail();
+			if(he.isEmailEnable()) {
+				SupportTicketEmailMessage stem = new SupportTicketEmailMessage();
+				EmployeeDao ed = new EmployeeDao();
+				Employee e = ed.getEmployeeById(st.getCreatedBy());
+				String emailAddress[] = {e.getEmail()};
+				String data[] = {
+						st.getIssueFor(),
+						e.getNameInitials().toUpperCase(),
+						String.valueOf(st.getSupportTicketId())
+				};
+				stem.getResolveSupportTicketMessage(emailAddress, data);
+			}
 			session.setAttribute("success", stn.getResolvedSupportTicketMessage(true));
 			response.sendRedirect("allPendingSupportTicketReportForEmployee.jsp");
 		}
