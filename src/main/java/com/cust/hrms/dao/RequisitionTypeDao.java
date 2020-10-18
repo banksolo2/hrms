@@ -220,6 +220,7 @@ public class RequisitionTypeDao {
 		return result;
 	}
 	
+	
 	public static void main(String args[]) {
 		RequisitionTypeDao rtd = new RequisitionTypeDao();
 		int result = rtd.getRequisitionTypeId("game_test");

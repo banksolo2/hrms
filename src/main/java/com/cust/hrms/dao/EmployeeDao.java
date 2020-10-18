@@ -564,6 +564,18 @@ public class EmployeeDao {
 		return result;
 	}
 	
+	public int[] getEmployeesId(String employees) {
+		employees = employees.replace("'", "");
+		String arr[] = employees.split(":");
+		int result[] = new int[arr.length];
+		int i = 0;
+		for(String x : arr) {
+			result[i] = Integer.parseInt(x);
+			i++;
+		}
+		return result;
+	}
+	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();
 		String result[] = ed.getDepartmentEmployeesEmail(3);

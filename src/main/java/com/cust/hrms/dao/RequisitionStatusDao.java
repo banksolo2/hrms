@@ -166,6 +166,34 @@ public class RequisitionStatusDao {
 		return rs;
 	}
 	
+	public ResultSet getRequesterOptionOne() {
+		query = "select * from requisition_statues where code in (?, ?) order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "drafted");
+			ps.setString(2, "sent_supervisor_for_authorization");
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public int getRequisitionStatusId(String code) {
+		int result = 0;
+		query = "select requisition_status_id from requisition_statues where lower(code) = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
 	public static void main(String args[]) {
 		RequisitionStatusDao rsd = new RequisitionStatusDao();
 		RequisitionStatus rs = rsd.getRequisitionStatusByCode("testing");
