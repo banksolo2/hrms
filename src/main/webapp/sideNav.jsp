@@ -162,7 +162,7 @@
           <li class="nav-item has-treeview">
             <%if(parent.equals("support_ticket")){ %><a href="#" class="nav-link active">
             <%}else{ %><a href="#" class="nav-link"> <%} %>
-              <i class="nav-icon fas fa-tree"></i>
+              <i class="nav-icon fas fa-file"></i>
               <p>
                 Support Ticket
                 <i class="fas fa-angle-left right"></i>
@@ -177,6 +177,17 @@
 	                </a>
               	</li>
             </ul>
+         </li>
+         <li class="nav-item has-treeview">
+         	<a href="#" class="nav-link ">
+         		<i class="nav-icon fas fa-file"></i>
+         		<p>
+                Requisition 
+                <i class="fas fa-angle-left right"></i>
+              </p>
+         	</a>
+         	<ul class="nav nav-treeview">
+         	</ul>
          </li>
           <% if(isHrAdmin == true || isSuperAdmin == true){ %>
           <li class="nav-item has-treeview">
@@ -203,12 +214,15 @@
 	                  <p>Leave Setup</p>
 	                </a>
               	</li>
+              	<%if(isSuperAdmin) { %>
               	<li class="nav-item">
-	                <a href="adminDeveloperSetup.jsp" class="nav-link">
+              		<% if(pages.equals("developer_setup")){ %> <a href="adminDeveloperSetup.jsp" class="nav-link active">
+	                <% }else{ %><a href="adminDeveloperSetup.jsp" class="nav-link"><%} %>
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>Developer Setup</p>
 	                </a>
               	</li>
+              	<%} %>
             </ul>
            </li>
            <%} %>

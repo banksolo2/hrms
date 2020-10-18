@@ -14,6 +14,14 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "admin");
+	session.setAttribute("page", "developer_setup");
+	if(session.getAttribute("isSuperAdmin") != null){
+		boolean isSuperAdmin = (boolean)session.getAttribute("isSuperAdmin");
+		if(isSuperAdmin == false){
+			response.sendRedirect("index.jsp");
+		}
+	}
 	%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,10 +62,6 @@
 				<div class="card card-primary card-outline">
               <div class="card-body">
                 <h5 class="card-title"></h5>
-
-                <p class="card-text">
-                  
-                </p>
                 <a href="createRole.jsp" class="card-link">Create Role</a><br/>
                 <a href="allRoles.jsp" class="card-link">All Roles</a><br/>
 				<a href="allStates.jsp" class="card-link">All States</a><br/>
@@ -71,6 +75,8 @@
 				<a href="allLeaveStatues.jsp" class="card-link">All Leave Statues</a><br/>
 				<a href="createLeavePlanStatus.jsp" class="card-link">Create Leave Plan Status</a><br/>
 				<a href="allLeavePlanStatues.jsp" class="card-link">All Leave Plan Statues</a><br/>
+				<a href="createRequisitionStatus.jsp" class="card-link">Create Requisition Status</a><br/>
+				<a href="allRequisitionStatus.jsp" class="card-link">All Requisition Statues</a><br/>
               </div>
             </div><!-- /.card -->
 				<!-- /.card -->

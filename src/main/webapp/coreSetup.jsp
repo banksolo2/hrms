@@ -106,6 +106,7 @@
                   <a class="nav-link" id="vert-tabs-branch-setup-tab" data-toggle="pill" href="#vert-tabs-branch-setup" role="tab" aria-controls="vert-tabs-branch-setup" aria-selected="false">Branch Setup</a>
                   <a class="nav-link" id="vert-tabs-company-setup-tab" data-toggle="pill" href="#vert-tabs-company-setup" role="tab" aria-controls="vert-tabs-company-setup" aria-selected="false">Company Setup</a>
                   <a class="nav-link" id="vert-tabs-ticket-support-setup-tab" data-toggle="pill" href="#vert-tabs-ticket-support-setup" role="tab" aria-controls="vert-tabs-ticket-support-setup" aria-selected="false">Ticket Support Setup</a>
+                  <a class="nav-link" id="vert-tabs-requisition-setup-tab" data-toggle="pill" href="#vert-tabs-requisition-setup" role="tab" aria-controls="vert-tabs-requisition-setup" aria-selected="false">Requisition Setup</a>
                 </div>
               </div>
               <div class="col-7 col-sm-9">
@@ -156,6 +157,13 @@
                   	  <li><a href="supportTicketHistoryForDepartment.jsp"><i class="far fa-circle text-primary"></i> Support Ticket History (Departments) </a></li>
                       <li><a href="createIssueType.jsp"><i class="far fa-circle text-primary"></i> Create Issue Type </a></li>
                       <li><a href="allIssueTypes.jsp"><i class="far fa-circle text-primary"></i> All Issue Type </a></li>
+                    </ul> 
+                  </div>
+                  <div class="tab-pane fade " id="vert-tabs-requisition-setup" role="tabpanel" aria-labelledby="vert-tabs-requisition-setup-tab">
+                  	<h5>Requisition Setup</h5>
+                  	<ul class="chart-legend clearfix">
+                      <li><a href="createRequisitionType.jsp"><i class="far fa-circle text-primary"></i> Create Requisition Type </a></li>
+                      <li><a href="allRequisitionType.jsp"><i class="far fa-circle text-primary"></i> All Requisition Types </a></li>
                     </ul> 
                   </div>
                 </div>
