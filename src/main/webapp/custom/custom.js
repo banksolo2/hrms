@@ -1331,6 +1331,118 @@ $(document).ready(function(){
 	      }
 	});
 	
+	$('#createRequisition').validate({
+		rules : {
+			requisitionTypeId : {
+				required : true
+			},
+			subject : {
+				required : true
+			},
+			recipients : {
+				required : true
+			},
+			file : {
+				required : true
+			},
+			requisitionStatusId : {
+				required : true
+			}
+		},
+		messages : {
+			requisitionTypeId : {
+				required : "Please select requisition type option"
+			},
+			subject : {
+				required : "Please provide subject"
+			},
+			recipients : {
+				required : "Please provide recipients"
+			},
+			file : {
+				required : "please provide file"
+			},
+			requisitionStatusId : {
+				required : "Please select save as option"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
+	$('#editRequisition').validate({
+		rules : {
+			requisitionTypeId : {
+				required : true
+			},
+			subject : {
+				required : true
+			},
+			recipients : {
+				required : true
+			},
+			requisitionStatusId : {
+				required : true
+			}
+		},
+		messages : {
+			requisitionTypeId : {
+				required : "Please select requisition type option"
+			},
+			subject : {
+				required : "Please provide subject"
+			},
+			recipients : {
+				required : "Please provide recipients"
+			},
+			requisitionStatusId : {
+				required : "Please select save as option"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	$('#editSupervisorRequisition').validate({
+		rules : {
+			requisitionStatusId : {
+				required : true
+			}
+		},
+		messages : {
+			requisitionStatusId : {
+				required : "Please select save as option"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
 });
 function changeLeaveType() {
 	  var leaveTypeCode = document.getElementById("leaveTypeId").value;

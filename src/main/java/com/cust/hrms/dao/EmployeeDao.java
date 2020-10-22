@@ -576,11 +576,63 @@ public class EmployeeDao {
 		return result;
 	}
 	
+	public boolean isSupervisor(int employeeId) {
+		boolean result = false;
+		query = "select count(*) as count_no from employees where leave_supervisor_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("count_no");
+			}
+			result = (count >= 1);
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
+	public int getSupervisorId(int employeeId) {
+		int result = 0;
+		query = "select leave_supervisor_id from employees where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("leave_supervisor_id");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
+	public ResultSet getEmployeeOption(String employeesId) {
+		employeesId = employeesId.replace("'", "").replace(":", ",");
+		query = "select * from employees where employee_id not in ("+employeesId+")";
+		dbcon.getConnection();
+		try {
+			stmt = dbcon.con.createStatement();
+			rs = stmt.executeQuery(query);
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();
-		String result[] = ed.getDepartmentEmployeesEmail(3);
-		for(String x : result) {
-			System.out.println(x);
-		}
+		String employeesId = "'4':'2'".replace("'", "").replace(":", ",");
+		System.out.println(employeesId);
 	}	
+	
 }

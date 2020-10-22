@@ -172,7 +172,7 @@ public class RequisitionStatusDao {
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setString(1, "drafted");
-			ps.setString(2, "sent_supervisor_for_authorization");
+			ps.setString(2, "sent_to_supervisor_for_authorization");
 			rs = ps.executeQuery();
 		}
 		catch(SQLException ex) {
@@ -187,6 +187,30 @@ public class RequisitionStatusDao {
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, code.trim().toLowerCase());
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("requisition_status_id");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	public String getName(int requisitionStatusId) {
+		String result = null;
+		query = "select name from requisition_statues where requisition_status_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, requisitionStatusId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getString("name");
+			}
+			dbcon.con.close();
 		}
 		catch(SQLException ex) {
 			System.out.println(ex.fillInStackTrace());
@@ -194,10 +218,39 @@ public class RequisitionStatusDao {
 		return result;
 	}
 	
+	public ResultSet getRecipientOption() {
+		query = "select * from requisition_statues where code in (?, ?) order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "approved");
+			ps.setString(2, "declined");
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public ResultSet getSupervisorOption() {
+		query = "select * from requisition_statues where code in (?, ?) order by name asc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setString(1, "sent_to_recipient_for_approval");
+			ps.setString(2, "declined");
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
 	public static void main(String args[]) {
 		RequisitionStatusDao rsd = new RequisitionStatusDao();
-		RequisitionStatus rs = rsd.getRequisitionStatusByCode("testing");
-		int count = rsd.deleteRequisitionStatus(rs);
-		System.out.println(count);
+		int result = rsd.getRequisitionStatusId("declined");
+		System.out.println(result);
 	}
 }

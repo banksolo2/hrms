@@ -1,7 +1,8 @@
 package com.cust.hrms.email;
 
 public class HrmsAccount {
-	private final String EMAIL_ADDRESS = "HrmsBanksTech@gmail.com";
+	//private final String EMAIL_ADDRESS = "HrmsBanksTech@gmail.com";
+	private final String EMAIL_ADDRESS = "BanksTechHr2020@gmail.com";
 	private final String PASSWORD = "Olotu1234_";
 	
 	public String getUserName() {

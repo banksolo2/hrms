@@ -169,7 +169,7 @@ public class RequisitionTypeDao {
 	}
 	
 	public ResultSet getRequisitionTypesOption(int requisitionTypeId) {
-		query = "select * from requisition_types where requisition_types != ?";
+		query = "select * from requisition_types where requisition_type_id != ?";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);

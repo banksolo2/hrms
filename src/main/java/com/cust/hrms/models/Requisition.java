@@ -10,15 +10,37 @@ public class Requisition {
 	private String recipients;
 	private String fileUrl;
 	private int requisitionStatusId;
+	private String comment;
 	private int createdBy;
 	private int updatedBy;
 	private String createdAt;
 	private String updatedAt;
+	private int approvedBy;
+	private int declinedBy;
+	
+	public int getApprovedBy() {
+		return approvedBy;
+	}
+	public void setApprovedBy(int approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+	public int getDeclinedBy() {
+		return declinedBy;
+	}
+	public void setDeclinedBy(int declinedBy) {
+		this.declinedBy = declinedBy;
+	}
 	public int getRequisitionId() {
 		return requisitionId;
 	}
 	public void setRequisitionId(int requisitionId) {
 		this.requisitionId = requisitionId;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	public String getCreatedDate() {
 		return createdDate;
@@ -97,8 +119,9 @@ public class Requisition {
 		return "Requisition [requisitionId=" + requisitionId + ", createdDate=" + createdDate + ", requisitionTypeId="
 				+ requisitionTypeId + ", subject=" + subject + ", requesterId=" + requesterId + ", supervisorId="
 				+ supervisorId + ", recipients=" + recipients + ", fileUrl=" + fileUrl + ", requisitionStatusId="
-				+ requisitionStatusId + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", createdAt="
-				+ createdAt + ", updatedAt=" + updatedAt + "]";
+				+ requisitionStatusId + ", comment=" + comment + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", approvedBy=" + approvedBy
+				+ ", declinedBy=" + declinedBy + "]";
 	}
 	
 	

@@ -179,7 +179,8 @@
             </ul>
          </li>
          <li class="nav-item has-treeview">
-         	<a href="#" class="nav-link ">
+         	<%if(parent.equals("requisition")){ %><a href="#" class="nav-link active">
+         	<%}else{ %><a href="#" class="nav-link "><%} %>
          		<i class="nav-icon fas fa-file"></i>
          		<p>
                 Requisition 
@@ -187,6 +188,13 @@
               </p>
          	</a>
          	<ul class="nav nav-treeview">
+         		<li class="nav-item">
+	                <%if(pages.equals("requisition_setup")){ %><a href="requisitionSetup.jsp" class="nav-link active">
+	                <% }else{ %><a href="requisitionSetup.jsp" class="nav-link"> <%} %>
+	                  <i class="far fa-circle nav-icon"></i>
+	                  <p>Requisition Setup</p>
+	                </a>
+              	</li>
          	</ul>
          </li>
           <% if(isHrAdmin == true || isSuperAdmin == true){ %>
