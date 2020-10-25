@@ -102,7 +102,7 @@
 												<td><%=rs.getString("issue_description") %></td>
 												<td><%=stsd.getSupportTicketStatusName(rs.getInt("support_ticket_status_id")) %></td>
 												<td><%=comment %></td>
-												<td> <a target="_blank" class="btn btn-warning" href="<%=rs.getString("file_url") %>">Download File</a></td>
+												<td> <a download class="btn btn-warning" href="<%=rs.getString("file_url") %>">Download File</a></td>
 											</tr>
 										<%
 										}

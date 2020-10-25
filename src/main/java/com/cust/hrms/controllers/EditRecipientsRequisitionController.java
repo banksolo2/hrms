@@ -7,6 +7,8 @@ import javax.servlet.annotation.*;
 import com.cust.hrms.dao.*;
 import com.cust.hrms.models.*;
 import com.cust.hrms.notification.*;
+import com.cust.hrms.email.*;
+import com.cust.hrms.email.message.*;
 
 @WebServlet("/editRecipientsRequisition")
 public class EditRecipientsRequisitionController extends HttpServlet {
@@ -15,9 +17,12 @@ public class EditRecipientsRequisitionController extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		RequestDispatcher red = request.getRequestDispatcher("editRecipientsPendingRequisition.jsp");
+		EmployeeDao ed = new EmployeeDao();
 		RequisitionNotification rn = new RequisitionNotification();
 		RequisitionStatusDao rsd = new RequisitionStatusDao();
 		RequisitionDao rd = new RequisitionDao();
+		HrmsEmail he = new HrmsEmail();
+		RequisitionEmailMessage rem = new RequisitionEmailMessage();
 		int requisitionId = Integer.parseInt(request.getParameter("requisitionId"));
 		Requisition r = rd.getRequisitionById(requisitionId);
 		int requisitionStatusId = Integer.parseInt(request.getParameter("requisitionStatusId"));
@@ -44,9 +49,60 @@ public class EditRecipientsRequisitionController extends HttpServlet {
 		if(count >= 1) {
 			if(rs.getCode().equals("declined")) {
 				message = rn.getDeclinedRequisitionMessage(true);
+				//Send email notification
+				if(he.isEmailEnable()) {
+					Employee e = ed.getEmployeeById(r.getRequesterId());
+					/*Send email Notification
+					 * 1. To Requester
+					 * 2. To Recipients*/
+					
+					// 1. To Requester
+					String requesterEmail[] = {e.getEmail()};
+					String requesterData[] = {
+							e.getNameInitials(),
+							String.valueOf(r.getRequisitionId()),
+							ed.getEmployeeName(r.getDeclinedBy()),
+							r.getComment()
+					};
+					rem.getRequisitionRequesterDeclinedMessage(requesterEmail, requesterData);
+					
+					//2. To Recipients
+					int recipientsId [] = ed.getEmployeesId(r.getRecipients());
+					String recipientsEmail[] = ed.getEmployeesEmail(recipientsId);
+					String recipientData[] = {
+							String.valueOf(r.getRequisitionId()),
+							ed.getEmployeeName(r.getDeclinedBy())
+					};
+					rem.getRequisitionRecipientsDeclinedMessage(recipientsEmail, recipientData);
+				}
 			}
 			else {
 				message = rn.getApprovedRequisitionMessage(true);
+				if(he.isEmailEnable()) {
+					/*Send email Notification
+					 * 1. To Requester
+					 * 2. To Recipients*/
+					
+					//1. To Requester
+					Employee e = ed.getEmployeeById(r.getRequesterId());
+					String requesterEmail[] = {e.getEmail()};
+					String requesterData[] = {
+							e.getNameInitials(),
+							String.valueOf(r.getRequisitionId()),
+							ed.getEmployeeName(r.getApprovedBy())
+					};
+					rem.getRequisitionRequesterApprovedMessage(requesterEmail, requesterData);
+					
+					//2. To Recipients
+					int recipientsId[] = ed.getEmployeesId(r.getRecipients());
+					String recipientsEmail[] = ed.getEmployeesEmail(recipientsId);
+					String recipientData[] = {
+							String.valueOf(r.getRequisitionId()),
+							ed.getEmployeeName(r.getApprovedBy())
+					};
+					rem.getRequisitionRecipientsApprovedMessage(recipientsEmail, recipientData);
+				}
+				
 			}
 			session.setAttribute("success", message);
 			response.sendRedirect("allPendingRecipientRequisitionReport.jsp");

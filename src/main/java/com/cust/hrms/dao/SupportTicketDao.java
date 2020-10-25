@@ -2,6 +2,7 @@ package com.cust.hrms.dao;
 
 import java.sql.*;
 import com.cust.hrms.models.*;
+import java.io.*;
 
 public class SupportTicketDao {
 	private DbConnection dbcon = new DbConnection();
@@ -220,6 +221,11 @@ public class SupportTicketDao {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, st.getSupportTicketId());
 			count = ps.executeUpdate();
+			if(count >= 1) {
+				FileUploadDao fud = new FileUploadDao();
+				File file = new File(fud.getUrl()+st.getFileUrl());
+				file.delete();
+			}
 			dbcon.con.close();
 		}
 		catch(SQLException ex) {

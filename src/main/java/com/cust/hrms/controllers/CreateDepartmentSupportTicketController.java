@@ -30,7 +30,7 @@ public class CreateDepartmentSupportTicketController extends HttpServlet {
 		//fix max file size 500 Mb
 	    int maxFileSize = 500000 * 1024;
 	    int maxMemSize = maxFileSize;
-		MultipartRequest mreq = new MultipartRequest(request, fud.getSupportTicketurl(), maxFileSize);
+		MultipartRequest mreq = new MultipartRequest(request, fud.getUrl()+fud.getSupportTicketurl(), maxFileSize);
 		st.setIssueReportDate(dd.getTodayDate());
 		int issueTypeId = Integer.parseInt(mreq.getParameter("issueTypeId"));
 		st.setIssueTypeId(issueTypeId);
@@ -45,10 +45,10 @@ public class CreateDepartmentSupportTicketController extends HttpServlet {
 		boolean isSupportTicketExist = std.isSupportTicketExist(st);
 		if(isSupportTicketExist == false) {
 			String fileName = mreq.getFilesystemName("file");
-	    	st.setFileUrl("filesUpload/supportTickets/"+fileName);
+	    	st.setFileUrl(fud.getSupportTicketurl()+fileName);
 	    	int count = std.createSupportTicketForDepartment(st);
 	    	if(count >= 1) {
-	    		File newfileloc = new File(fud.getSupportTicketurl() + fileName);
+	    		File newfileloc = new File(fud.getUrl()+fud.getSupportTicketurl() + fileName);
 		    	Boolean uploadresult = mreq.getFile("file").renameTo(newfileloc);
 		    	if(he.isEmailEnable()) {
 		    		EmployeeDao ed = new EmployeeDao();

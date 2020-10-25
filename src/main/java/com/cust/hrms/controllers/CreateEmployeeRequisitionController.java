@@ -8,6 +8,8 @@ import com.oreilly.servlet.*;
 import com.cust.hrms.dao.*;
 import com.cust.hrms.models.*;
 import com.cust.hrms.notification.*;
+import com.cust.hrms.email.message.*;
+import com.cust.hrms.email.*;
 
 @WebServlet("/createEmployeeRequisition")
 public class CreateEmployeeRequisitionController extends HttpServlet {
@@ -19,9 +21,12 @@ public class CreateEmployeeRequisitionController extends HttpServlet {
 	    FileUploadDao fud = new FileUploadDao();
 	    MultipartRequest mreq = new MultipartRequest(request, fud.getUrl()+fud.getRequisitionUrl(), maxFileSize);
 	    HttpSession session = request.getSession();
+	    HrmsEmail he = new HrmsEmail();
 	    RequestDispatcher rd = request.getRequestDispatcher("createEmployeeRequisition.jsp"); 
 	    RequisitionStatusDao rsd = new RequisitionStatusDao();
 	    RequisitionNotification rn = new RequisitionNotification();
+	    RequisitionEmailMessage rem = new RequisitionEmailMessage();
+	    EmployeeDao ed = new EmployeeDao();
 	    RequisitionDao rqd = new RequisitionDao();
 	    DateDao dd = new DateDao();
 	    Requisition r = new Requisition();
@@ -61,6 +66,13 @@ public class CreateEmployeeRequisitionController extends HttpServlet {
 	    	}
 	    	else {
 	    		message = rn.getSentToSupervisorForAuthorizationMessage(true);
+	    		if(he.isEmailEnable()) {
+		    		Employee e = ed.getEmployeeById(r.getSupervisorId());
+		    		//System.out.println(e.toString());
+		    		String emailAddress[] = {e.getEmail()};
+		    		String data[] = {e.getNameInitials()};
+		    		rem.getRequisitionForSupervisorAuthorizationMessage(emailAddress, data);
+	    		}
 	    	}
 	    	session.setAttribute("success", message);
 	    	response.sendRedirect("createEmployeeRequisition.jsp");

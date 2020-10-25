@@ -35,7 +35,7 @@ public class CreateEmployeeSupportTicketController extends HttpServlet {
 	    EmployeeDao ed = new EmployeeDao();
 	    DateDao dd = new DateDao();
 	    SupportTicket st = new SupportTicket();
-	    MultipartRequest mreq = new MultipartRequest(request, fud.getSupportTicketurl(), maxFileSize);
+	    MultipartRequest mreq = new MultipartRequest(request, fud.getUrl()+fud.getSupportTicketurl(), maxFileSize);
 	    st.setIssueReportDate(dd.getTodayDate());
 	    int issueTypeId = Integer.parseInt(mreq.getParameter("issueTypeId"));
 	    st.setIssueTypeId(issueTypeId);
@@ -59,11 +59,11 @@ public class CreateEmployeeSupportTicketController extends HttpServlet {
 	    boolean isSupportTicketExist = std.isSupportTicketExist(st);
 	    if(isSupportTicketExist == false) {
 	    	String fileName = mreq.getFilesystemName("file");
-	    	st.setFileUrl("filesUpload/supportTickets/"+fileName);
+	    	st.setFileUrl(fud.getSupportTicketurl()+fileName);
 	    	int count = std.createSupportTicketByForEmployees(st);
 	    	
 	    	if(count >= 1) {
-	    		File newfileloc = new File(fud.getSupportTicketurl() + fileName);
+	    		File newfileloc = new File(fud.getUrl()+fud.getSupportTicketurl() + fileName);
 		    	Boolean uploadresult = mreq.getFile("file").renameTo(newfileloc);
 		    	HrmsEmail hr = new HrmsEmail();
 		    	if(hr.isEmailEnable()) {

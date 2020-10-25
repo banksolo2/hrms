@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 18, 2020 at 03:33 PM
+-- Generation Time: Oct 25, 2020 at 03:29 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -166,7 +166,7 @@ INSERT INTO `employees` (`employee_id`, `first_name`, `middle_name`, `last_name`
 (4, 'Joseph', 'Banks', 'Olotu', '2010-03-21', 'josepholo2@yahoo.ca', 2, 4, '(234) 808-0643-360', 3, 1, '2345', 2, 3, 'Mr', '1985-03-21', 'JBO', 1, 1, 'Block 103, Flat 3, Zone A, 1st car park\r\nIba Housing Estate', 'josepholo2@yahoo.ca', '2c6a318823de58496bc99edc52881984', 2, 0, '2020-07-22 21:55:17', '2020-10-18 12:51:42', '2020-10-18 12:51:42', NULL, 2, NULL),
 (5, 'Chisom', 'Charis', 'Akunaka', '2020-01-05', 'chisomakunaka@bankstech.com', 2, 6, '(234) 706-5434-814', 6, 1, '2222', 5, 2, 'Miss', '2000-05-12', 'CCA', 2, 1, 'Block 502, Flat 6, Zone E, Iba Housing Estate, Ojo, Lagos', 'charisAkunaka@gmail.com', '2c6a318823de58496bc99edc52881984', 2, 200000, '2020-07-31 13:35:54', '2020-10-11 13:56:04', '2020-10-11 13:56:04', 2, 2, NULL),
 (6, 'Bunmi', 'Mary', 'Olotu', '2016-10-02', 'bunmio@bankstech.com', 2, 7, '(234) 808-0643-360', 3, 1, '5678', 2, 4, 'Mrs', '1989-10-16', 'BMO', 2, 2, 'Block 103 Iba', 'bunmiolo2@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 4, 20000, '2020-07-31 15:30:30', '2020-08-02 14:11:14', '2020-08-02 14:11:14', 2, 2, NULL),
-(7, 'Omogbolahan', 'John', 'Adeeko', '2010-05-11', 'Femex2006wes@gmail.com', 2, 4, '(234) 823-4444-444', 3, 1, '34556', 2, 2, 'Mr', '1986-04-22', 'OJA', 1, 2, 'Yaba', 'Adeeko@gmail.com', '2c6a318823de58496bc99edc52881984', 8, 500000, '2020-09-28 12:52:31', '2020-10-12 01:43:34', '2020-10-12 01:43:34', 2, 2, NULL),
+(7, 'Omogbolahan', 'John', 'Adeeko', '2010-05-11', 'Femex2006wes@gmail.com', 2, 4, '(234) 823-4444-444', 3, 1, '34556', 2, 2, 'Mr', '1986-04-22', 'OJA', 1, 2, 'Yaba', 'Adeeko@gmail.com', '2c6a318823de58496bc99edc52881984', 2, 500000, '2020-09-28 12:52:31', '2020-10-19 12:47:07', '2020-10-19 12:47:07', 2, 2, NULL),
 (8, 'Femi', 'James', 'Ajayi', '2019-04-22', 'femiA@custodian.com', 2, 4, '(234) 555-666-6666', 3, 1, '55666', 2, 4, 'Mr', '1973-05-23', 'FJA', 1, 2, 'Yaba', 'femiA@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 2, 750000000, '2020-09-28 12:56:30', '2020-09-28 12:56:30', NULL, 2, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -530,11 +530,26 @@ CREATE TABLE `requisitions` (
   `recipients` varchar(500) NOT NULL,
   `file_url` varchar(500) DEFAULT NULL,
   `requisition_status_id` int(11) NOT NULL,
+  `comment` text DEFAULT NULL,
+  `approved_by` int(11) DEFAULT NULL,
+  `declined_by` int(11) DEFAULT NULL,
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `requisitions`
+--
+
+INSERT INTO `requisitions` (`requisition_id`, `created_date`, `requisition_type_id`, `subject`, `requester_id`, `supervisor_id`, `recipients`, `file_url`, `requisition_status_id`, `comment`, `approved_by`, `declined_by`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(6, '2020-10-20', 3, 'Testing', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/mel-michael-(a.).vcf', 7, '', 4, 4, 7, 7, '2020-10-20 18:08:44', '2020-10-21 13:57:57'),
+(7, '2020-10-23', 3, 'Testing', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/tableExport.sql', 8, 'It just can\'t work.', 0, 4, 7, 4, '2020-10-23 10:48:09', '2020-10-24 01:24:02'),
+(8, '2020-10-23', 3, 'Second Test', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/Project proposal.pdf', 6, '', 2, 0, 7, 2, '2020-10-23 10:53:37', '2020-10-24 13:13:23'),
+(9, '2020-10-23', 3, 'Third Test', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/User Guide - Recruitment & Payroll.pdf', 5, 'It Can\'t work', 0, 2, 7, 2, '2020-10-23 10:55:49', '2020-10-24 01:22:47'),
+(10, '2020-10-23', 3, 'Forth Test with email', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/New Doc 2019-03-19 17.23.30.pdf', 4, 'It can\'t work for me', 0, 2, 7, 2, '2020-10-23 10:57:02', '2020-10-23 13:29:06'),
+(11, '2020-10-23', 3, 'Fifth Tests', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/ay6.png', 4, NULL, 0, 0, 7, 7, '2020-10-23 12:02:24', '2020-10-23 12:07:37');
 
 -- --------------------------------------------------------
 
@@ -558,8 +573,8 @@ CREATE TABLE `requisition_statues` (
 
 INSERT INTO `requisition_statues` (`requisition_status_id`, `name`, `code`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 'Drafted', 'drafted', 2, '2020-10-17 16:05:08', 2, '2020-10-18 00:18:43'),
-(4, 'Sent Supervisor For Authorization', 'sent_supervisor_for_authorization', 2, '2020-10-18 00:23:05', 2, '2020-10-18 12:25:13'),
-(5, 'Sent Recipient For Approval', 'sent_recipient_for_approval', 2, '2020-10-18 00:26:35', 2, '2020-10-18 00:29:10'),
+(4, 'Sent To Supervisor For Authorization', 'sent_to_supervisor_for_authorization', 2, '2020-10-18 00:23:05', 2, '2020-10-19 03:05:25'),
+(5, 'Sent To Recipient For Approval', 'sent_to_recipient_for_approval', 2, '2020-10-18 00:26:35', 2, '2020-10-19 03:05:53'),
 (6, 'Approved', 'approved', 2, '2020-10-18 00:28:06', NULL, '2020-10-18 00:28:06'),
 (7, 'Closed', 'closed', 2, '2020-10-18 00:28:13', NULL, '2020-10-18 00:28:13'),
 (8, 'Declined', 'declined', 2, '2020-10-18 13:26:10', NULL, '2020-10-18 13:26:10');
@@ -667,8 +682,8 @@ CREATE TABLE `support_tickets` (
 --
 
 INSERT INTO `support_tickets` (`support_ticket_id`, `issue_report_date`, `issue_type_id`, `issue_description`, `file_url`, `issue_for`, `department_id`, `employees`, `support_ticket_status_id`, `comment`, `resolved_by`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(24, '2020-10-15', 5, 'Red zone error for leave portal', 'filesUpload/supportTickets/User Guide - Recruitment & Payroll.pdf', 'employees', 0, '\'8\':\'2\':\'7\'', 5, 'Still not done', 2, 2, 2, '2020-10-15 19:27:52', '2020-10-16 11:31:48'),
-(25, '2020-10-15', 5, 'Red zone error for leave portal', 'filesUpload/supportTickets/unnamed.jpg', 'department', 3, NULL, 1, NULL, NULL, 2, NULL, '2020-10-15 20:59:03', '2020-10-15 20:59:03');
+(26, '2020-10-25', 5, 'Testing support ticket', 'filesUpload/supportTickets/Olotu Oluwaseun Joseph CV (7).pdf', 'employees', NULL, '\'4\':\'7\'', 3, NULL, NULL, 2, NULL, '2020-10-25 12:51:12', '2020-10-25 14:19:36'),
+(27, '2020-10-25', 5, 'Testing Departments', 'filesUpload/supportTickets/with_pay.csv', 'department', 3, NULL, 3, NULL, NULL, 2, NULL, '2020-10-25 14:15:18', '2020-10-25 14:22:18');
 
 -- --------------------------------------------------------
 
@@ -964,7 +979,7 @@ ALTER TABLE `red_zones`
 -- AUTO_INCREMENT for table `requisitions`
 --
 ALTER TABLE `requisitions`
-  MODIFY `requisition_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `requisition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `requisition_statues`
@@ -994,7 +1009,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `support_tickets`
 --
 ALTER TABLE `support_tickets`
-  MODIFY `support_ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `support_ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `support_ticket_statues`

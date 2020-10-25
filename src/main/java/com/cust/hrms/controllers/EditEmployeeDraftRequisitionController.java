@@ -8,6 +8,8 @@ import com.oreilly.servlet.*;
 import com.cust.hrms.dao.*;
 import com.cust.hrms.models.*;
 import com.cust.hrms.notification.*;
+import com.cust.hrms.email.*;
+import com.cust.hrms.email.message.*;
 
 @WebServlet("/editEmployeeDraftRequisition")
 public class EditEmployeeDraftRequisitionController extends HttpServlet {
@@ -22,6 +24,9 @@ public class EditEmployeeDraftRequisitionController extends HttpServlet {
 	    MultipartRequest mreq = new MultipartRequest(request, fud.getUrl()+fud.getRequisitionUrl(), maxFileSize);
 	    RequisitionStatusDao rsd = new RequisitionStatusDao();
 	    RequisitionDao rd = new RequisitionDao();
+	    HrmsEmail he = new HrmsEmail();
+	    EmployeeDao ed = new EmployeeDao();
+	    RequisitionEmailMessage rem = new RequisitionEmailMessage();
 	    RequisitionNotification rn = new RequisitionNotification();
 	    int requisitionId = Integer.parseInt(mreq.getParameter("requisitionId"));
 	    Requisition r = rd.getRequisitionById(requisitionId);
@@ -54,6 +59,14 @@ public class EditEmployeeDraftRequisitionController extends HttpServlet {
 	    		oldFile.delete();
 	    		File newfileloc = new File(fud.getUrl()+r.getFileUrl());
 		    	Boolean uploadresult = mreq.getFile("file").renameTo(newfileloc);
+	    	}
+	    	
+	    	if(he.isEmailEnable()) {
+	    		Employee e = ed.getEmployeeById(r.getSupervisorId());
+	    		System.out.println(e.toString());
+	    		String emailAddress[] = {e.getEmail()};
+	    		String data[] = {e.getNameInitials()};
+	    		rem.getRequisitionForSupervisorAuthorizationMessage(emailAddress, data);
 	    	}
 	    	session.setAttribute("success", rn.getSentToSupervisorForAuthorizationMessage(true));
 	    	response.sendRedirect("allDraftedEmployeeRequisitionReport.jsp");
