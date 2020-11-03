@@ -617,7 +617,7 @@ public class EmployeeDao {
 	
 	public ResultSet getEmployeeOption(String employeesId) {
 		employeesId = employeesId.replace("'", "").replace(":", ",");
-		query = "select * from employees where employee_id not in ("+employeesId+")";
+		query = "select * from employees where employee_id not in ("+employeesId+") order by first_name asc";
 		dbcon.getConnection();
 		try {
 			stmt = dbcon.con.createStatement();
@@ -628,6 +628,64 @@ public class EmployeeDao {
 		}
 		return rs;
 	}
+	
+	public ResultSet getEmployeeArrayOptionInteger(int employeesId[]) {
+		String values = "";
+		for(int i = 0; i < employeesId.length; i++) {
+			values += employeesId[i];
+			if(i != (employeesId.length - 1)) {
+				values += ",";
+			}
+		}
+		query = "select * from employees where employee_id not in ("+values+")";
+		dbcon.getConnection();
+		try {
+			stmt = dbcon.con.createStatement();
+			rs = stmt.executeQuery(query);
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public ResultSet getEmployeeArrayOptionString(String employeesId[]) {
+		String values = "";
+		if(employeesId.length >= 1) { 
+			for(int i = 0; i < employeesId.length; i++) {
+				values += employeesId[i];
+				if(i != (employeesId.length - 1)) {
+					values += ",";
+				}
+			}
+			query = "select * from employees where employee_id not in ("+values+") order by first_name asc";
+		}
+		else {
+			query = "select * from employees order by first_name asc";
+		}
+		dbcon.getConnection();
+		try {
+			stmt = dbcon.con.createStatement();
+			rs = stmt.executeQuery(query);
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public String convertEmployeeIdArraysToString(String employeesId[]) {
+		String result = "";
+		for(int i = 0; i < employeesId.length; i++) {
+			result +="'"+employeesId[i]+"'";
+			if(i != (employeesId.length - 1)) {
+				result +=":";
+			}
+		}
+		return result;
+	}
+	
+	
 	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();

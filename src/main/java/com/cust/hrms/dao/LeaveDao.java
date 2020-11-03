@@ -2,6 +2,7 @@ package com.cust.hrms.dao;
 
 import java.sql.*;
 import java.util.Calendar;
+import java.io.*;
 
 import com.cust.hrms.models.*;
 
@@ -12,6 +13,7 @@ public class LeaveDao {
 	private DateDao dd = new DateDao();
 	private LeaveTypeDao ltd = new LeaveTypeDao();
 	private LeaveStatusDao lsd = new LeaveStatusDao();
+	private FileUploadDao fud = new FileUploadDao();
 	private Leave l;
 	private String query;
 	private int count;
@@ -23,7 +25,7 @@ public class LeaveDao {
 	public int createLeave(Leave l) {
 		query = "insert into leaves (employee_id, department_id, supervisor_id, leave_type_id, start_date, end_date,"
 				+ " resumption_date, no_of_days, primary_relief_office_id, secondary_relief_office_id, staff_to_notify,"
-				+ " inline_with_leave_plan, leave_status_id, created_by, with_pay) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ " inline_with_leave_plan, leave_status_id, created_by, with_pay, file_url) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
@@ -42,6 +44,7 @@ public class LeaveDao {
 			ps.setInt(13, l.getLeaveStatusId());
 			ps.setInt(14, l.getCreatedBy());
 			ps.setString(15, l.getWithPay());
+			ps.setString(16, l.getFileUrl());
 			count = ps.executeUpdate();
 			dbcon.con.close();
 		}
@@ -110,6 +113,7 @@ public class LeaveDao {
 				l.setUpdatedBy(rs.getInt("updated_by"));
 				l.setUpdatedAt(rs.getTimestamp("updated_at").toString());
 				l.setWithPay(rs.getString("with_pay"));
+				l.setFileUrl(rs.getString("file_url"));
 			}
 			dbcon.con.close();
 		}
@@ -122,7 +126,7 @@ public class LeaveDao {
 	public int updateLeave(Leave l) {
 		query = "update leaves set supervisor_id = ?, leave_type_id = ?, start_date = ?, end_date = ?, resumption_date = ?, "
 				+ "no_of_days = ?, primary_relief_office_id = ?, secondary_relief_office_id = ?, staff_to_notify = ?, "
-				+ "comment = ?, inline_with_leave_plan = ?, leave_status_id = ?, updated_by = ? "
+				+ "comment = ?, inline_with_leave_plan = ?, leave_status_id = ?, updated_by = ?, file_url = ? "
 				+ "where leave_id = ?";
 		Date startDate = Date.valueOf(l.getStartDate());
 		Date endDate = Date.valueOf(l.getEndDate());
@@ -143,7 +147,8 @@ public class LeaveDao {
 			ps.setString(11, l.getInlineWithLeavePlan());
 			ps.setInt(12, l.getLeaveStatusId());
 			ps.setInt(13, l.getUpdatedBy());
-			ps.setInt(14, l.getLeaveId());
+			ps.setString(14, l.getFileUrl());
+			ps.setInt(15, l.getLeaveId());
 			count = ps.executeUpdate();
 			dbcon.con.close();
 		}
@@ -260,6 +265,12 @@ public class LeaveDao {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, l.getLeaveId());
 			count = ps.executeUpdate();
+			if(count >= 1) {
+				if(l.getFileUrl() != null) {
+					File file = new File(fud.getUrl()+l.getFileUrl());
+					file.delete();
+				}
+			}
 			dbcon.con.close();
 		}
 		catch(SQLException ex) {

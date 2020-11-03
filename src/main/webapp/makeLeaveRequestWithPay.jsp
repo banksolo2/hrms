@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
 <%@ page import="com.cust.hrms.models.*" %>
+<%@ page import="com.cust.hrms.statues.*" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
 
@@ -194,6 +195,13 @@
 									
 
 									</script>
+									<%
+									String leaveTypeCode = request.getParameter("leaveTypeId");
+									int leaveTypeId = (leaveTypeCode == null) ? 0 : ltd.getLeaveTypeId(leaveTypeCode);
+									int days = led.getEmployeeLeaveDays(employeeId, leaveTypeId, "yes");
+									int usedDays = led.getEmployeeApprovedLeaveTypeDays(employeeId, leaveTypeId, "yes", currentYear);
+									int balanceDays = days - usedDays;
+									%>
 										<div class="form-group">
 											<label>No Of Leave Type Days</label>
 											<input type="text" readonly="readonly" class="form-control" name="noOfLeaveDays" id="noOfLeaveDays" value="0" />
@@ -215,12 +223,10 @@
 										<div class="form-group">
 											<label>Leave Type</label>
 											<%
-											String leaveTypeCode = request.getParameter("leaveTypeId");
-											int leaveTypeId = (leaveTypeCode == null) ? 0 : ltd.getLeaveTypeId(leaveTypeCode);
 											rs = ltd.getAllLeaveTypeOnUpdate(leaveTypeId);
 											%>
 											
-						                	<select class="form-control select2" style="width: 100%;" name="leaveTypeId" id="leaveTypeId" onchange="changeLeaveType()">
+						                	<select class="form-control select2" style="width: 100%;" name="leaveTypeId" id="leaveTypeId" onchange="changeLeaveType(); hideShowInLine()">
 						                	<%
 						                	if(leaveTypeCode == null){
 						                	%>
@@ -257,7 +263,7 @@
 						                  <!-- /.input group -->
 						                </div>
 						                <!-- /.form group -->
-						                <div class="form-group">
+						                <div class="form-group" id="inline">
 						                	<label>Is this leave request inline with your leave Plan?</label>
 						                	<select class="form-control select2" style="width: 100%;" name="inLineWithLeavePlan">
 						                		<option selected="selected" value="">SELECT OPTION</option>
@@ -265,24 +271,23 @@
 						                		<option value="no">NO</option>
 						                	</select>
 						                </div>
-						                 <!-- <div class="form-group">
+						                 <div class="form-group">
 							                  <label>Staff To be Notified:</label>
 							                  <%
 							                  String staffToNotify = request.getParameter("staffToNotify");
 							                  rs = ed.getAllEmployee();
 							                  %>
 							                  <select class="select2" multiple="multiple" data-placeholder="SELECT STAFF TO BE NOTIFIED" style="width: 100%;" name="staffToNotify">
-							                  	<optgroup>
+							                  	
 							                    <%
 							                    String fullName = null;
 							                    while(rs.next()){
 							                    	fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
 							                    %>
-							                    <option value="<%=rs.getString("email") %>"><%=fullName.toUpperCase() %></option>
+							                    <option value="<%=rs.getInt("employee_id") %>"><%=fullName.toUpperCase() %></option>
 							                    <%} %>
-							                    </optgroup>
 							                  </select>
-							                </div>-->
+							                </div>
 							                </div>
 							                <div class="col-md-6">
 							                <div class="form-group">
@@ -319,28 +324,21 @@
 							                	<label>Secondary Relief Officer</label>
 							                	<%
 							                	String secondaryReliefOffice = request.getParameter("secondaryReliefOfficeId");
-							                	int secondaryReliefOfficeId = (secondaryReliefOffice == null) ? 0 : Integer.parseInt(secondaryReliefOffice);
-							                	rs = ed.getAllEmployeeOnUpdate(primaryReliefOfficeId);
+							                	int secondaryReliefOfficeId = (secondaryReliefOffice == null || secondaryReliefOffice.equals("")) ? 0 : Integer.parseInt(secondaryReliefOffice);
 							                	%>
 							                	<select class="form-control select2" style="width: 100%;" name="secondaryReliefOfficeId">
+												<% if(secondaryReliefOfficeId == 0){ %>
+													<option selected="selected" value="">SELECT SECONDARY RELIEF OFFICER</option>
+												<% }else{ %>
+													<option selected="selected" value="<%=secondaryReliefOfficeId %>"><%=ed.getEmployeeName(secondaryReliefOfficeId) %></option>
 												<%
-													if(secondaryReliefOfficeId == 0){
+												} 
+												rs = ed.getAllEmployeeOnUpdate(secondaryReliefOfficeId);
+												while(rs.next()){
+													fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
 												%>
-												<option selected="selected" value="">SELECT SECONDARY
-													RELIEF OFFICER</option>
-												<%
-													} else {
-												%>
-												<option selected="selected" value="<%=secondaryReliefOfficeId %>"><%=ed.getEmployeeName(secondaryReliefOfficeId) %></option>
-							                	<%
-							                	}
-							                	while(rs.next()){
-							                		fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
-							                	%>
-							                	<option value="<%=rs.getInt("employee_id")%>"><%=fullName.toUpperCase() %></option>
-							                	<%
-							                	}
-							                	%>
+													<option value="<%=rs.getInt("employee_id") %>"><%=fullName %></option>
+												<%} %>
 							                	</select>
 							                </div>
 							                </div>
@@ -351,6 +349,7 @@
 						            
 						                	String leaveStatus = request.getParameter("leaveStatusId");
 						                	int leaveStatusId = (leaveStatus == null) ? 0 : Integer.parseInt(leaveStatus);
+						                	LeaveStatues les = new LeaveStatues();
 						                	rs = lsd.getEmployeeSaveAsOptionsOnUpdateById(leaveStatusId);
 						                	%>
 						                	<select class="form-control select2" style="width: 100%;" name="leaveStatusId">
@@ -362,21 +361,27 @@
 						                	}
 						                	else{
 						                	%>
-						                	<option selected="selected" value="<%=leaveStatusId %>"><%=lsd.getName(leaveStatusId).toUpperCase() %></option>
+						                	<option selected="selected" value="<%=leaveStatusId %>"><%=les.getStatusName(lsd.getName(leaveStatusId)).toUpperCase() %></option>
 						                	<%
 						                	}
 						                	while(rs.next()){
 						                	%>
-						                	<option value="<%=rs.getInt("leave_status_id")%>"><%=rs.getString("name").toUpperCase() %></option>
+						                	<option value="<%=rs.getInt("leave_status_id")%>"><%=les.getStatusName(rs.getString("name")).toUpperCase() %></option>
 						                	<%} %>
 						                	</select>
 						                </div>
 										<div class="form-group">
-											
+											<%
+											String supervisorName = ed.getEmployeeName(supervisorId);
+											if(supervisorName == null){
+												supervisorName = "";
+											}
+											%>
 											<label>Supervisor</label> 
 											<input type="text" name="leaveSupervisor" class="form-control" readonly="readonly" 
-											value="<%=ed.getEmployeeName(supervisorId) %>" />
+											value="<%=supervisorName %>" />
 										</div>
+										
 									</div>
 									<!-- /.col -->
 

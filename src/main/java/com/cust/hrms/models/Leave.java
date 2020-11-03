@@ -21,7 +21,15 @@ public class Leave {
 	private String createdAt;
 	private int updatedBy;
 	private String updatedAt;
+	private String fileUrl;
 	
+	
+	public String getFileUrl() {
+		return fileUrl;
+	}
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
+	}
 	public String getWithPay() {
 		return withPay;
 	}
@@ -151,7 +159,7 @@ public class Leave {
 				+ secondaryReliefOfficeId + ", staffToNotify=" + staffToNotify + ", comment=" + comment
 				+ ", inlineWithLeavePlan=" + inlineWithLeavePlan + ", withPay=" + withPay + ", leaveStatusId="
 				+ leaveStatusId + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", updatedBy=" + updatedBy
-				+ ", updatedAt=" + updatedAt + "]";
+				+ ", updatedAt=" + updatedAt + ", fileUrl=" + fileUrl + "]";
 	}
 	
 	

@@ -154,15 +154,13 @@ public class RedZoneDao {
 		Date startDate = Date.valueOf(rz.getDateFrom());
 		Date endDate = Date.valueOf(rz.getDateTo());
 		query = "select count(*) as count_no from red_zones where department_id = ? and "
-				+ "(date_from between ? and ?) or (date_to between ? and ?) ";
+				+ "(? between date_from and date_to or ? between date_from and date_to ) ";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, rz.getDepartmentId());
 			ps.setDate(2, startDate);
 			ps.setDate(3, endDate);
-			ps.setDate(4, startDate);
-			ps.setDate(5, endDate);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				count = rs.getInt("count_no");
@@ -180,9 +178,9 @@ public class RedZoneDao {
 	public static void main(String args[]) {
 		RedZoneDao rzd = new RedZoneDao();
 		RedZone rz = new RedZone();
-		rz.setDepartmentId(6);
-		rz.setDateFrom("2020-11-25");
-		rz.setDateTo("2020-11-30");
+		rz.setDepartmentId(3);
+		rz.setDateFrom("2020-12-01");
+		rz.setDateTo("2020-12-30");
 		boolean result = rzd.isDateInRedZone(rz);
 		System.out.println(result);
 	}

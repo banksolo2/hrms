@@ -129,7 +129,7 @@ public class DateDao {
 		try {
 			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateObj = sdf1.parse(date);
-			SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMMM, yyyy");
+			SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMMM yyyy");
 			result = sdf2.format(dateObj);
 		}
 		catch(Exception ex) {

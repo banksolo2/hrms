@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
 <%@ page import="com.cust.hrms.models.*" %>
+<%@ page import="com.cust.hrms.statues.*" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
 
@@ -25,6 +26,7 @@
 	}
 	session.setAttribute("parent", "leave");
 	session.setAttribute("page", "employee_leave_setup");
+	LeaveStatues ls = new LeaveStatues();
 	%>
 	<div class="wrapper">
 		<jsp:include page="topNav.jsp"></jsp:include>
@@ -262,24 +264,23 @@
 						                		<option value="no">NO</option>
 						                	</select>
 						                </div-->
-						                 <!-- <div class="form-group">
+						                  <div class="form-group">
 							                  <label>Staff To be Notified:</label>
 							                  <%
-							                  String staffToNotify = request.getParameter("staffToNotify");
+							                  String fullName;
 							                  rs = ed.getAllEmployee();
 							                  %>
 							                  <select class="select2" multiple="multiple" data-placeholder="SELECT STAFF TO BE NOTIFIED" style="width: 100%;" name="staffToNotify">
-							                  	<optgroup>
-							                    <%
-							                    String fullName = null;
-							                    while(rs.next()){
-							                    	fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
-							                    %>
-							                    <option value="<%=rs.getString("email") %>"><%=fullName.toUpperCase() %></option>
-							                    <%} %>
-							                    </optgroup>
+							                 <%
+							                 while(rs.next()){
+							                	 fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
+							                 %>
+							                 	<option value="<%=rs.getInt("employee_id") %>"><%=fullName.toUpperCase() %></option>
+							                 <%
+							                 }
+							                 %>
 							                  </select>
-							                </div>-->
+							                </div>
 							                </div>
 							                <div class="col-md-6">
 							                <div class="form-group">
@@ -298,7 +299,7 @@
 												<%
 													} else {
 												%>
-												<option selected="selected" value="<%=primaryReliefOfficeId %>"><%=ed.getEmployeeName(primaryReliefOfficeId) %></option>
+												<option selected="selected" value="<%=primaryReliefOfficeId %>"><%=ed.getEmployeeName(primaryReliefOfficeId).toUpperCase() %></option>
 							                	<%
 							                	}
 							                	while(rs.next()){
@@ -316,8 +317,8 @@
 							                	<label>Secondary Relief Officer</label>
 							                	<%
 							                	String secondaryReliefOffice = request.getParameter("secondaryReliefOfficeId");
-							                	int secondaryReliefOfficeId = (secondaryReliefOffice == null) ? 0 : Integer.parseInt(secondaryReliefOffice);
-							                	rs = ed.getAllEmployeeOnUpdate(primaryReliefOfficeId);
+							                	int secondaryReliefOfficeId = (secondaryReliefOffice == null || secondaryReliefOffice.equals("")) ? 0 : Integer.parseInt(secondaryReliefOffice);
+							                	rs = ed.getAllEmployeeOnUpdate(secondaryReliefOfficeId);
 							                	%>
 							                	<select class="form-control select2" style="width: 100%;" name="secondaryReliefOfficeId">
 												<%
@@ -359,12 +360,12 @@
 						                	}
 						                	else{
 						                	%>
-						                	<option selected="selected" value="<%=leaveStatusId %>"><%=lsd.getName(leaveStatusId).toUpperCase() %></option>
+						                	<option selected="selected" value="<%=leaveStatusId %>"><%=ls.getStatusName(lsd.getName(leaveStatusId)).toUpperCase() %></option>
 						                	<%
 						                	}
 						                	while(rs.next()){
 						                	%>
-						                	<option value="<%=rs.getInt("leave_status_id")%>"><%=rs.getString("name").toUpperCase() %></option>
+						                	<option value="<%=rs.getInt("leave_status_id")%>"><%=ls.getStatusName(rs.getString("name")).toUpperCase() %></option>
 						                	<%} %>
 						                	</select>
 						                </div>

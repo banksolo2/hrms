@@ -1037,6 +1037,9 @@ $(document).ready(function(){
 			},
 			leaveStatusId : {
 				required : true
+			},
+			staffToNotify : {
+				required : true
 			}
 		},
 		messages : {
@@ -1047,13 +1050,16 @@ $(document).ready(function(){
 				required : "Please provide start and end dates"
 			},
 			inLineWithLeavePlan : {
-				required : "Please select option if leave request is in line with leave plan"
+				required : "Please select a inline with leave plan option"
 			},
 			primaryReliefOfficeId : {
 				required : "Please provide primary relief officer"
 			},
 			leaveStatusId : {
 				required : "Please select save as option"
+			},
+			staffToNotify : {
+				required : "Please select a staff to be notified"
 			}
 		},
 		errorElement: 'span',
@@ -1164,6 +1170,9 @@ $(document).ready(function(){
 			},
 			leaveStatusId : {
 				required : true
+			},
+			staffToNotify : {
+				required : true
 			}
 		},
 		messages : {
@@ -1178,6 +1187,9 @@ $(document).ready(function(){
 			},
 			leaveStatusId : {
 				required : "Please select save as option"
+			},
+			staffToNotify : {
+				required : "Please select a staff to be notified"
 			}
 		},
 		errorElement: 'span',
@@ -1443,6 +1455,8 @@ $(document).ready(function(){
 	        $(element).removeClass('is-invalid');
 	      }
 	});
+	document.getElementById("inline").style.display = "none";
+	
 });
 function changeLeaveType() {
 	  var leaveTypeCode = document.getElementById("leaveTypeId").value;
@@ -1453,4 +1467,31 @@ function changeLeaveType() {
 function disableButton(){
 	document.getElementById("save").disabled = true;
 }
+
+function hideShowFile(){
+	var leaveTypeCode = document.getElementById("leaveTypeId").value;
+	var leaveFile = document.getElementById("leaveFile");
+	
+	if(leaveTypeCode != "examination"){
+		leaveFile.style.display = "none";
+	}
+	else{
+		leaveFile.style.display = "block";
+	}
+}
+
+function hideShowInLine(){
+	var leaveTypeCode = document.getElementById("leaveTypeId").value;
+	var inline = document.getElementById("inline");
+	if(leaveTypeCode === "annual"){
+		inline.style.display = "block";
+	}
+	else{
+		inline.style.display = "none";
+	}
+}
+
+
+
+
 

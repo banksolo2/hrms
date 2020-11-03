@@ -398,13 +398,15 @@ public class LeavePlanDao {
 	//Check if leave request is in with leave plan
 	public boolean isLeaveRequestInLineWithLeavePlan(LeavePlan lp) {
 		boolean result = false;
-		query = "select count(*) as count_no from leave_plans where employee_id = ? and start_date = ? and end_date = ?";
+		query = "select count(*) as count_no from leave_plans where employee_id = ? and start_date = ? and end_date = ? "
+				+ "and leave_plan_status_id = ?";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, lp.getEmployeeId());
 			ps.setDate(2, Date.valueOf(lp.getStartDate()));
 			ps.setDate(3, Date.valueOf(lp.getEndDate()));
+			ps.setInt(4, lpsd.getLeavePlanStatusId("approved"));
 			rs = ps.executeQuery();
 			if(rs.next()) count = rs.getInt("count_no");
 			result = (count >= 1);

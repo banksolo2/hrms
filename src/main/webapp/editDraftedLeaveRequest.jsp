@@ -55,7 +55,7 @@
 			</div>
 			<!-- /.content-header -->
 
-			<form action="editDraftedLeaveRequestWithPay" method="post" id="makeLeaveRequestWithPay">
+			<form action="editDraftedLeaveRequestWithPay" method="post" id="makeLeaveRequestWithPay" >
 				<!-- Main content -->
 				<section class="content">
 					<div class="container-fluid">
@@ -214,7 +214,7 @@
 											LeaveType lt =ltd.getLeaveTypeById(l.getLeaveTypeId());
 											%>
 											
-						                	<select class="form-control select2" style="width: 100%;" name="leaveTypeId" id="leaveTypeId" onchange="changeLeaveType()">
+						                	<select class="form-control select2" style="width: 100%;" name="leaveTypeId" id="leaveTypeId" onchange="changeLeaveType();">
 						                	
 						                	<option selected="selected" value="<%=lt.getCode() %>"><%=lt.getName().toUpperCase() %></option>
 						                	<%
@@ -252,24 +252,31 @@
 						                		<option value="no">NO</option>
 						                	</select>
 						                </div>
-						                 <!-- <div class="form-group">
+						                  <div class="form-group">
 							                  <label>Staff To be Notified:</label>
 							                  <%
-							                  String staffToNotify = request.getParameter("staffToNotify");
-							                  rs = ed.getAllEmployee();
+							                  int employeesId[] = ed.getEmployeesId(l.getStaffToNotify());
+							                  rs = ed.getEmployeeArrayOptionInteger(employeesId);
 							                  %>
 							                  <select class="select2" multiple="multiple" data-placeholder="SELECT STAFF TO BE NOTIFIED" style="width: 100%;" name="staffToNotify">
 							                  	<optgroup>
+							                  	<%
+							                  	for(int x : employeesId){
+							                  	%>
+							                  	<option selected="selected" value="<%=x %>"><%=ed.getEmployeeName(x).toUpperCase() %></option>
+							                  	<%	
+							                  	}
+							                  	%>
 							                    <%
 							                    String fullName = null;
 							                    while(rs.next()){
 							                    	fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
 							                    %>
-							                    <option value="<%=rs.getString("email") %>"><%=fullName.toUpperCase() %></option>
+							                    <option value="<%=rs.getInt("employee_id") %>"><%=fullName.toUpperCase() %></option>
 							                    <%} %>
 							                    </optgroup>
 							                  </select>
-							                </div>-->
+							                </div>
 							                </div>
 							                <div class="col-md-6">
 							                <div class="form-group">

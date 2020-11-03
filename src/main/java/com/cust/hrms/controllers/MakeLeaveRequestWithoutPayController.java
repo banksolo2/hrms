@@ -2,113 +2,141 @@ package com.cust.hrms.controllers;
 
 import java.io.*;
 import java.util.Calendar;
-
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 import com.cust.hrms.dao.*;
 import com.cust.hrms.models.*;
+import com.cust.hrms.email.*;
+import com.cust.hrms.email.message.*;
+import com.cust.hrms.notification.*;
 
 @WebServlet("/makeLeaveRequestWithoutPay")
 public class MakeLeaveRequestWithoutPayController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession();
-		RequestDispatcher rd = request.getRequestDispatcher("makeLeaveRequestWithoutPay.jsp");
+		int createdBy = 0;
+		if(session.getAttribute("email") == null) {
+			response.sendRedirect("login.jsp");
+		}
+		else {
+			createdBy = (int)session.getAttribute("employeeId");
+		}
 		PrintWriter out = response.getWriter();
+		RequestDispatcher rd = request.getRequestDispatcher("makeLeaveRequestWithoutPay.jsp");
 		LeaveDao ld = new LeaveDao();
-		LeaveStatusDao lsd = new LeaveStatusDao();
-		LeaveTypeDao ltd = new LeaveTypeDao();
+		HrmsEmail he = new HrmsEmail();
+		LeaveNotification ln = new LeaveNotification();
 		RedZoneDao rzd = new RedZoneDao();
+		LeaveTypeDao ltd = new LeaveTypeDao();
+		LeaveStatusDao lsd = new LeaveStatusDao();
+		EmployeeDao ed = new EmployeeDao();
 		DateDao dd = new DateDao();
-		NotificationMessageDao nmd = new NotificationMessageDao();
+		String year = request.getParameter("year");
 		Leave l = new Leave();
-		int employeeId = (int)session.getAttribute("employeeId");
+		l.setWithPay("no");
+		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 		l.setEmployeeId(employeeId);
-		l.setCreatedBy(employeeId);
-		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
-		l.setDepartmentId(departmentId);
 		int supervisorId = Integer.parseInt(request.getParameter("supervisorId"));
 		l.setSupervisorId(supervisorId);
-		l.setWithPay("no");
+		l.setCreatedBy(createdBy);
+		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
+		l.setDepartmentId(departmentId);
 		String leaveTypeCode = request.getParameter("leaveTypeId");
-		int leaveTypeId = ltd.getLeaveTypeId(leaveTypeCode);
-		l.setLeaveTypeId(leaveTypeId);
-		String dates = request.getParameter("dates");
-		String date[] = dates.split(" - ");
-		String startDate = dd.convertDateFormat(date[0], "/");
-		l.setStartDate(startDate);
-		String endDate = dd.convertDateFormat(date[1], "/");
-		l.setEndDate(endDate);
-		String resumptionDate = dd.addDaysSkippingWeekends(endDate, 1);
-		l.setResumptionDate(resumptionDate);
-		int noOfDays = ld.getNoOfDays(startDate, endDate);
-		l.setNoOfDays(noOfDays);
+		LeaveType lt = ltd.getLeaveTypeByCode(leaveTypeCode);
+		l.setLeaveTypeId(lt.getLeaveTypeId());
+		String dates[] = (request.getParameter("dates")).split(" - ");
+		l.setStartDate(dd.convertDateFormat(dates[0], "/"));
+		l.setEndDate(dd.convertDateFormat(dates[1], "/"));
+		l.setResumptionDate(dd.addDaysSkippingWeekends(l.getEndDate(), 1));
+		l.setNoOfDays(ld.getNoOfDays(l.getStartDate(), l.getEndDate()));
 		int primaryReliefOfficeId = Integer.parseInt(request.getParameter("primaryReliefOfficeId"));
 		l.setPrimaryReliefOfficeId(primaryReliefOfficeId);
-		int secondaryReliefOfficeId = Integer.parseInt(request.getParameter("secondaryReliefOfficeId"));
+		String secondaryReliefOffice = request.getParameter("secondaryReliefOfficeId").trim();
+		int secondaryReliefOfficeId = 0;
+		if(secondaryReliefOffice.length() >= 1) {
+			secondaryReliefOfficeId = Integer.parseInt(secondaryReliefOffice);
+		}
 		l.setSecondaryReliefOfficeId(secondaryReliefOfficeId);
-		l.setInlineWithLeavePlan("no");
 		int leaveStatusId = Integer.parseInt(request.getParameter("leaveStatusId"));
+		LeaveStatus ls = lsd.getLeaveStatusById(leaveStatusId);
 		l.setLeaveStatusId(leaveStatusId);
-		String currentYear  = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+		l.setInlineWithLeavePlan("no");
+		String staffToNotify = ed.convertEmployeeIdArraysToString(request.getParameterValues("staffToNotify"));
+		l.setStaffToNotify(staffToNotify);
 		
-		//Check if start date
-		boolean isStartDateGreaterEqualToday = dd.isStartDateValid(startDate);
-		if(isStartDateGreaterEqualToday == true) {
-			boolean isEmployeeLeaveDaysValid = ld.isEmployeeLeavedaysValid(employeeId, leaveTypeId, currentYear, noOfDays, l.getWithPay());
-			if(isEmployeeLeaveDaysValid == true) {
-				//Check if leave request is in red zone
-				RedZone rz = new RedZone();
-				rz.setDepartmentId(departmentId);
-				rz.setDateFrom(startDate);
-				rz.setDateTo(endDate);
-				boolean isLeaveRequestInRedZone = rzd.isDateInRedZone(rz);
-				if(isLeaveRequestInRedZone == false) {
-					// Check if leave request already exist between start date and end date
-					boolean isStartDateAndEndDateAlreadyExist = ld.isStartAndEndDateExist(l);
-					if(isStartDateAndEndDateAlreadyExist == false) {
-						int count = ld.createLeave(l);
-						LeaveStatus ls = lsd.getLeaveStatusById(leaveStatusId);
-						String message = null;
-						if(count >= 1) {
-							if(ls.getCode().equals("sent_to_supervisor_for_approval")) {
-								message = nmd.getEmployeeLeaveSentToSupervisorForApprovalMessage("success");
-							}
-							else {
-								message = nmd.getEmployeeLeaveSaveAsDraftMessage("success");
-							}
-							session.setAttribute("success", message);
-							response.sendRedirect("makeLeaveRequestWithoutPay.jsp");
-						}
-						else {
-							if(ls.getCode().equals("sent_to_supervisor_for_approval")) {
-								message = nmd.getEmployeeLeaveSentToSupervisorForApprovalMessage("error");
-							}
-							else {
-								message = nmd.getEmployeeLeaveSaveAsDraftMessage("error");
-							}
-							session.setAttribute("error", message);
-							rd.forward(request, response);
-						}
+		//Check if employee leave days is valid
+		boolean isEmployeeLeaveDaysValid = ld.isEmployeeLeavedaysValid(l.getEmployeeId(), l.getLeaveTypeId(), year, l.getNoOfDays(), l.getWithPay());
+		if(isEmployeeLeaveDaysValid) {
+			//Check if leave request is in a red zone period
+			RedZone rz = new RedZone();
+			rz.setDepartmentId(l.getDepartmentId());
+			rz.setDateFrom(l.getStartDate());
+			rz.setDateTo(l.getEndDate());
+			boolean isDatesInRedZone = rzd.isDateInRedZone(rz);
+			if(isDatesInRedZone == false) {
+				//Save leave request in the database
+				int count = ld.createLeave(l);
+				String message = null;
+				if(count >= 1) {
+					if(ls.getCode().equals("drafted")) {
+						message = ln.getDraftedLeaveMessage(true);
 					}
 					else {
-						session.setAttribute("error", nmd.getLeaveAlreadyExistErrorMessage());
-						rd.forward(request, response);
+						message = ln.getSentLeaveToSupervisorForApprovalMessage(true);
+						/*Send email notification
+						 * 1) Employee 
+						 * 2) Supervisor*/
+						if(he.isEmailEnable()) {
+							LeaveEmailMessage lem = new LeaveEmailMessage();
+							//1) Employee
+							Employee emp = ed.getEmployeeById(l.getEmployeeId());
+							String employeeEmailAddress[] = { emp.getEmail() };
+							String employeeData[] = {
+									emp.getNameInitials(),
+									"without_pay"
+							};
+							lem.getEmployeeSendLeaveToSupervisorForApprovalMessage(employeeEmailAddress, employeeData);
+							
+							//2) Supervisor
+							Employee sup = ed.getEmployeeById(l.getSupervisorId());
+							String supervisorEmailAddress[] = { sup.getEmail() };
+							String supervisorData[] = {
+									sup.getNameInitials(),
+									String.valueOf(l.getNoOfDays()),
+									lt.getName(),
+									dd.changeFormatDate(l.getStartDate()),
+									dd.changeFormatDate(l.getEndDate()),
+									dd.changeFormatDate(l.getResumptionDate()),
+									emp.getFirstName()+" "+emp.getMiddleName()+" "+emp.getLastName(),
+									emp.getStaffId(),
+									"without_pay"
+							};
+							lem.getSupervisorLeaveAwaitingApproval(supervisorEmailAddress, supervisorData);
+						}
 					}
+					session.setAttribute("success", message);
+					response.sendRedirect("makeLeaveRequestWithoutPay.jsp");
 				}
 				else {
-					session.setAttribute("error", nmd.getRedZoneErrorMessage());
+					if(ls.getCode().equals("drafted")) {
+						message = ln.getDraftedLeaveMessage(false);
+					}
+					else {
+						message = ln.getSentLeaveToSupervisorForApprovalMessage(false);
+					}
+					session.setAttribute("error", message);
 					rd.forward(request, response);
 				}
 			}
 			else {
-				session.setAttribute("error", nmd.getEmployeeLeaveDaysErrorMessage());
+				session.setAttribute("error", ln.getLeaveRedZoneErrorMessage());
 				rd.forward(request, response);
 			}
 		}
 		else {
-			session.setAttribute("error", nmd.isStartDateEqualGreaterThanTodayErrorMessage());
+			session.setAttribute("error", ln.getEmployeeLeaveDaysValidErrorMessage());
 			rd.forward(request, response);
 		}
 	}

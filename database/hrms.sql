@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 25, 2020 at 03:29 PM
+-- Generation Time: Nov 03, 2020 at 03:23 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -308,9 +308,10 @@ CREATE TABLE `leaves` (
   `secondary_relief_office_id` int(11) DEFAULT NULL,
   `staff_to_notify` text DEFAULT NULL,
   `comment` text DEFAULT NULL,
-  `inline_with_leave_plan` varchar(200) NOT NULL,
+  `inline_with_leave_plan` varchar(200) NOT NULL DEFAULT 'no',
   `with_pay` varchar(100) NOT NULL,
   `leave_status_id` int(11) NOT NULL,
+  `file_url` varchar(600) DEFAULT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
@@ -321,13 +322,8 @@ CREATE TABLE `leaves` (
 -- Dumping data for table `leaves`
 --
 
-INSERT INTO `leaves` (`leave_id`, `employee_id`, `department_id`, `supervisor_id`, `leave_type_id`, `start_date`, `end_date`, `resumption_date`, `no_of_days`, `primary_relief_office_id`, `secondary_relief_office_id`, `staff_to_notify`, `comment`, `inline_with_leave_plan`, `with_pay`, `leave_status_id`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(6, 4, 3, 2, 4, '2020-09-23', '2020-09-30', '2020-10-01', 6, 5, 6, NULL, 'Testing', 'no', 'yes', 8, 4, '2020-09-17 00:53:34', 2, '2020-09-28 16:29:11'),
-(7, 4, 3, 2, 4, '2020-09-23', '2020-09-25', '2020-09-28', 3, 6, 5, NULL, 'null', 'yes', 'yes', 5, 4, '2020-09-21 12:54:23', 2, '2020-09-25 02:44:44'),
-(10, 4, 3, 2, 6, '2020-09-28', '2020-09-30', '2020-10-01', 3, 6, 5, NULL, 'Please, approve this leave request', 'no', 'yes', 5, 4, '2020-09-24 02:26:21', 2, '2020-09-25 02:45:35'),
-(12, 4, 3, 2, 4, '2020-09-23', '2020-09-25', '2020-09-28', 3, 5, 6, NULL, NULL, 'no', 'yes', 5, 4, '2020-09-25 02:31:43', NULL, '2020-09-25 02:31:43'),
-(14, 4, 3, 2, 4, '2020-11-16', '2020-11-20', '2020-11-23', 5, 6, 5, NULL, 'On finished work at the office.', 'no', 'no', 1, 4, '2020-09-26 12:15:47', 2, '2020-09-30 17:05:26'),
-(15, 4, 3, 2, 6, '2020-10-14', '2020-10-21', '2020-10-22', 6, 6, 5, NULL, NULL, 'no', 'yes', 6, 4, '2020-09-27 18:59:18', 4, '2020-09-27 19:00:07');
+INSERT INTO `leaves` (`leave_id`, `employee_id`, `department_id`, `supervisor_id`, `leave_type_id`, `start_date`, `end_date`, `resumption_date`, `no_of_days`, `primary_relief_office_id`, `secondary_relief_office_id`, `staff_to_notify`, `comment`, `inline_with_leave_plan`, `with_pay`, `leave_status_id`, `file_url`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(53, 7, 3, 2, 4, '2020-11-09', '2020-11-13', '2020-11-16', 5, 4, 5, '\'2\':\'4\'', NULL, 'no', 'no', 6, NULL, 7, '2020-11-02 20:03:47', 0, '2020-11-03 02:21:53');
 
 -- --------------------------------------------------------
 
@@ -357,8 +353,9 @@ CREATE TABLE `leave_plans` (
 --
 
 INSERT INTO `leave_plans` (`leave_plan_id`, `employee_id`, `department_id`, `department_head_id`, `start_date`, `end_date`, `no_of_days`, `leave_plan_status_id`, `on_behalf`, `comment`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(3, 2, 3, 2, '2020-09-28', '2020-10-02', 5, 6, 'no', 'The date has been changed, has requested.', 2, '2020-09-04 23:25:08', 2, '2020-09-22 03:43:07'),
-(8, 4, 3, 2, '2020-09-23', '2020-10-07', 11, 6, 'no', NULL, 4, '2020-09-21 16:34:01', NULL, '2020-09-22 03:43:13');
+(3, 2, 3, 2, '2020-11-02', '2020-11-18', 13, 5, 'no', 'Done', 2, '2020-09-04 23:25:08', 2, '2020-10-25 18:11:02'),
+(8, 4, 3, 2, '2020-09-23', '2020-10-07', 11, 6, 'no', NULL, 4, '2020-09-21 16:34:01', NULL, '2020-09-22 03:43:13'),
+(9, 2, 3, 2, '2020-11-02', '2020-11-18', 13, 5, 'no', 'Done', 2, '2020-10-25 18:07:29', 2, '2020-10-25 18:11:02');
 
 -- --------------------------------------------------------
 
@@ -404,7 +401,7 @@ CREATE TABLE `leave_statues` (
 --
 
 INSERT INTO `leave_statues` (`leave_status_id`, `name`, `code`, `created_at`, `updated_at`) VALUES
-(1, 'Drafted', 'drafted', '2020-08-05 14:17:05', '2020-09-10 19:28:21'),
+(1, 'Drafted', 'drafted', '2020-08-05 14:17:05', '2020-10-26 14:08:14'),
 (5, 'Approved', 'approved', '2020-09-10 19:24:50', '2020-09-10 19:24:50'),
 (6, 'Sent To Supervisor For Approval', 'sent_to_supervisor_for_approval', '2020-09-10 19:26:04', '2020-09-10 19:26:04'),
 (7, 'Sent To HR For Approval', 'sent_to_hr_for_approval', '2020-09-10 19:26:38', '2020-09-10 19:26:38'),
@@ -549,7 +546,8 @@ INSERT INTO `requisitions` (`requisition_id`, `created_date`, `requisition_type_
 (8, '2020-10-23', 3, 'Second Test', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/Project proposal.pdf', 6, '', 2, 0, 7, 2, '2020-10-23 10:53:37', '2020-10-24 13:13:23'),
 (9, '2020-10-23', 3, 'Third Test', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/User Guide - Recruitment & Payroll.pdf', 5, 'It Can\'t work', 0, 2, 7, 2, '2020-10-23 10:55:49', '2020-10-24 01:22:47'),
 (10, '2020-10-23', 3, 'Forth Test with email', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/New Doc 2019-03-19 17.23.30.pdf', 4, 'It can\'t work for me', 0, 2, 7, 2, '2020-10-23 10:57:02', '2020-10-23 13:29:06'),
-(11, '2020-10-23', 3, 'Fifth Tests', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/ay6.png', 4, NULL, 0, 0, 7, 7, '2020-10-23 12:02:24', '2020-10-23 12:07:37');
+(11, '2020-10-23', 3, 'Fifth Tests', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/ay6.png', 4, NULL, 0, 0, 7, 7, '2020-10-23 12:02:24', '2020-10-23 12:07:37'),
+(12, '2020-10-25', 3, 'Testing 1', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/Leaves.sql', 7, '', 2, 0, 7, 7, '2020-10-25 18:56:12', '2020-10-25 19:00:31');
 
 -- --------------------------------------------------------
 
@@ -683,7 +681,8 @@ CREATE TABLE `support_tickets` (
 
 INSERT INTO `support_tickets` (`support_ticket_id`, `issue_report_date`, `issue_type_id`, `issue_description`, `file_url`, `issue_for`, `department_id`, `employees`, `support_ticket_status_id`, `comment`, `resolved_by`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 (26, '2020-10-25', 5, 'Testing support ticket', 'filesUpload/supportTickets/Olotu Oluwaseun Joseph CV (7).pdf', 'employees', NULL, '\'4\':\'7\'', 3, NULL, NULL, 2, NULL, '2020-10-25 12:51:12', '2020-10-25 14:19:36'),
-(27, '2020-10-25', 5, 'Testing Departments', 'filesUpload/supportTickets/with_pay.csv', 'department', 3, NULL, 3, NULL, NULL, 2, NULL, '2020-10-25 14:15:18', '2020-10-25 14:22:18');
+(27, '2020-10-25', 5, 'Testing Departments', 'filesUpload/supportTickets/with_pay.csv', 'department', 3, NULL, 3, NULL, NULL, 2, NULL, '2020-10-25 14:15:18', '2020-10-25 14:22:18'),
+(29, '2020-10-25', 5, 'Testing 1', 'filesUpload/supportTickets/mel-michael-(a.).vcf', 'employees', 0, '\'2\':\'7\'', 3, 'Closed', 2, 7, 7, '2020-10-25 18:30:15', '2020-10-25 18:51:00');
 
 -- --------------------------------------------------------
 
@@ -931,13 +930,13 @@ ALTER TABLE `issue_types`
 -- AUTO_INCREMENT for table `leaves`
 --
 ALTER TABLE `leaves`
-  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `leave_plans`
 --
 ALTER TABLE `leave_plans`
-  MODIFY `leave_plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `leave_plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `leave_plan_statues`
@@ -979,7 +978,7 @@ ALTER TABLE `red_zones`
 -- AUTO_INCREMENT for table `requisitions`
 --
 ALTER TABLE `requisitions`
-  MODIFY `requisition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `requisition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `requisition_statues`
@@ -1009,7 +1008,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `support_tickets`
 --
 ALTER TABLE `support_tickets`
-  MODIFY `support_ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `support_ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `support_ticket_statues`

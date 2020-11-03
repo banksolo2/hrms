@@ -183,6 +183,20 @@ public class RequisitionDao {
 		return rs;
 	}
 	
+	public ResultSet getHrHistoryRequisitionReport() {
+		query = "select * from requisitions where requisition_status != ? order by created_date desc";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, rsd.getRequisitionStatusId("drafted"));
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
 	
 	
 	public static void main(String args[]) {

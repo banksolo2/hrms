@@ -20,4 +20,8 @@ public class FileUploadDao {
 	public String getRequisitionUrl() {
 		return "filesUpload/requisitions/";
 	}
+	
+	public String getLeaveUrl() {
+		return "filesUpload/leaveFiles/";
+	}
 }

@@ -162,6 +162,7 @@
                   <div class="tab-pane fade " id="vert-tabs-requisition-setup" role="tabpanel" aria-labelledby="vert-tabs-requisition-setup-tab">
                   	<h5>Requisition Setup</h5>
                   	<ul class="chart-legend clearfix">
+                  	  <!--li><a href="hrRequisitionHistoryReport.jsp"><i class="far fa-circle text-primary"></i> Requisition History</a></li-->
                       <li><a href="createRequisitionType.jsp"><i class="far fa-circle text-primary"></i> Create Requisition Type </a></li>
                       <li><a href="allRequisitionType.jsp"><i class="far fa-circle text-primary"></i> All Requisition Types </a></li>
                     </ul> 
