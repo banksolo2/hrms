@@ -1109,17 +1109,11 @@ $(document).ready(function(){
 		rules: {
 			leaveStatusId : {
 				required : true
-			},
-			comment : {
-				required : true
 			}
 		},
 		messages : {
 			leaveStatusId : {
 				required : "Please select a save as option"
-			},
-			comment : {
-				required : "Please provide comment"
 			}
 		},
 		errorElement: 'span',
@@ -1456,6 +1450,7 @@ $(document).ready(function(){
 	      }
 	});
 	document.getElementById("inline").style.display = "none";
+	document.getElementById("comment").style.display = "none";
 	
 });
 function changeLeaveType() {
@@ -1464,8 +1459,10 @@ function changeLeaveType() {
 	  document.getElementById("noOfLeaveDaysUsed").value = document.getElementById(leaveTypeCode+"UsedDays").value;
 	  document.getElementById("noOfLeaveDaysLeft").value = document.getElementById(leaveTypeCode+"LeftDays").value;
 	}
-function disableButton(){
+function disableSaveButton(){
+	e.preventDefault();
 	document.getElementById("save").disabled = true;
+	return true;
 }
 
 function hideShowFile(){
@@ -1477,6 +1474,19 @@ function hideShowFile(){
 	}
 	else{
 		leaveFile.style.display = "block";
+	}
+}
+
+function hideComment(){
+	var declined = document.getElementById("declined").value;
+	var leaveStatusId = document.getElementById("leaveStatusId").value;
+	var comment = document.getElementById("comment");
+	
+	if(leaveStatusId === declined){
+		comment.style.display = "block";
+	}
+	else{
+		comment.style.display = "none";
 	}
 }
 

@@ -685,6 +685,34 @@ public class EmployeeDao {
 		return result;
 	}
 	
+	public String[] getEmployeeEmailsArray(int employeesId[]) {
+		String result[] = new String[employeesId.length];
+		String quotes = "";
+		for(int i = 0; i < employeesId.length; i++) {
+			quotes += employeesId[i];
+			if( i != (employeesId.length - 1)) {
+				quotes +=",";
+			}
+		}
+		query = "select email from employees where employee_id in ("+quotes+")";
+		dbcon.getConnection();
+		try {
+			stmt = dbcon.con.createStatement();
+			rs = stmt.executeQuery(query);
+			int i = 0;
+			while(rs.next()) {
+				result[i] = rs.getString("email");
+				i++;
+			}
+			
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+
+	
 	
 	
 	public static void main(String args[]) {

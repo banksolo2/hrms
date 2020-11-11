@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
 <%@ page import="com.cust.hrms.models.*" %>
+<%@ page import="com.cust.hrms.statues.*" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
 
@@ -306,7 +307,7 @@
 						                	<label>Save As</label>
 						                	<%
 						            
-						                	
+						                	LeaveStatues ls = new LeaveStatues();
 						                	rs = lsd.getHrLeaveOptionForPendingRecallBack();
 						                	%>
 						                	<select class="form-control select2" style="width: 100%;" name="leaveStatusId">
@@ -317,13 +318,13 @@
 						                	
 						                	while(rs.next()){
 						                	%>
-						                	<option value="<%=rs.getInt("leave_status_id")%>"><%=rs.getString("name").toUpperCase() %></option>
+						                	<option value="<%=rs.getInt("leave_status_id")%>"><%=ls.getStatusName(rs.getString("name")).toUpperCase() %></option>
 						                	<%} %>
 						                	</select>
 						                </div>
 						                <div class="form-group">
 						                	<label>Comment</label>
-						                	<textarea rows="5" cols="60" class="form-control" name="comment"><%=l.getComment() %></textarea>
+						                	<textarea rows="5" cols="60" class="form-control" name="comment"></textarea>
 						                </div>
 										<div class="form-group">
 											

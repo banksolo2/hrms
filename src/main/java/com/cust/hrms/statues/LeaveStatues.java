@@ -26,6 +26,9 @@ public class LeaveStatues {
 		else if(status.trim().toLowerCase().equals("sent to supervisor for approval")) {
 			name = "Send To Supervisor For Approval";
 		}
+		else if(status.trim().toLowerCase().equals("decline leave recall back")) {
+			name = "Decline Leave Recall Back";
+		}
 		return name;
 	}
 }

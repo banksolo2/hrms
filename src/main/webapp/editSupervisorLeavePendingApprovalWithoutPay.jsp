@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
 <%@ page import="com.cust.hrms.models.*" %>
+<%@ page import="com.cust.hrms.statues.*" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
 
@@ -212,7 +213,7 @@
 											LeaveType lt =ltd.getLeaveTypeById(l.getLeaveTypeId());
 											%>
 											
-						                	<select class="form-control select2" style="width: 100%;" name="leaveTypeId" id="leaveTypeId">
+						                	<select class="form-control select2" style="width: 100%;" name="leaveTypeId" >
 						                	
 						                	<option selected="selected" value="<%=lt.getLeaveTypeId() %>"><%=lt.getName().toUpperCase() %></option>
 						                
@@ -292,9 +293,10 @@
 						            
 						                	
 						                	int leaveStatusId = l.getLeaveStatusId();
+						                	LeaveStatues ls = new LeaveStatues();
 						                	rs = lsd.getSupervisorSaveAsOption(l.getLeaveTypeId(), l.getLeaveStatusId(), l.getWithPay());
 						                	%>
-						                	<select class="form-control select2" style="width: 100%;" name="leaveStatusId">
+						                	<select class="form-control select2" style="width: 100%;" name="leaveStatusId" id="leaveStatusId">
 						                	
 						                	<option selected="selected" value="">SELECT SAVE AS OPTION</option>
 						                	
@@ -302,11 +304,12 @@
 						                	
 						                	while(rs.next()){
 						                	%>
-						                	<option value="<%=rs.getInt("leave_status_id")%>"><%=rs.getString("name").toUpperCase() %></option>
+						                	<option value="<%=rs.getInt("leave_status_id")%>"><%=ls.getStatusName(rs.getString("name")).toUpperCase() %></option>
 						                	<%} %>
 						                	</select>
 						                </div>
-						                <div class="form-group">
+						                <input type="hidden" name="declined" value="<%=lsd.getLeaveStatusId("declined") %>">
+						                <div class="form-group" id="comment">
 						                	<label>Comment</label>
 						                	<textarea rows="5" cols="60" class="form-control" name="comment"></textarea>
 						                </div>
@@ -324,7 +327,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Authorize</button>
+			                  <button type="submit" id="save" onclick="disableSaveButton()" class="btn btn-primary">Authorize</button>
 			                  <a class="btn btn-info" href="supervisorLeavePendingApprovalWithoutPay.jsp">Go Back</a> 
 			                </div>
 						</div>

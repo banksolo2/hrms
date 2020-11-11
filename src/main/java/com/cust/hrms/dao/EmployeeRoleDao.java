@@ -203,13 +203,54 @@ public class EmployeeRoleDao {
 		return er;
 	}
 	
+	public int getRoleCount(int roleId) {
+		query = "select count(*) as count_no from employee_roles where role_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, roleId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("count_no");
+			}
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	
+	public int[] getRoleEmployeesId(int roleId) {
+		count = getRoleCount(roleId);
+		int result[] = new int[count];
+		query = "select employee_id from employee_roles where role_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, roleId);
+			rs = ps.executeQuery();
+			int i = 0;
+			while(rs.next()) {
+				result[i] = rs.getInt("employee_id");
+				i++;
+			}
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
 	public static void main(String args[]) {
 		EmployeeRoleDao erd = new EmployeeRoleDao();
 		RoleDao rd = new RoleDao();
-		EmployeeRole er = new EmployeeRole();
-		er.setEmployeeId(2);
-		er.setRoleId(rd.getRoleId("super admin"));
-		int count = erd.createEmployeeRole(er);
-		System.out.println(count);
+		int roleId = rd.getRoleIdBycode("supervisor");
+		int roleEmployeesId[] = erd.getRoleEmployeesId(roleId);
+		EmployeeDao ed = new EmployeeDao();
+		String employeesEmail[] = ed.getEmployeeEmailsArray(roleEmployeesId);
+		for(String x : employeesEmail) {
+			System.out.println(x);
+		}
 	}
 }
