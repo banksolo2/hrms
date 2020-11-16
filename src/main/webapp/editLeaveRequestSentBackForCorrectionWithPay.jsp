@@ -236,6 +236,9 @@
 						                  <!-- /.input group -->
 						                </div>
 						                <!-- /.form group -->
+						                <%
+						                if(lt.getCode().equals("annual")){
+						                %>
 						                <div class="form-group">
 						                	<label>Is this leave request in line with your leave Plan?</label>
 						                	<select class="form-control select2" style="width: 100%;" name="inLineWithLeavePlan">
@@ -244,23 +247,32 @@
 						                		<option value="no">NO</option>
 						                	</select>
 						                </div>
-						                 <!-- <div class="form-group">
+						                <% } %>
+						                <div class="form-group">
 							                  <label>Staff To be Notified:</label>
 							                  <%
-							                  String staffToNotify = request.getParameter("staffToNotify");
-							                  rs = ed.getAllEmployee();
+							                  int employeesId[] = ed.getEmployeesId(l.getStaffToNotify());
 							                  %>
 							                  <select class="select2" multiple="multiple" data-placeholder="SELECT STAFF TO BE NOTIFIED" style="width: 100%;" name="staffToNotify">
 							                  	
 							                    <%
+							                    for(int x : employeesId){
+							                    %>
+							                    <option selected="selected" value="<%=x %>"><%=ed.getEmployeeName(x).toUpperCase() %></option>
+							                    <%
+							                    }
 							                    String fullName = null;
+							                    rs = ed.getEmployeeArrayOptionInteger(employeesId);
 							                    while(rs.next()){
 							                    	fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
+							    
 							                    %>
-							                    <option value="<%=rs.getString("email") %>"><%=fullName.toUpperCase() %></option>
-							                    <%} %>
+												<option value="<%=rs.getInt("employee_id") %>"><%=fullName.toUpperCase() %></option>	         
+							                    <%
+							                    }
+							                    %>
 							                  </select>
-							                </div>-->
+							                </div>
 							                </div>
 							                <div class="col-md-6">
 							                <div class="form-group">
@@ -330,14 +342,14 @@
 						                	<option selected="selected" value="<%=ls.getLeaveStatusId() %>"><%=ls.getName().toUpperCase() %></option>
 						                	</select>
 						                </div>
-						                <div class="form-group">
+						                <!-- div class="form-group">
 						                	<label>Comment</label>
 						                	<%
 						                	String comment = l.getComment();
 						                	comment = (comment == null) ? "" : comment;
 						                	%>
-						                	<textarea rows="5" cols="50" class="form-control" name="comment"><%=comment %></textarea>
-						                </div>
+						                	<textarea rows="5" cols="50" class="form-control" name="comment" readonly="readonly"><%=comment %></textarea>
+						                </div-->
 										<div class="form-group">
 											
 											<label>Supervisor</label> 

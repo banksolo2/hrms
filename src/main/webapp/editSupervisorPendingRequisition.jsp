@@ -179,12 +179,18 @@
 											<select class="select2" multiple="multiple" data-placeholder="Select Recipients" style="width: 100%;" name="recipients">
 										<%
 										int employeesId[] = ed.getEmployeesId(r.getRecipients());
+										rs = ed.getEmployeeArrayOptionInteger(employeesId);
 										for(int x : employeesId){
 										%>
 											<option selected="selected" value="<%=x %>"><%=ed.getEmployeeName(x) %></option>
 										<%
 										}
+										String fullName = null;
+										while(rs.next()){
+											fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
 										%>
+										<option value="<%=rs.getInt("employee_id") %>"><%=fullName.toUpperCase() %></option>
+										<%} %>
 											</select>
 										</div>
 										<!-- div class="form-group">

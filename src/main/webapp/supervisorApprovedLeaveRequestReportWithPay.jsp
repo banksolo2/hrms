@@ -104,7 +104,7 @@
 												<th>Resumption Date</th>
 												<th>No Of Days</th>
 												<th>Leave Type</th>
-												<th>Comment</th>
+												<!-- th>Comment</th-->
 												<th></th>
 											</tr>
 										</thead>
@@ -130,7 +130,7 @@
 										<td><%=dd.changeFormatDate(rs.getDate("resumption_date").toString()) %></td>
 										<td><%=rs.getInt("no_of_days") %></td>
 										<td><%=ltd.getLeaveTypeName(rs.getInt("leave_type_id")) %></td>
-										<td><%=comment %></td>
+										<!-- td><%=comment %></td-->
 										<% if(dd.isStartDateValid(rs.getDate("end_date").toString()) == true) {%>
 										<td>
 											<form action="initiateLeaveCallBackWithPay.jsp" method="post">

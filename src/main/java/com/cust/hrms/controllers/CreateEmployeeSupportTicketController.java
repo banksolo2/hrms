@@ -56,41 +56,32 @@ public class CreateEmployeeSupportTicketController extends HttpServlet {
 	    st.setFileUrl("#");
 	    st.setSupportTicketStatusId(stsd.getSupportTicketStatusId("pending"));
 	    SupportTicketNotification stn = new SupportTicketNotification();
-	    boolean isSupportTicketExist = std.isSupportTicketExist(st);
-	    if(isSupportTicketExist == false) {
-	    	String fileName = mreq.getFilesystemName("file");
-	    	st.setFileUrl(fud.getSupportTicketurl()+fileName);
-	    	int count = std.createSupportTicketByForEmployees(st);
-	    	
-	    	if(count >= 1) {
-	    		File newfileloc = new File(fud.getUrl()+fud.getSupportTicketurl() + fileName);
-		    	Boolean uploadresult = mreq.getFile("file").renameTo(newfileloc);
-		    	HrmsEmail hr = new HrmsEmail();
-		    	if(hr.isEmailEnable()) {
-		    		int employeesId[] = std.getEmployeesId(st.getEmployees());
-		    		String emailAddress[] = ed.getEmployeesEmail(employeesId);
-		    		String data[] = {
-		    				dd.changeFormatDate(st.getIssueReportDate()),
-		    				ed.getEmployeeName(st.getCreatedBy()),
-		    				itd.getIssueTypeName(st.getIssueTypeId()),
-		    				st.getIssueDescription(),
-		    		};
-		    		SupportTicketEmailMessage stem = new SupportTicketEmailMessage();
-		    		stem.getinitializeSupportTicketMessage(emailAddress, data);
-		    	}
-		    	session.setAttribute("success", stn.getPendingSupportTicketMessage(true));
-		    	response.sendRedirect("createEmployeeSupportTicket.jsp");
+    	String fileName = mreq.getFilesystemName("file");
+    	st.setFileUrl(fud.getSupportTicketurl()+fileName);
+    	int count = std.createSupportTicketByForEmployees(st);
+    	
+    	if(count >= 1) {
+    		File newfileloc = new File(fud.getUrl()+fud.getSupportTicketurl() + fileName);
+	    	Boolean uploadresult = mreq.getFile("file").renameTo(newfileloc);
+	    	HrmsEmail hr = new HrmsEmail();
+	    	if(hr.isEmailEnable()) {
+	    		int employeesId[] = std.getEmployeesId(st.getEmployees());
+	    		String emailAddress[] = ed.getEmployeesEmail(employeesId);
+	    		String data[] = {
+	    				dd.changeFormatDate(st.getIssueReportDate()),
+	    				ed.getEmployeeName(st.getCreatedBy()),
+	    				itd.getIssueTypeName(st.getIssueTypeId()),
+	    				st.getIssueDescription(),
+	    		};
+	    		SupportTicketEmailMessage stem = new SupportTicketEmailMessage();
+	    		stem.getinitializeSupportTicketMessage(emailAddress, data);
 	    	}
-	    	else {
-	    		session.setAttribute("error", stn.getPendingSupportTicketMessage(false));
-	    		rd.forward(request, response);
-	    	}
-	    	
-	    }
-	    else {
-	    	session.setAttribute("error", stn.getSupportTicketAlreadyExistMessage());
-	    	rd.forward(request, response);
-	    }
-	    
+	    	session.setAttribute("success", stn.getPendingSupportTicketMessage(true));
+	    	response.sendRedirect("createEmployeeSupportTicket.jsp");
+    	}
+    	else {
+    		session.setAttribute("error", stn.getPendingSupportTicketMessage(false));
+    		rd.forward(request, response);
+    	}
 	}
 }

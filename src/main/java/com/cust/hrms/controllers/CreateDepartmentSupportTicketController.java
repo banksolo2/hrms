@@ -42,39 +42,31 @@ public class CreateDepartmentSupportTicketController extends HttpServlet {
 		st.setSupportTicketStatusId(stsd.getSupportTicketStatusId("pending"));
 		int createdBy = (int)session.getAttribute("employeeId");
 		st.setCreatedBy(createdBy);
-		boolean isSupportTicketExist = std.isSupportTicketExist(st);
-		if(isSupportTicketExist == false) {
-			String fileName = mreq.getFilesystemName("file");
-	    	st.setFileUrl(fud.getSupportTicketurl()+fileName);
-	    	int count = std.createSupportTicketForDepartment(st);
-	    	if(count >= 1) {
-	    		File newfileloc = new File(fud.getUrl()+fud.getSupportTicketurl() + fileName);
-		    	Boolean uploadresult = mreq.getFile("file").renameTo(newfileloc);
-		    	if(he.isEmailEnable()) {
-		    		EmployeeDao ed = new EmployeeDao();
-		    		String emailAddresses[] = ed.getDepartmentEmployeesEmail(st.getDepartmentId());
-		    		String data[] = {
-		    				dd.changeFormatDate(st.getIssueReportDate()),
-		    				ed.getEmployeeName(st.getCreatedBy()),
-		    				itd.getIssueTypeName(st.getIssueTypeId()),
-		    				st.getIssueDescription(),
-		    		};
-		    		
-		    		stem.getinitializeSupportTicketMessage(emailAddresses, data);
-		    	}
-		    	session.setAttribute("success", stn.getPendingSupportTicketMessage(true));
-		    	response.sendRedirect("createDepartmentSupportTicket.jsp");
+		String fileName = mreq.getFilesystemName("file");
+    	st.setFileUrl(fud.getSupportTicketurl()+fileName);
+    	int count = std.createSupportTicketForDepartment(st);
+    	if(count >= 1) {
+    		File newfileloc = new File(fud.getUrl()+fud.getSupportTicketurl() + fileName);
+	    	Boolean uploadresult = mreq.getFile("file").renameTo(newfileloc);
+	    	if(he.isEmailEnable()) {
+	    		EmployeeDao ed = new EmployeeDao();
+	    		String emailAddresses[] = ed.getDepartmentEmployeesEmail(st.getDepartmentId());
+	    		String data[] = {
+	    				dd.changeFormatDate(st.getIssueReportDate()),
+	    				ed.getEmployeeName(st.getCreatedBy()),
+	    				itd.getIssueTypeName(st.getIssueTypeId()),
+	    				st.getIssueDescription(),
+	    		};
+	    		
+	    		stem.getinitializeSupportTicketMessage(emailAddresses, data);
 	    	}
-	    	else {
-	    		session.setAttribute("error", stn.getPendingSupportTicketMessage(false));
-	    		rd.forward(request, response);
-	    	}
-			out.println(st.toString());
-		}
-		else {
-			session.setAttribute("error", stn.getSupportTicketAlreadyExistMessage());
-			rd.forward(request, response);
-		}
+	    	session.setAttribute("success", stn.getPendingSupportTicketMessage(true));
+	    	response.sendRedirect("createDepartmentSupportTicket.jsp");
+    	}
+    	else {
+    		session.setAttribute("error", stn.getPendingSupportTicketMessage(false));
+    		rd.forward(request, response);
+    	}		
 		
 	} 
 }

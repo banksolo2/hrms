@@ -276,24 +276,20 @@
 						                		<option selected="selected" value="<%=l.getInlineWithLeavePlan() %>"><%=l.getInlineWithLeavePlan().toUpperCase() %></option>
 						                	</select>
 						                </div>
-						                 <!-- <div class="form-group">
+						                <div class="form-group">
 							                  <label>Staff To be Notified:</label>
-							                  <%
-							                  String staffToNotify = request.getParameter("staffToNotify");
-							                  rs = ed.getAllEmployee();
-							                  %>
 							                  <select class="select2" multiple="multiple" data-placeholder="SELECT STAFF TO BE NOTIFIED" style="width: 100%;" name="staffToNotify">
 							                  	<optgroup>
 							                    <%
 							                    String fullName = null;
-							                    while(rs.next()){
-							                    	fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
+							                    int employeesId[] = ed.getEmployeesId(l.getStaffToNotify());
+							                    for(int x : employeesId){
 							                    %>
-							                    <option value="<%=rs.getString("email") %>"><%=fullName.toUpperCase() %></option>
+							                    <option selected="selected" value="<%=x %>"><%=ed.getEmployeeName(x).toUpperCase() %></option>
 							                    <%} %>
 							                    </optgroup>
 							                  </select>
-							                </div>-->
+							                </div>
 							                </div>
 							                <div class="col-md-6">
 							                <div class="form-group">
@@ -304,7 +300,10 @@
 							                <div class="col-md-6">
 							                <div class="form-group">
 							                	<label>Secondary Relief Officer</label>
-							                	<input type="text" class="form-control" readonly="readonly" name="secondaryReliefOfficeId" value="<%=ed.getEmployeeName(l.getSecondaryReliefOfficeId()) %>">
+							                	<%
+							                	String secondaryReliefOfficer = (l.getSecondaryReliefOfficeId() == 0) ? "" : ed.getEmployeeName(l.getSecondaryReliefOfficeId()).toUpperCase();
+							                	%>
+							                	<input type="text" class="form-control" readonly="readonly" name="secondaryReliefOfficeId" value="<%=secondaryReliefOfficer %>">
 							                </div>
 							                </div>
 						                <div class="col-md-12">
@@ -329,7 +328,7 @@
 						                </div>
 						                <div class="form-group">
 						                	<label>Comment</label>
-						                	<textarea rows="5" cols="60" class="form-control" name="comment"><%=l.getComment() %></textarea>
+						                	<textarea rows="5" cols="60" class="form-control" name="comment"></textarea>
 						                </div>
 										<div class="form-group">
 											

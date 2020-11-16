@@ -214,7 +214,7 @@
 											LeaveType lt =ltd.getLeaveTypeById(l.getLeaveTypeId());
 											%>
 											
-						                	<select class="form-control select2" style="width: 100%;" name="leaveTypeId" id="leaveTypeId" onchange="changeLeaveType();">
+						                	<select class="form-control select2" style="width: 100%;" name="leaveTypeId" id="leaveTypeId" onchange="changeLeaveType(); hideShowInLine()">
 						                	
 						                	<option selected="selected" value="<%=lt.getCode() %>"><%=lt.getName().toUpperCase() %></option>
 						                	<%
@@ -244,7 +244,7 @@
 						                  <!-- /.input group -->
 						                </div>
 						                <!-- /.form group -->
-						                <div class="form-group">
+						                <div class="form-group" id="inline">
 						                	<label>Is this leave request inline with your leave Plan?</label>
 						                	<select class="form-control select2" style="width: 100%;" name="inLineWithLeavePlan">
 						                		<option selected="selected" value="<%=l.getInlineWithLeavePlan() %>"><%=l.getInlineWithLeavePlan().toUpperCase() %></option>

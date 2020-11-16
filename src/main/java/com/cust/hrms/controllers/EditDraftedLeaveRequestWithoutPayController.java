@@ -36,6 +36,7 @@ public class EditDraftedLeaveRequestWithoutPayController extends HttpServlet {
 		String year = request.getParameter("year");
 		int leaveId = Integer.parseInt(request.getParameter("leaveId"));
 		Leave l = ld.getLeaveById(leaveId);
+		l.setUpdatedBy(updatedBy);
 		String leaveTypeCode = request.getParameter("leaveTypeId");
 		LeaveType lt = ltd.getLeaveTypeByCode(leaveTypeCode);
 		l.setLeaveTypeId(lt.getLeaveTypeId());

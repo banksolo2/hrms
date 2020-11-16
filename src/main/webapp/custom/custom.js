@@ -1449,7 +1449,7 @@ $(document).ready(function(){
 	        $(element).removeClass('is-invalid');
 	      }
 	});
-	document.getElementById("inline").style.display = "none";
+	//document.getElementById("inline").style.display = "none";
 	document.getElementById("comment").style.display = "none";
 	
 });

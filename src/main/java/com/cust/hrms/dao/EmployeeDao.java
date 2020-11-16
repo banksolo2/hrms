@@ -711,14 +711,26 @@ public class EmployeeDao {
 		}
 		return result;
 	}
+	
+	public String getEmployeesSpecialFormat(String employeesId[]) {
+		String result = "";
+		for(int i = 0; i < employeesId.length; i++) {
+			result += "'"+ employeesId[i] + "'";
+			if(i != (employeesId.length - 1)) {
+				result += ":";
+			}
+		}
+		return result;
+	}
 
 	
 	
 	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();
-		String employeesId = "'4':'2'".replace("'", "").replace(":", ",");
-		System.out.println(employeesId);
+		String employeesId[] = { "23", "4", "5", "10" };
+		String result = ed.getEmployeesSpecialFormat(employeesId);
+		System.out.println(result);
 	}	
 	
 }

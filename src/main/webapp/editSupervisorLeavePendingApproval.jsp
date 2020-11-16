@@ -287,7 +287,10 @@
 							                <div class="col-md-6">
 							                <div class="form-group">
 							                	<label>Secondary Relief Officer</label>
-							                	<input type="text" class="form-control" readonly="readonly" name="secondaryReliefOfficeId" value="<%=ed.getEmployeeName(l.getSecondaryReliefOfficeId()) %>">
+							                	<%
+							                	String secondaryReliefOfficer = (l.getSecondaryReliefOfficeId() == 0) ? "" : ed.getEmployeeName(l.getSecondaryReliefOfficeId());
+							                	%>
+							                	<input type="text" class="form-control" readonly="readonly" name="secondaryReliefOfficeId" value="<%=secondaryReliefOfficer %>">
 							                </div>
 							                </div>
 						                <div class="col-md-12">

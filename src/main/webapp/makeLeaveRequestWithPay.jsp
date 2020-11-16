@@ -330,14 +330,14 @@
 												<% if(secondaryReliefOfficeId == 0){ %>
 													<option selected="selected" value="">SELECT SECONDARY RELIEF OFFICER</option>
 												<% }else{ %>
-													<option selected="selected" value="<%=secondaryReliefOfficeId %>"><%=ed.getEmployeeName(secondaryReliefOfficeId) %></option>
+													<option selected="selected" value="<%=secondaryReliefOfficeId %>"><%=ed.getEmployeeName(secondaryReliefOfficeId).toUpperCase() %></option>
 												<%
 												} 
 												rs = ed.getAllEmployeeOnUpdate(secondaryReliefOfficeId);
 												while(rs.next()){
 													fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
 												%>
-													<option value="<%=rs.getInt("employee_id") %>"><%=fullName %></option>
+													<option value="<%=rs.getInt("employee_id") %>"><%=fullName.toUpperCase() %></option>
 												<%} %>
 							                	</select>
 							                </div>
