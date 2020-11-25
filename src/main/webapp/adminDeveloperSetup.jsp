@@ -77,6 +77,8 @@
 				<a href="allLeavePlanStatues.jsp" class="card-link">All Leave Plan Statues</a><br/>
 				<a href="createRequisitionStatus.jsp" class="card-link">Create Requisition Status</a><br/>
 				<a href="allRequisitionStatus.jsp" class="card-link">All Requisition Statues</a><br/>
+				<a href="createElementStatus.jsp" class="card-link">Create Element Status</a><br/>
+				<a href="allElementStatues.jsp" class="card-link">All Element Statues</a><br/>
               </div>
             </div><!-- /.card -->
 				<!-- /.card -->

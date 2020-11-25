@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
 <%@ page import="com.cust.hrms.models.*" %>
+<%@ page import="com.cust.hrms.statues.*" %>
 <%@ page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page import="java.sql.*"%>
 
@@ -221,6 +222,7 @@
 												<option selected="selected" value="">SELECT SAVE AS</option>
 											<%
 											RequisitionStatusDao rsd = new RequisitionStatusDao();
+											RequisitionStatues rqs = new RequisitionStatues();
 											rs = rsd.getRequesterOptionOne();
 											while(rs.next()){
 											%>

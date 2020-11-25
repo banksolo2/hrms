@@ -222,6 +222,13 @@
 	                  <p>Leave Setup</p>
 	                </a>
               	</li>
+              	<li class="nav-item">
+	                <%if(pages.equals("admin_payroll_setup")){ %><a href="adminPayrollSetup.jsp" class="nav-link active">
+	                <%}else{ %><a href="adminPayrollSetup.jsp" class="nav-link "><% } %>
+	                  <i class="far fa-circle nav-icon"></i>
+	                  <p>Payroll Setup</p>
+	                </a>
+              	</li>
               	<%if(isSuperAdmin) { %>
               	<li class="nav-item">
               		<% if(pages.equals("developer_setup")){ %> <a href="adminDeveloperSetup.jsp" class="nav-link active">

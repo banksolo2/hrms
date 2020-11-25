@@ -28,6 +28,13 @@ public class CreateEmployeeSupportTicketController extends HttpServlet {
 	    PrintWriter out = response.getWriter();
 	    RequestDispatcher rd = request.getRequestDispatcher("createEmployeeSupportTicket.jsp");
 	    HttpSession session = request.getSession();
+	    int createdBy = 0;
+	    if(session.getAttribute("email") == null) {
+	    	response.sendRedirect("login.jsp");
+	    }
+	    else {
+	    	createdBy = (int)session.getAttribute("employeeId");
+	    }
 	    FileUploadDao fud = new FileUploadDao();
 	    SupportTicketStatusDao stsd = new SupportTicketStatusDao();
 	    SupportTicketDao std = new SupportTicketDao();
@@ -42,15 +49,8 @@ public class CreateEmployeeSupportTicketController extends HttpServlet {
 	    String issueDescription = mreq.getParameter("issueDescription");
 	    st.setIssueDescription(issueDescription);
 	    String employees[] = mreq.getParameterValues("employees");
-	    String result = "";
-	    for(int i = 0; i < employees.length; i++) {
-	    	result += "'"+employees[i]+"'";
-	    	if(i != (employees.length - 1)) {
-	    		result += ":";
-	    	}
-	    }
+	    String result = ed.convertEmployeeIdArraysToString(employees);
 	    st.setEmployees(result);
-	    int createdBy = (int)session.getAttribute("employeeId");
 	    st.setIssueFor("employees");
 	    st.setCreatedBy(createdBy);
 	    st.setFileUrl("#");

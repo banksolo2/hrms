@@ -190,9 +190,8 @@
 										String employeeStatus = request.getParameter("employeeStatusId");
 										int employeeStatusId = (employeeStatus == null) ? 0 : Integer.parseInt(employeeStatus);
 										%>
-											<label>Employee Status</label> <select
-												class="form-control select2" style="width: 100%;"
-												name="employeeStatusId">
+											<label>Employee Status</label> 
+											<select class="form-control select2" style="width: 100%;" name="employeeStatusId">
 												<%if(employeeStatusId == 0){ %>
 												<option selected="selected" value="">SELECT
 													EMPLOYEE STATUS</option>

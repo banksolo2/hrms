@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
 <%@ page import="com.cust.hrms.models.*" %>
+<%@ page import="com.cust.hrms.statues.*" %>
 <%@ page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page import="java.sql.*"%>
 
@@ -203,10 +204,11 @@
 												<option selected="selected" value="">SELECT SAVE AS</option>
 											<%
 											RequisitionStatusDao rsd = new RequisitionStatusDao();
+											RequisitionStatues rqs = new RequisitionStatues();
 											rs = rsd.getRecipientOption();
 											while(rs.next()){
 											%>
-											<option value="<%=rs.getInt("requisition_status_id")%>"><%=rs.getString("name").toUpperCase() %></option>
+											<option value="<%=rs.getInt("requisition_status_id")%>"><%=rqs.getStatusName(rs.getString("name")).toUpperCase() %></option>
 											<%
 											}
 											%>

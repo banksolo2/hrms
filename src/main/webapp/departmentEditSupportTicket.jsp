@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
 <%@ page import="com.cust.hrms.models.*" %>
+<%@ page import="com.cust.hrms.statues.*" %>
 <%@ page import="java.sql.*"%>
 
 <!DOCTYPE html>
@@ -184,10 +185,11 @@
 												<option selected="selected" value="">SELECT SAVE AS OPTION</option>
 											<%
 											SupportTicketStatusDao stsd = new SupportTicketStatusDao();
+											SupportTicketStatues sts = new SupportTicketStatues();
 											ResultSet rs = stsd.getSupportTicketStatusResolvedOption();
 											while(rs.next()){
 											%>
-												<option value="<%=rs.getInt("support_ticket_status_id") %>"><%=rs.getString("name").toUpperCase() %></option>
+												<option value="<%=rs.getInt("support_ticket_status_id") %>"><%=sts.getStatusName(rs.getString("name")).toUpperCase() %></option>
 											<%
 											}
 											%>

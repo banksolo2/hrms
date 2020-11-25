@@ -187,9 +187,9 @@
 											rs = ed.getAllEmployee();
 											String fullName = null;
 											while(rs.next()){
-												fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name");
+												fullName = rs.getString("first_name")+" "+rs.getString("middle_name")+" "+rs.getString("last_name")+" ("+rs.getString("staff_id")+")";
 											%>
-											<option value="<%=rs.getInt("employee_id")%>"><%=fullName %></option>
+											<option value="<%=rs.getInt("employee_id")%>"><%=fullName.toUpperCase() %></option>
 											<%} %>
 											</select>
 										</div>
