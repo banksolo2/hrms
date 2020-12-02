@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
+<%@ page import="com.cust.hrms.models.*" %>
 <%@ page import="java.sql.*"%>
 
 <!DOCTYPE html>
@@ -8,7 +9,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HRMS | All Employees</title>
+  <title>HRMS | All Uncreated Pay Boundary</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <jsp:include page="css.jsp"></jsp:include>
@@ -20,15 +21,6 @@
 			|| session.getAttribute("staffId") == null) {
 		response.sendRedirect("login.jsp");
 
-	}
-	session.setAttribute("parent", "admin");
-	session.setAttribute("page", "core_setup");
-	if(session.getAttribute("isSupervisor") != null || session.getAttribute("isSuperAdmin") != null){
-		boolean isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
-		boolean isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
-		if(isHrAdmin == false && isSuperAdmin == false){
-			response.sendRedirect("index.jsp");
-		}
 	}
 	%>
 	<div class="wrapper">
@@ -44,14 +36,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">All Employees</h1>
+							<h1 class="m-0 text-dark">All Uncreated Pay Boundary</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
-								<li class="breadcrumb-item"><a href="coreSetup.jsp">Core Setup</a></li>
-								<li class="breadcrumb-item active">All Employees</li>
+								<li class="breadcrumb-item"><a href="adminPayrollSetup.jsp">Payroll Setup</a></li>
+								<li class="breadcrumb-item active">All Uncreated Pay Boundary</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -67,7 +59,7 @@
 			<section class="content">
 				<div class="container-fluid">
 					<div class="row">
-						<%
+														<%
 								String successMessage = (String) session.getAttribute("success");
 								if(successMessage != null){
 								%>
@@ -129,62 +121,57 @@
 									<table id="example1" class="table table-bordered table-striped">
 										<thead>
 											<tr>
-												<th>First Name</th>
-												<th>Middle Name</th>
-												<th>Last Name</th>
-												<th>Department</th>
-												<th>Staff ID</th>
-												<th>Email</th>
-												<th></th>
+												<th>Level</th>
+												<th>Pay Element</th>
 												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 										<%
-										int employeeId = 0;
-										if(session.getAttribute("email") != null){
-											employeeId = (int)session.getAttribute("employeeId");
-										}
 										EmployeeDao ed = new EmployeeDao();
-										DepartmentDao dd = new DepartmentDao();
-										ResultSet rs = ed.getAllEmployeeOnUpdate(employeeId);
-										int createdBy;
-										int updatedBy;
-										while(rs.next()){;
-										%>
-											<tr>
-												<td><%=rs.getString("first_name") %></td>
-												<td><%=rs.getString("middle_name") %></td>
-												<td><%=rs.getString("last_name") %></td>
-												<td><%=dd.getDepartmentName(rs.getInt("department_id")) %></td>
-												<td><%=rs.getString("staff_id") %></td>
-												<td><%=rs.getString("email") %></td>
-												<td>
-													<form action="editEmployee.jsp" method="post">
-													<input type="hidden" name="employeeId" value="<%=rs.getInt("employee_id") %>" />
-													<button type="submit" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edit</button>
+										LevelDao ld = new LevelDao();
+										PayElementDao ped = new PayElementDao();
+										BoundaryDao bd = new BoundaryDao();
+										int resultsId[] = bd.getCreatedLevelPayElementsId();
+										String quote = "";
+										for(int i = 0; i < resultsId.length; i++) {
+											quote += resultsId[i];
+											if(i != (resultsId.length - 1)) {
+												quote += ",";
+											}
+										}
+										String query ="select * from levels_pay_elements where level_pay_element_id not in ("+quote+")";
+										try{
+											Class.forName("com.mysql.jdbc.Driver");
+											Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrms", "root", "");
+											Statement stat = con.createStatement();
+											ResultSet rs = stat.executeQuery(query);
+											while(rs.next()){
+									%>
+										<tr>
+											<td><%=ld.getLevelName(rs.getInt("level_id")) %></td>
+											<td><%=ped.getName(rs.getInt("pay_element_id")) %></td>
+											<td>
+													<form action="createBoundary.jsp" method="post">
+													<input type="hidden" name="levelPayElementId" value="<%=rs.getInt("level_pay_element_id") %>" />
+													<button type="submit" class="btn btn-primary">Create Boundary</button>
 													</form>
-												</td>
-												
-												<td>
-													<form action="deleteEmployee" method="post">
-													<input type="hidden" name="email" value="<%=rs.getString("email") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
-													</form>
-												</td>
-											</tr>
-										<%
+											</td>
+										</tr>
+									<%
+											}
+										}
+										catch(SQLException ex){
+											System.out.println(ex.fillInStackTrace());
 										}
 										%>
 										</tbody>
 										<tfoot>
-											<!--  tr>
-												<th>First Name</th>
-												<th>Middle Name</th>
-												<th>Last Name</th>
-												<th>Department</th>
-												<th>Staff ID</th>
-												<th>Email</th>
+											<!--tr>
+												<th>Name</th>
+												<th>Code</th>
+												<th>Created At</th>
+												<th>Updated At</th>
 												<th></th>
 												<th></th>
 											</tr-->

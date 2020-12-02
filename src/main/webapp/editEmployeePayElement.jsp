@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
+<%@ page import="com.cust.hrms.models.*" %>
 <%@ page import="java.sql.*"%>
 
 <!DOCTYPE html>
@@ -8,7 +9,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HRMS | All Employees</title>
+  <title>HRMS | Edit Employee Pay Element</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <jsp:include page="css.jsp"></jsp:include>
@@ -22,7 +23,7 @@
 
 	}
 	session.setAttribute("parent", "admin");
-	session.setAttribute("page", "core_setup");
+	session.setAttribute("page", "admin_payroll_setup");
 	if(session.getAttribute("isSupervisor") != null || session.getAttribute("isSuperAdmin") != null){
 		boolean isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
 		boolean isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
@@ -44,14 +45,15 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">All Employees</h1>
+							<h1 class="m-0 text-dark">Edit Employee Pay Element</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
-								<li class="breadcrumb-item"><a href="coreSetup.jsp">Core Setup</a></li>
-								<li class="breadcrumb-item active">All Employees</li>
+								<li class="breadcrumb-item"><a href="adminPayrollSetup.jsp">Payroll Setup</a></li>
+								<li class="breadcrumb-item"><a href="allEmployeePayElementReport.jsp">All Employees Pay Elements</a></li>
+								<li class="breadcrumb-item active">Edit Employee Pay Element</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -62,12 +64,41 @@
 			</div>
 			<!-- /.content-header -->
 
+			<form action="editEmployeePayElement" method="post" id="editEmployeePayElement">
+				<!-- Main content -->
+				<section class="content">
+					<div class="container-fluid">
+						<!-- SELECT2 EXAMPLE -->
+						<div class="card card-default">
+							<div class="card-header">
+							<%
+							String message = (String)session.getAttribute("message");
+							%>
+								<h3 class="card-title">
+									<%
+										if(message != null)
+											out.println(message);
+									%>
+								</h3>
+							<%
+							session.setAttribute("message", null);
+							%>
 
-			<!-- Main content -->
-			<section class="content">
-				<div class="container-fluid">
-					<div class="row">
-						<%
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool"
+										data-card-widget="collapse">
+										<i class="fas fa-minus"></i>
+									</button>
+									<button type="button" class="btn btn-tool"
+										data-card-widget="remove">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+							</div>
+							<!-- /.card-header -->
+							<div class="card-body">
+								<div class="row">
+								<%
 								String successMessage = (String) session.getAttribute("success");
 								if(successMessage != null){
 								%>
@@ -119,88 +150,51 @@
 								}
 								session.setAttribute("error", null);
 							          %>
-						<div class="col-12">
-							<div class="card">
-								<div class="card-header">
-									<h3 class="card-title"></h3>
-								</div>
-								<!-- /.card-header -->
-								<div class="card-body">
-									<table id="example1" class="table table-bordered table-striped">
-										<thead>
-											<tr>
-												<th>First Name</th>
-												<th>Middle Name</th>
-												<th>Last Name</th>
-												<th>Department</th>
-												<th>Staff ID</th>
-												<th>Email</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</thead>
-										<tbody>
-										<%
-										int employeeId = 0;
-										if(session.getAttribute("email") != null){
-											employeeId = (int)session.getAttribute("employeeId");
-										}
-										EmployeeDao ed = new EmployeeDao();
-										DepartmentDao dd = new DepartmentDao();
-										ResultSet rs = ed.getAllEmployeeOnUpdate(employeeId);
-										int createdBy;
-										int updatedBy;
-										while(rs.next()){;
-										%>
-											<tr>
-												<td><%=rs.getString("first_name") %></td>
-												<td><%=rs.getString("middle_name") %></td>
-												<td><%=rs.getString("last_name") %></td>
-												<td><%=dd.getDepartmentName(rs.getInt("department_id")) %></td>
-												<td><%=rs.getString("staff_id") %></td>
-												<td><%=rs.getString("email") %></td>
-												<td>
-													<form action="editEmployee.jsp" method="post">
-													<input type="hidden" name="employeeId" value="<%=rs.getInt("employee_id") %>" />
-													<button type="submit" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edit</button>
-													</form>
-												</td>
-												
-												<td>
-													<form action="deleteEmployee" method="post">
-													<input type="hidden" name="email" value="<%=rs.getString("email") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
-													</form>
-												</td>
-											</tr>
-										<%
-										}
-										%>
-										</tbody>
-										<tfoot>
-											<!--  tr>
-												<th>First Name</th>
-												<th>Middle Name</th>
-												<th>Last Name</th>
-												<th>Department</th>
-												<th>Staff ID</th>
-												<th>Email</th>
-												<th></th>
-												<th></th>
-											</tr-->
-										</tfoot>
-									</table>
-								</div>
-								<!-- /.card-body -->
-							</div>
-							<!-- /.card -->
-						</div>
-					</div>
-				</div>
-				<!-- /.container-fluid -->
-			</section>
-			<!-- /.content -->
+									<div class="col-md-12">
+										<div class="form-group">
+											<%
+											int employeePayElementId = Integer.parseInt(request.getParameter("employeePayElementId"));
+											EmployeeDao ed = new EmployeeDao();
+											PayElementDao ped = new PayElementDao();
+											EmployeePayElementDao eped = new EmployeePayElementDao();
+											EmployeePayElement epe = eped.getEmployeePayElementById(employeePayElementId);
+											LevelDao ld = new LevelDao();
+											ResultSet rs = ld.getAllLevelsOnUpdate(epe.getLevelId());
+											%>
+											<input type="hidden" name="employeePayElementId" value="<%=epe.getEmployeePayElementId() %>" >
+											<label>Employee</label>
+											<input type="text" class="form-control" readonly="readonly" value="<%=ed.getEmployeeName(epe.getEmployeeId()).toUpperCase() %>">
+										</div>
+										<div class="form-group">
+											<label>Level</label>
+											<input type="text" class="form-control" readonly="readonly" value="<%=ld.getLevelName(epe.getLevelId()).toUpperCase() %>">
+										</div>
+										<div class="form-group">
+											<label>Pay Element</label>
+											<input type="text" class="form-control" readonly="readonly" value="<%=ped.getName(epe.getPayElementId()).toUpperCase() %>">
+										</div>
+										<div class="form-group">
+											<label>Amount</label>
+											<input type="text" class="form-control" value="<%=epe.getAmount() %>" name="amount">
+										</div>										
+									</div>
+									<!-- /.col -->
 
+								</div>
+								<!-- /.row -->
+							</div>
+							<!-- /.card-body -->
+							<div class="card-footer">
+			                  <button type="submit" class="btn btn-primary">Save</button>
+			                  <a href="allEmployeePayElementReport.jsp" class="btn btn-info">Go Back</a>
+			                </div>
+						</div>
+						<!-- /.card -->
+					</div>
+					<!-- /.container-fluid -->
+				</section>
+				<!-- /.content -->
+			</form>
 		</div>
 		<!-- /.content-wrapper -->
 		<jsp:include page="footer.jsp"></jsp:include>

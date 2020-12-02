@@ -162,6 +162,10 @@ public class LevelDao {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, lv.getLevelId());
 			count = ps.executeUpdate();
+			updateEmployeeLevelWhenDelete(lv.getLevelId());
+			deleteBoundaryByLevelId(lv.getLevelId());
+			deleteLevelPayElementByLevelId(lv.getLevelId());
+			deleteEmployeePayElementByLevelId(lv.getLevelId());
 			dbcon.con.close();
 		}
 		catch(SQLException ex) {
@@ -259,10 +263,72 @@ public class LevelDao {
 		
 		return result;
 	}
+	public int updateEmployeeLevelWhenDelete(int levelId) {
+		query = "update employees set level_id = ? where level_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, 0);
+			ps.setInt(2, levelId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int deleteBoundaryByLevelId(int levelId) {
+		query = "delete from boundaries where level_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, levelId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.toString());
+		}
+		return count;
+	}
+	
+	public int deleteLevelPayElementByLevelId(int levelId) {
+		query = "delete from levels_pay_elements where level_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, levelId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int deleteEmployeePayElementByLevelId(int levelId) {
+		query = "delete from employee_pay_elements where level_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, levelId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
 	
 	public static void main(String args[]) {
 		LevelDao ld = new LevelDao();
 		int leaveDays = ld.getLevelLeaveDays(1);
-		System.out.println(leaveDays);
+		int count = ld.deleteEmployeePayElementByLevelId(2);
+		System.out.println(count);
 	}
 }

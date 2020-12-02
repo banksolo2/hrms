@@ -60,6 +60,10 @@ public class EmployeeDao {
 			ps.setDouble(23, emp.getPersonalProductionTarget());
 			ps.setInt(24, emp.getCreatedBy());
 			count = ps.executeUpdate();
+			if(count >= 1) {
+				Employee ep = getEmployee(emp.getEmail());
+				createEmployeePayElement(ep);
+			}
 			dbcon.con.close();
 			
 		}
@@ -160,7 +164,7 @@ public class EmployeeDao {
 	}
 	
 	public int updateEmployee(Employee e) {
-		emp = e;
+		int levelId = getEmployeeLevelId(e.getEmployeeId());
 		query = "update employees set first_name = ?, middle_name = ?, last_name = ?, date_of_employment = ?, "
 				+ "email = ?, employee_status_id = ?, state_id = ?, mobile_number = ?, department_id = ?, "
 				+ "level_id = ?, branch_id = ?, company_id = ?, title = ?, date_of_birth = ?, name_initials = ?, "
@@ -170,38 +174,44 @@ public class EmployeeDao {
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
-			ps.setString(1, emp.getFirstName());
-			ps.setString(2, emp.getMiddleName());
-			ps.setString(3, emp.getLastName());
-			ps.setDate(4, Date.valueOf(emp.getDateOfEmployment()));
-			ps.setString(5, emp.getEmail());
-			ps.setInt(6, emp.getEmployeeStatusId());
-			ps.setInt(7, emp.getStateId());
-			ps.setString(8, emp.getMobileNumber());
-			ps.setInt(9, emp.getDepartmentId());
-			ps.setInt(10, emp.getLevelId());
-			ps.setInt(11, emp.getBranchId());
-			ps.setInt(12, emp.getCompanyId());
-			ps.setString(13, emp.getTitle());
-			ps.setDate(14, Date.valueOf(emp.getDateOfBirth()));
-			ps.setString(15, emp.getNameInitials());
-			ps.setInt(16, emp.getGenderId());
-			ps.setInt(17, emp.getMartialStatusId());
-			ps.setString(18, emp.getCurrentAddress());
-			ps.setString(19, emp.getPersonalEmail());
-			ps.setString(20, emp.getStaffId());
-			ps.setInt(21, emp.getLeaveSupervisorId());
-			ps.setDouble(22, emp.getPersonalProductionTarget());
-			ps.setInt(23, emp.getUpdatedBy());
-			ps.setInt(24, emp.getEmployeeId());
-			
+			ps.setString(1, e.getFirstName());
+			ps.setString(2, e.getMiddleName());
+			ps.setString(3, e.getLastName());
+			ps.setDate(4, Date.valueOf(e.getDateOfEmployment()));
+			ps.setString(5, e.getEmail());
+			ps.setInt(6, e.getEmployeeStatusId());
+			ps.setInt(7, e.getStateId());
+			ps.setString(8, e.getMobileNumber());
+			ps.setInt(9, e.getDepartmentId());
+			ps.setInt(10, e.getLevelId());
+			ps.setInt(11, e.getBranchId());
+			ps.setInt(12, e.getCompanyId());
+			ps.setString(13, e.getTitle());
+			ps.setDate(14, Date.valueOf(e.getDateOfBirth()));
+			ps.setString(15, e.getNameInitials());
+			ps.setInt(16, e.getGenderId());
+			ps.setInt(17, e.getMartialStatusId());
+			ps.setString(18, e.getCurrentAddress());
+			ps.setString(19, e.getPersonalEmail());
+			ps.setString(20, e.getStaffId());
+			ps.setInt(21, e.getLeaveSupervisorId());
+			ps.setDouble(22, e.getPersonalProductionTarget());
+			ps.setInt(23, e.getUpdatedBy());
+			ps.setInt(24, e.getEmployeeId());
 			count = ps.executeUpdate();
 			dbcon.con.close();
+			if(count >= 1) {
+				if(levelId != e.getLevelId()) {
+					//Delete employee old pay element
+					deleteEmplyeePayElementByEmployeeId(e.getEmployeeId());
+					//Create new Employee pay Element
+					createEmployeePayElement(e);
+				}
+			}
 		}
 		catch(SQLException ex) {
 			System.out.println(ex.fillInStackTrace());
 		}
-		
 		return count;
 	}
 	
@@ -213,6 +223,12 @@ public class EmployeeDao {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, emp.getEmployeeId());
 			count = ps.executeUpdate();
+			if(count >= 1) {
+				deleteEmplyeePayElementByEmployeeId(emp.getEmployeeId());
+				deleteEmployeeRoles(emp.getEmployeeId());
+				deleteEmployeeLeavePlans(emp.getEmployeeId());
+				deleteEmployeeLeaves(emp.getEmployeeId());
+			}
 			dbcon.con.close();
 		}
 		catch(SQLException ex) {
@@ -722,15 +738,137 @@ public class EmployeeDao {
 		}
 		return result;
 	}
-
 	
+	public int getLevelEmployeeCount(int levelId) {
+		query = "select count(*) as count_no from employees where level_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, levelId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("count_no");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int[] getLevelEmployeesId(int levelId) {
+		int length = getLevelEmployeeCount(levelId);
+		if(length >= 1) {
+			int result[] = new int[length];
+			query = "select employee_id from employees where level_id = ?";
+			dbcon.getConnection();
+			try {
+				ps = dbcon.con.prepareStatement(query);
+				ps.setInt(1, levelId);
+				rs = ps.executeQuery();
+				int i = 0;
+				while(rs.next()) {
+					result[i] = rs.getInt("employee_id");
+					i++;
+				}
+				dbcon.con.close();
+			}
+			catch(SQLException ex) {
+				System.out.println(ex.fillInStackTrace());
+			}
+			return result;
+		}
+		else {
+			int result[] = {0};
+			return result;
+		}
+	}
+
+	public int deleteEmplyeePayElementByEmployeeId(int employeeId) {
+		query = "delete from employee_pay_elements where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			count = ps.executeUpdate();
+			//dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int createEmployeePayElement(Employee e) {
+		BoundaryDao bd = new BoundaryDao();
+		EmployeePayElementDao eped = new EmployeePayElementDao();
+		int boundariesId[] = bd.getBoundaryIdByLevelId(e.getLevelId());
+		for(int x : boundariesId) {
+			Boundary b = bd.getBoundaryById(x);
+			EmployeePayElement epe = new EmployeePayElement();
+			epe.setEmployeeId(e.getEmployeeId());
+			epe.setLevelId(e.getLevelId());
+			epe.setPayElementId(b.getPayElementId());
+			epe.setBoundaryId(b.getBoundaryId());
+			epe.setAmount(b.getDefaultAmount());
+			epe.setCreatedBy(e.getCreatedBy());
+			count += eped.createEmployeePayElement(epe);
+		}
+		return count;
+	}
+	
+	public int deleteEmployeeRoles(int employeeId) {
+		query = "delete from employee_roles where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int deleteEmployeeLeavePlans(int employeeId) {
+		query = "delete from leave_plans where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int deleteEmployeeLeaves(int employeeId) {
+		query = "delete from leaves where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
 	
 	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();
-		String employeesId[] = { "23", "4", "5", "10" };
-		String result = ed.getEmployeesSpecialFormat(employeesId);
-		System.out.println(result);
+		Employee e = ed.getEmployeeById(9);
+		e.setLastName("Sam");
+		int count = ed.updateEmployee(e);
 	}	
 	
 }

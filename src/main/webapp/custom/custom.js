@@ -1514,6 +1514,31 @@ $(document).ready(function(){
 	        $(element).removeClass('is-invalid');
 	      }
 	});
+	
+	$('#editEmployeePayElement').validate({
+		rules : {
+			amount : {
+				required : true
+			}
+		},
+		messages : {
+			amount : {
+				required : "Please provide amount"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
 	//document.getElementById("inline").style.display = "none";
 	document.getElementById("comment").style.display = "none";
 	

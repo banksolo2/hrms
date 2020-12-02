@@ -156,6 +156,9 @@ public class PayElementDao {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, pe.getPayElementId());
 			count = ps.executeUpdate();
+			deleteLevelPayElementByPayElementId(pe.getPayElementId());
+			deleteBoundaryByPayElementId(pe.getPayElementId());
+			deleteEmployeePayElementByPayElementId(pe.getPayElementId());
 			dbcon.con.close();
 		}
 		catch(SQLException ex) {
@@ -271,14 +274,55 @@ public class PayElementDao {
 		return result;
 	}
 	
+	public int deleteLevelPayElementByPayElementId(int payElementId) {
+		query = "delete from levels_pay_elements where pay_element_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, payElementId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int deleteBoundaryByPayElementId(int payElementId) {
+		query = "delete from boundaries where pay_element_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, payElementId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	public int deleteEmployeePayElementByPayElementId(int payElementId) {
+		query = "delete from employee_pay_elements where pay_element_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, payElementId);
+			count = ps.executeUpdate();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
 	public static void main(String args[]) {
 		PayElementDao ped = new PayElementDao();
 		ElementStatusDao esd = new ElementStatusDao();
 		LevelPayElementDao lped = new LevelPayElementDao();
-		int payElementsId[] = lped.getLevelPayElementsId(4);
-		String results[] = ped.getPayElementNames(payElementsId);
-		for(String x : results) {
-			System.out.println(x);
-		}
+		int count = ped.deleteEmployeePayElementByPayElementId(2);
+		System.out.println(count);
 	}
 }

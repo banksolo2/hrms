@@ -68,13 +68,15 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-5 col-sm-3">
+              <div class="col-6 col-sm-4">
                 <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                   <a class="nav-link active" id="vert-tabs-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-pay-element-inquiry" role="tab" aria-controls="vert-tabs-pay-element-inquiry" aria-selected="false">Pay Element Inquiry</a>
-                  <a class="nav-link" id="vert-tabs-level-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-level-pay-element-inquiry" role="tab" aria-controls="vert-tabs-level-pay-element-inquiry" aria-selected="false">Level Pay Element Inquiry</a>   
+                  <a class="nav-link" id="vert-tabs-level-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-level-pay-element-inquiry" role="tab" aria-controls="vert-tabs-level-pay-element-inquiry" aria-selected="false">Level Pay Element Inquiry</a>
+                  <a class="nav-link" id="vert-tabs-boundary-inquiry-tab" data-toggle="pill" href="#vert-tabs-boundary-inquiry" role="tab" aria-controls="vert-tabs-boundary-inquiry" aria-selected="false">Pay Boundary Inquiry</a>
+                  <a class="nav-link" id="vert-tabs-employee-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-employee-pay-element-inquiry" role="tab" aria-controls="vert-tabs-employee-pay-element-inquiry" aria-selected="false">Employee Pay Element Inquiry</a>   
                 </div>
               </div>
-              <div class="col-7 col-sm-9">
+              <div class="col-6 col-sm-8">
                 <div class="tab-content" id="vert-tabs-tabContent">
                   <div class="tab-pane text-left fade show active" id="vert-tabs-pay-element-inquiry" role="tabpanel" aria-labelledby="vert-tabs-pay-element-inquiry-tab">
                      <h5>Pay Element Inquiry</h5>
@@ -88,6 +90,19 @@
                      <ul class="chart-legend clearfix">
                       <li><a href="createLevelPayElement.jsp"><i class="far fa-circle text-primary"></i> Create Level Pay Element </a></li>
                       <li><a href="allLevelPayElementReport.jsp"><i class="far fa-circle text-primary"></i> All Level Pay Elements</a></li>
+                    </ul> 
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-boundary-inquiry" role="tabpanel" aria-labelledby="vert-tabs-boundary-inquiry-tab">
+                     <h5>Pay Boundary Inquiry</h5>
+                     <ul class="chart-legend clearfix">
+                      <li><a href="uncreatedPaymentBoundary.jsp"><i class="far fa-circle text-primary"></i> All UnCreated Pay Boundary </a></li>
+                      <li><a href="allPaymentBoundariesReport.jsp"><i class="far fa-circle text-primary"></i> All Pay Boundary</a></li>
+                    </ul> 
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-employee-pay-element-inquiry" role="tabpanel" aria-labelledby="vert-tabs-employee-pay-element-inquiry-tab">
+                     <h5>Employee Pay Element Inquiry</h5>
+                     <ul class="chart-legend clearfix">
+                      <li><a href="allEmployeePayElementReport.jsp"><i class="far fa-circle text-primary"></i> All Employees Pay Elements </a></li>
                     </ul> 
                   </div>
                 </div>

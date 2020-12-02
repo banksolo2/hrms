@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.cust.hrms.dao.*"%>
+<%@ page import="com.cust.hrms.models.*" %>
 <%@ page import="java.sql.*"%>
 
 <!DOCTYPE html>
@@ -8,7 +9,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HRMS | All Employees</title>
+  <title>HRMS | All Employees Pay Elements</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <jsp:include page="css.jsp"></jsp:include>
@@ -22,7 +23,7 @@
 
 	}
 	session.setAttribute("parent", "admin");
-	session.setAttribute("page", "core_setup");
+	session.setAttribute("page", "admin_payroll_setup");
 	if(session.getAttribute("isSupervisor") != null || session.getAttribute("isSuperAdmin") != null){
 		boolean isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
 		boolean isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
@@ -44,14 +45,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">All Employees</h1>
+							<h1 class="m-0 text-dark">All Employees Pay Elements</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
-								<li class="breadcrumb-item"><a href="coreSetup.jsp">Core Setup</a></li>
-								<li class="breadcrumb-item active">All Employees</li>
+								<li class="breadcrumb-item"><a href="adminPayrollSetup.jsp">Payroll Setup</a></li>
+								<li class="breadcrumb-item active">All Employees Pay Elements</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -67,7 +68,7 @@
 			<section class="content">
 				<div class="container-fluid">
 					<div class="row">
-						<%
+														<%
 								String successMessage = (String) session.getAttribute("success");
 								if(successMessage != null){
 								%>
@@ -129,47 +130,41 @@
 									<table id="example1" class="table table-bordered table-striped">
 										<thead>
 											<tr>
-												<th>First Name</th>
-												<th>Middle Name</th>
-												<th>Last Name</th>
-												<th>Department</th>
-												<th>Staff ID</th>
-												<th>Email</th>
-												<th></th>
+												<th>Employee</th>
+												<th>Level</th>
+												<th>Pay Element</th>
+												<th>Amount</th>
+												<th>created By</th>
+												<th>Updated By</th>
 												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 										<%
-										int employeeId = 0;
-										if(session.getAttribute("email") != null){
-											employeeId = (int)session.getAttribute("employeeId");
-										}
 										EmployeeDao ed = new EmployeeDao();
-										DepartmentDao dd = new DepartmentDao();
-										ResultSet rs = ed.getAllEmployeeOnUpdate(employeeId);
-										int createdBy;
-										int updatedBy;
-										while(rs.next()){;
+										LevelDao ld = new LevelDao();
+										PayElementDao ped = new PayElementDao();
+										EmployeePayElementDao eped = new EmployeePayElementDao();
+										ResultSet rs = eped.getAllEmployeePayElementReport();
+										String createdBy = null;
+										String updatedBy = null;
+										while(rs.next()){
+											createdBy = ed.getEmployeeName(rs.getInt("created_by"));
+											if(createdBy == null) createdBy = "";
+											updatedBy = ed.getEmployeeName(rs.getInt("updated_by"));
+											if(updatedBy == null) updatedBy = "";
 										%>
 											<tr>
-												<td><%=rs.getString("first_name") %></td>
-												<td><%=rs.getString("middle_name") %></td>
-												<td><%=rs.getString("last_name") %></td>
-												<td><%=dd.getDepartmentName(rs.getInt("department_id")) %></td>
-												<td><%=rs.getString("staff_id") %></td>
-												<td><%=rs.getString("email") %></td>
+												<td><%=ed.getEmployeeName(rs.getInt("employee_id")) %></td>
+												<td><%=ld.getLevelName(rs.getInt("level_id")) %></td>
+												<td><%=ped.getName(rs.getInt("pay_element_id")) %></td>
+												<td><%=rs.getDouble("amount") %></td>
+												<td><%=createdBy %></td>
+												<td><%=updatedBy %></td>
 												<td>
-													<form action="editEmployee.jsp" method="post">
-													<input type="hidden" name="employeeId" value="<%=rs.getInt("employee_id") %>" />
+													<form action="editEmployeePayElement.jsp" method="post">
+													<input type="hidden" name="employeePayElementId" value="<%=rs.getInt("employee_pay_element_id") %>" />
 													<button type="submit" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edit</button>
-													</form>
-												</td>
-												
-												<td>
-													<form action="deleteEmployee" method="post">
-													<input type="hidden" name="email" value="<%=rs.getString("email") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
 											</tr>
@@ -178,13 +173,11 @@
 										%>
 										</tbody>
 										<tfoot>
-											<!--  tr>
-												<th>First Name</th>
-												<th>Middle Name</th>
-												<th>Last Name</th>
-												<th>Department</th>
-												<th>Staff ID</th>
-												<th>Email</th>
+											<!--tr>
+												<th>Name</th>
+												<th>Code</th>
+												<th>Created At</th>
+												<th>Updated At</th>
 												<th></th>
 												<th></th>
 											</tr-->

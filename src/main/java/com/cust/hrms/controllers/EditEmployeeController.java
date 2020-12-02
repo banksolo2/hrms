@@ -15,6 +15,13 @@ public class EditEmployeeController extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		EmployeeDao ed = new EmployeeDao();
 		RequestDispatcher rd = request.getRequestDispatcher("editEmployee.jsp");
+		int updatedBy = 0;
+		if(session.getAttribute("email") == null) {
+			response.sendRedirect("login.jsp");
+		}
+		else {
+			updatedBy = (int)session.getAttribute("employeeId");
+		}
 		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 		String title = request.getParameter("title");
 		String firstName = request.getParameter("firstName");
@@ -41,7 +48,6 @@ public class EditEmployeeController extends HttpServlet {
 		String currentAddress = request.getParameter("currentAddress");
 		String personalProduction = request.getParameter("personalProductionTarget");
 		if(personalProduction == null) personalProduction = "0";
-		int updatedBy = (int)session.getAttribute("employeeId");
 		boolean isPersonalProductionTarget = ed.isPersonalProductionTargetValid(personalProduction);
 		
 		if(isPersonalProductionTarget == true) {
@@ -71,6 +77,7 @@ public class EditEmployeeController extends HttpServlet {
 			e.setCurrentAddress(currentAddress);
 			e.setPersonalProductionTarget(personalProductionTarget);
 			e.setUpdatedBy(updatedBy);
+			e.setCreatedBy(updatedBy);
 			
 			//check if email already exist
 			boolean isEmailExist = ed.isEmailExistByAnotherEmployee(e);
@@ -81,6 +88,7 @@ public class EditEmployeeController extends HttpServlet {
 				if(isStaffIdExist == false) {
 					int count = ed.updateEmployee(e);
 					if(count >= 1) {
+						session.setAttribute("success", "Employee details has been updated...");
 						response.sendRedirect("allEmployees.jsp");
 					}
 					else {
