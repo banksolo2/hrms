@@ -67,6 +67,59 @@
 			<section class="content">
 				<div class="container-fluid">
 					<div class="row">
+						<%
+								String successMessage = (String) session.getAttribute("success");
+								if(successMessage != null){
+								%>
+									<div class="col-md-12">
+							            <div class="card bg-success">
+							              <div class="card-header">
+							                <h3 class="card-title"><i class="icon fas fa-check"></i> Success Message</h3>
+							
+							                <div class="card-tools">
+							                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							                  </button>
+							                </div>
+							                <!-- /.card-tools -->
+							              </div>
+							              <!-- /.card-header -->
+							              <div class="card-body">
+							                <%=successMessage %>
+							              </div>
+							              <!-- /.card-body -->
+							            </div>
+							            <!-- /.card -->
+							          </div>
+							          <!-- /.col -->
+							        <%
+								}
+								session.setAttribute("success", null);
+								String errorMessage = (String) session.getAttribute("error");
+								if(errorMessage != null){
+							        %>
+							        <div class="col-md-12">
+							            <div class="card bg-danger">
+							              <div class="card-header">
+							                <h3 class="card-title"><i class="icon fas fa-ban"></i> Error Message</h3>
+							                <div class="card-tools">
+							                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							                  </button>
+							                </div>
+							                <!-- /.card-tools -->
+							              </div>
+							              <div class="card-body">
+							                <%=errorMessage %>
+							              </div>
+							              <!-- /.card-body -->
+							            </div>
+							            <!-- /.card -->
+							          </div>
+							          <!-- /.col -->
+							          <%
+								}
+								session.setAttribute("error", null);
+							          %>
+							
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
