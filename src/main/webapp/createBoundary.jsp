@@ -213,7 +213,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Submit</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Submit</button>
 			                  <a href="uncreatedPaymentBoundary.jsp" class="btn btn-info">Go Back</a>
 			                </div>
 						</div>

@@ -166,7 +166,7 @@
 												<td>
 													<form action="deleteRequisitionType" method="post">
 													<input type="hidden" name="requisitionTypeId" value="<%=rs.getInt("requisition_type_id") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+													<button type="submit" class="btn btn-danger" id="save" onsubmit="disableSaveButton()"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
 											</tr>

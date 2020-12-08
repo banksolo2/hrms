@@ -213,7 +213,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Sent For Approval</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Sent For Approval</button>
 			                  <a class="btn btn-info" href="allLeavePlanSentForCorrection.jsp">Go Back</a>
 			                </div>
 						</div>

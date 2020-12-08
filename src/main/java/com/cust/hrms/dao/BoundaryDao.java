@@ -222,7 +222,16 @@ public class BoundaryDao {
 	}
 	
 	public ResultSet getAllBoundariesReport() {
-		query = "select * from boundaries";
+		PayElementDao ped = new PayElementDao();
+		int payElementsId[] = ped.getInvalidPayElementsId();
+		String quote = "";
+		for(int i = 0; i < payElementsId.length; i++) {
+			quote += payElementsId[i];
+			if(i != (payElementsId.length - 1)) {
+				quote += ",";
+			}
+		}
+		query = "select * from boundaries where pay_element_id not in ("+quote+")";
 		dbcon.getConnection();
 		try {
 			stat = dbcon.con.createStatement();

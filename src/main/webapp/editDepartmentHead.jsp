@@ -216,7 +216,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Save</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Save</button>
 			                  <a class="btn btn-info" href="allDepartmentHeads.jsp">Go Back</a>
 			                </div>
 						</div>

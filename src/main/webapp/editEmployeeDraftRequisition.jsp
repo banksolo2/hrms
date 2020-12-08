@@ -239,7 +239,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Send To Supervisor For Authorization</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Send To Supervisor For Authorization</button>
 			                </div>
 						</div>
 						<!-- /.card -->

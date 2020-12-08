@@ -6,10 +6,26 @@ public class PayElement {
 	private String code;
 	private int elementStatusId;
 	private String description;
+	private String startDate;
+	private String endDate;
 	private int createdBy;
 	private int updatedBy;
 	private String createdAt;
 	private String updatedAt;
+	
+	
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 	public int getPayElementId() {
 		return payElementId;
 	}
@@ -67,8 +83,9 @@ public class PayElement {
 	@Override
 	public String toString() {
 		return "PayElement [payElementId=" + payElementId + ", name=" + name + ", code=" + code + ", elementStatusId="
-				+ elementStatusId + ", description=" + description + ", createdBy=" + createdBy + ", updatedBy="
-				+ updatedBy + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+				+ elementStatusId + ", description=" + description + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", updatedAt="
+				+ updatedAt + "]";
 	}
 	
 	

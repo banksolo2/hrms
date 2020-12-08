@@ -14,7 +14,8 @@ public class PayElementDao {
 	
 	public int createPayElement(PayElement pe) {
 		pe.setCode(pe.getName().trim().toLowerCase().replace(" ", "_"));
-		query = "insert into pay_elements (name, code, element_status_id, description, created_by) values(?, ?, ?, ?, ?)";
+		query = "insert into pay_elements (name, code, element_status_id, description, created_by, start_date, end_date) "
+				+ "values(?, ?, ?, ?, ?, ?, ?)";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
@@ -23,6 +24,8 @@ public class PayElementDao {
 			ps.setInt(3, pe.getElementStatusId());
 			ps.setString(4, pe.getDescription().trim());
 			ps.setInt(5, pe.getCreatedBy());
+			ps.setDate(6, Date.valueOf(pe.getStartDate()));
+			ps.setDate(7, Date.valueOf(pe.getEndDate()));
 			count = ps.executeUpdate();
 			dbcon.con.close();
 		}
@@ -70,6 +73,8 @@ public class PayElementDao {
 				pe.setUpdatedBy(rs.getInt("updated_by"));
 				pe.setCreatedAt(rs.getTimestamp("created_at").toString());
 				pe.setUpdatedAt(rs.getTimestamp("updated_at").toString());
+				pe.setStartDate(String.valueOf(rs.getDate("start_date")));
+				pe.setEndDate(String.valueOf(rs.getDate("end_date")));
 			}
 			dbcon.con.close();
 		}
@@ -97,6 +102,8 @@ public class PayElementDao {
 				pe.setUpdatedBy(rs.getInt("updated_by"));
 				pe.setCreatedAt(rs.getTimestamp("created_at").toString());
 				pe.setUpdatedAt(rs.getTimestamp("updated_at").toString());
+				pe.setStartDate(String.valueOf(rs.getDate("start_date")));
+				pe.setEndDate(String.valueOf(rs.getDate("end_date")));
 			}
 			dbcon.con.close();
 		}
@@ -108,8 +115,8 @@ public class PayElementDao {
 	
 	public int updatePayElement(PayElement pe) {
 		pe.setCode(pe.getName().trim().toLowerCase().replace(" ", "_"));
-		query = "update pay_elements set name = ?, code = ?, element_status_id = ?, description = ?, updated_by = ? "
-				+ "where pay_element_id = ?";
+		query = "update pay_elements set name = ?, code = ?, element_status_id = ?, description = ?, updated_by = ?, "
+				+ "start_date = ?, end_date = ? where pay_element_id = ?";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
@@ -118,7 +125,9 @@ public class PayElementDao {
 			ps.setInt(3, pe.getElementStatusId());
 			ps.setString(4, pe.getDescription().trim());
 			ps.setInt(5, pe.getUpdatedBy());
-			ps.setInt(6, pe.getPayElementId());
+			ps.setDate(6, Date.valueOf(pe.getStartDate()));
+			ps.setDate(7, Date.valueOf(pe.getEndDate()));
+			ps.setInt(8, pe.getPayElementId());
 			count = ps.executeUpdate();
 			dbcon.con.close();
 		}
@@ -195,12 +204,16 @@ public class PayElementDao {
 	}
 	
 	public ResultSet getPayElementOptionTwo(int payElementId, int elementStatusId) {
-		query = "select * from pay_elements where pay_element_id != ? and element_status_id = ?";
+		DateDao dd = new DateDao();
+		String todayDate = dd.getTodayDate();
+		query = "select * from pay_elements where pay_element_id != ? and element_status_id = ? and"
+				+ "? between start_date and end_date";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, payElementId);
 			ps.setInt(2, elementStatusId);
+			ps.setDate(3, Date.valueOf(todayDate));
 			rs = ps.executeQuery();
 		}
 		catch(SQLException ex) {
@@ -318,11 +331,65 @@ public class PayElementDao {
 		return count;
 	}
 	
+	public int getInvalidPayElementsIdCount() {
+		DateDao dd = new DateDao();
+		ElementStatusDao esd = new ElementStatusDao();
+		query = "select count(*) as count_no from pay_elements where element_status_id = ? "
+				+ "and ? not between start_date and end_date";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, esd.getElementStatusId("active"));
+			ps.setDate(2, Date.valueOf(dd.getTodayDate()));
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				 count = rs.getInt("count_no");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int[] getInvalidPayElementsId() {
+		DateDao dd = new DateDao();
+		ElementStatusDao esd = new ElementStatusDao();
+		int length = getInvalidPayElementsIdCount();
+		if(length >= 1) {
+			int result[] = new int[length];
+			query = "select pay_element_id from pay_elements where element_status_id = ? "
+					+ "and ? not between start_date and end_date";
+			dbcon.getConnection();
+			try {
+				ps = dbcon.con.prepareStatement(query);
+				ps.setInt(1, esd.getElementStatusId("active"));
+				ps.setDate(2, Date.valueOf(dd.getTodayDate()));
+				rs = ps.executeQuery();
+				int i = 0;
+				while(rs.next()) {
+					result[i] = rs.getInt("pay_element_id");
+					i++;
+				}
+				dbcon.con.close();
+			}
+			catch(SQLException ex) {
+				System.out.println(ex.fillInStackTrace());
+			}
+			return result;
+		}
+		else {
+			int result[] = {0};
+			return result;
+		}
+	}
+	
 	public static void main(String args[]) {
 		PayElementDao ped = new PayElementDao();
-		ElementStatusDao esd = new ElementStatusDao();
-		LevelPayElementDao lped = new LevelPayElementDao();
-		int count = ped.deleteEmployeePayElementByPayElementId(2);
-		System.out.println(count);
+		int result[] = ped.getInvalidPayElementsId();
+		for(int x : result) {
+			System.out.println(x);
+		}
 	}
 }

@@ -338,7 +338,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Initiate Recall Back</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Initiate Recall Back</button>
 			                  <a class="btn btn-info" href="supervisorApprovedLeaveRequestReportWithPay.jsp">Go Back</a> 
 			                </div>
 						</div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 03, 2020 at 03:23 AM
+-- Generation Time: Dec 08, 2020 at 11:24 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -21,6 +21,41 @@ SET time_zone = "+00:00";
 --
 -- Database: `hrms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `boundaries`
+--
+
+CREATE TABLE `boundaries` (
+  `boundary_id` int(11) NOT NULL,
+  `level_pay_element_id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL,
+  `pay_element_id` int(11) NOT NULL,
+  `highest_amount` double NOT NULL,
+  `lowest_amount` double NOT NULL,
+  `default_amount` double NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `boundaries`
+--
+
+INSERT INTO `boundaries` (`boundary_id`, `level_pay_element_id`, `level_id`, `pay_element_id`, `highest_amount`, `lowest_amount`, `default_amount`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(13, 13, 1, 2, 100000, 50000, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
+(14, 14, 1, 3, 120000, 90000, 110000, 2, NULL, '2020-11-30 19:40:45', '2020-11-30 19:40:45'),
+(15, 7, 9, 3, 750000, 430000, 550000, 2, NULL, '2020-12-01 11:40:25', '2020-12-01 11:40:25'),
+(16, 8, 9, 2, 140000, 100000, 120000, 2, NULL, '2020-12-01 11:42:20', '2020-12-01 11:42:20'),
+(17, 9, 6, 2, 230000, 140000, 200000, 2, NULL, '2020-12-01 11:43:38', '2020-12-01 11:43:38'),
+(18, 10, 6, 3, 350000, 250000, 300000, 2, NULL, '2020-12-01 11:45:29', '2020-12-01 11:45:29'),
+(19, 11, 5, 2, 220000, 100000, 170000, 2, NULL, '2020-12-01 11:46:39', '2020-12-01 11:46:39'),
+(20, 12, 5, 3, 360000, 200000, 280000, 2, NULL, '2020-12-01 11:47:19', '2020-12-01 11:47:19'),
+(21, 15, 1, 5, 300000, 100000, 200000, 2, NULL, '2020-12-03 20:13:05', '2020-12-03 20:13:05');
 
 -- --------------------------------------------------------
 
@@ -121,6 +156,28 @@ INSERT INTO `department_heads` (`department_head_id`, `employee_id`, `department
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `element_statues`
+--
+
+CREATE TABLE `element_statues` (
+  `element_status_id` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `code` varchar(200) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `element_statues`
+--
+
+INSERT INTO `element_statues` (`element_status_id`, `name`, `code`, `created_at`, `updated_at`) VALUES
+(2, 'Active', 'active', '2020-11-17 14:49:38', '2020-11-22 14:48:20'),
+(3, 'Inactive', 'inactive', '2020-11-22 05:49:32', '2020-11-22 05:49:32');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `employees`
 --
 
@@ -162,12 +219,57 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`employee_id`, `first_name`, `middle_name`, `last_name`, `date_of_employment`, `email`, `employee_status_id`, `state_id`, `mobile_number`, `department_id`, `level_id`, `staff_id`, `branch_id`, `company_id`, `title`, `date_of_birth`, `name_initials`, `gender_id`, `martial_status_id`, `current_address`, `personal_email`, `password`, `leave_supervisor_id`, `personal_production_target`, `created_at`, `updated_at`, `last_login_at`, `created_by`, `updated_by`, `image_url`) VALUES
-(2, 'Oluwaseun', 'Joseph', 'Olotu', '2018-03-14', 'seunolo2@gmail.com', 2, 2, '(234) 808-0643-360', 3, 1, '0007', 2, 2, 'Mr', '1985-03-21', 'SJO', 1, 1, 'Iba Housing Estate', 'seunolo2@gmail.com', '4a290d0dab6aca812b26312ef2277dea', 0, 0, '2020-07-09 11:12:45', '2020-10-14 13:21:27', '2020-10-14 13:21:27', NULL, 0, NULL),
+(2, 'Oluwaseun', 'Joseph', 'Olotu', '2018-03-14', 'seunolo2@gmail.com', 2, 2, '(234) 808-0643-360', 3, 1, '0007', 2, 2, 'Mr', '1985-03-21', 'SJO', 1, 1, 'Iba Housing Estate', 'seunolo2@gmail.com', '4a290d0dab6aca812b26312ef2277dea', 0, 0, '2020-07-09 11:12:45', '2020-12-02 02:42:34', '2020-12-02 02:42:34', NULL, 0, NULL),
 (4, 'Joseph', 'Banks', 'Olotu', '2010-03-21', 'josepholo2@yahoo.ca', 2, 4, '(234) 808-0643-360', 3, 1, '2345', 2, 3, 'Mr', '1985-03-21', 'JBO', 1, 1, 'Block 103, Flat 3, Zone A, 1st car park\r\nIba Housing Estate', 'josepholo2@yahoo.ca', '2c6a318823de58496bc99edc52881984', 2, 0, '2020-07-22 21:55:17', '2020-10-18 12:51:42', '2020-10-18 12:51:42', NULL, 2, NULL),
 (5, 'Chisom', 'Charis', 'Akunaka', '2020-01-05', 'chisomakunaka@bankstech.com', 2, 6, '(234) 706-5434-814', 6, 1, '2222', 5, 2, 'Miss', '2000-05-12', 'CCA', 2, 1, 'Block 502, Flat 6, Zone E, Iba Housing Estate, Ojo, Lagos', 'charisAkunaka@gmail.com', '2c6a318823de58496bc99edc52881984', 2, 200000, '2020-07-31 13:35:54', '2020-10-11 13:56:04', '2020-10-11 13:56:04', 2, 2, NULL),
 (6, 'Bunmi', 'Mary', 'Olotu', '2016-10-02', 'bunmio@bankstech.com', 2, 7, '(234) 808-0643-360', 3, 1, '5678', 2, 4, 'Mrs', '1989-10-16', 'BMO', 2, 2, 'Block 103 Iba', 'bunmiolo2@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 4, 20000, '2020-07-31 15:30:30', '2020-08-02 14:11:14', '2020-08-02 14:11:14', 2, 2, NULL),
-(7, 'Omogbolahan', 'John', 'Adeeko', '2010-05-11', 'Femex2006wes@gmail.com', 2, 4, '(234) 823-4444-444', 3, 1, '34556', 2, 2, 'Mr', '1986-04-22', 'OJA', 1, 2, 'Yaba', 'Adeeko@gmail.com', '2c6a318823de58496bc99edc52881984', 2, 500000, '2020-09-28 12:52:31', '2020-10-19 12:47:07', '2020-10-19 12:47:07', 2, 2, NULL),
-(8, 'Femi', 'James', 'Ajayi', '2019-04-22', 'femiA@custodian.com', 2, 4, '(234) 555-666-6666', 3, 1, '55666', 2, 4, 'Mr', '1973-05-23', 'FJA', 1, 2, 'Yaba', 'femiA@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 2, 750000000, '2020-09-28 12:56:30', '2020-09-28 12:56:30', NULL, 2, NULL, NULL);
+(7, 'Omogbolahan', 'John', 'Adeeko', '2010-05-11', 'Femex2006wes@gmail.com', 2, 4, '(234) 823-4444-444', 3, 9, '34556', 2, 2, 'Mr', '1986-04-22', 'OJA', 1, 2, 'Yaba', 'Adeeko@gmail.com', '2c6a318823de58496bc99edc52881984', 2, 500000, '2020-09-28 12:52:31', '2020-12-02 02:55:14', '2020-12-02 02:55:14', 2, 2, NULL),
+(8, 'Femi', 'James', 'Ajayi', '2019-04-22', 'femiA@custodian.com', 2, 4, '(234) 555-666-6666', 3, 1, '55666', 2, 4, 'Mr', '1973-05-23', 'FJA', 1, 2, 'Yaba', 'femiA@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 2, 750000000, '2020-09-28 12:56:30', '2020-09-28 12:56:30', NULL, 2, NULL, NULL),
+(9, 'Ben', 'John', 'Peter', '2020-11-17', 'benpeter@gmail.com', 2, 2, '(080) 344-554-7489', 6, 6, '34557', 2, 2, 'Mr', '1985-03-21', 'BJP', 1, 2, 'Block 103, Flat 3, Zone A, 1st car park\r\nIba Housing Estate', 'Ben@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 2, 600000, '2020-12-01 11:53:53', '2020-12-01 11:53:53', NULL, 2, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_pay_elements`
+--
+
+CREATE TABLE `employee_pay_elements` (
+  `employee_pay_element_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL,
+  `pay_element_id` int(11) NOT NULL,
+  `boundary_id` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employee_pay_elements`
+--
+
+INSERT INTO `employee_pay_elements` (`employee_pay_element_id`, `employee_id`, `level_id`, `pay_element_id`, `boundary_id`, `amount`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(27, 2, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
+(28, 4, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
+(29, 5, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
+(30, 6, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
+(32, 8, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
+(33, 2, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
+(34, 4, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
+(35, 5, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
+(36, 6, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
+(38, 8, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
+(41, 9, 6, 2, 17, 210000, 2, 2, '2020-12-01 12:57:31', '2020-12-05 16:54:19'),
+(42, 9, 6, 3, 18, 300000, 2, NULL, '2020-12-01 12:57:31', '2020-12-01 12:57:31'),
+(47, 7, 9, 3, 15, 550000, 2, NULL, '2020-12-02 02:55:14', '2020-12-02 02:55:14'),
+(48, 7, 9, 2, 16, 120000, 2, NULL, '2020-12-02 02:55:14', '2020-12-02 02:55:14'),
+(49, 2, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:05', '2020-12-03 20:13:05'),
+(50, 4, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:05', '2020-12-03 20:13:05'),
+(51, 5, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:06', '2020-12-03 20:13:06'),
+(52, 6, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:06', '2020-12-03 20:13:06'),
+(53, 8, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:06', '2020-12-03 20:13:06');
 
 -- --------------------------------------------------------
 
@@ -192,7 +294,8 @@ CREATE TABLE `employee_roles` (
 INSERT INTO `employee_roles` (`employee_role_id`, `employee_id`, `role_id`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (2, 2, 2, '2020-07-12 13:34:49', '2020-07-23 00:13:12', NULL, NULL),
 (6, 5, 4, '2020-08-02 23:53:58', '2020-08-03 10:40:43', 2, 2),
-(8, 8, 4, '2020-09-28 12:57:10', '2020-09-28 12:57:10', 2, NULL);
+(8, 8, 4, '2020-09-28 12:57:10', '2020-09-28 12:57:10', 2, NULL),
+(9, 2, 3, '2020-11-08 05:07:19', '2020-11-08 05:07:19', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -323,7 +426,10 @@ CREATE TABLE `leaves` (
 --
 
 INSERT INTO `leaves` (`leave_id`, `employee_id`, `department_id`, `supervisor_id`, `leave_type_id`, `start_date`, `end_date`, `resumption_date`, `no_of_days`, `primary_relief_office_id`, `secondary_relief_office_id`, `staff_to_notify`, `comment`, `inline_with_leave_plan`, `with_pay`, `leave_status_id`, `file_url`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(53, 7, 3, 2, 4, '2020-11-09', '2020-11-13', '2020-11-16', 5, 4, 5, '\'2\':\'4\'', NULL, 'no', 'no', 6, NULL, 7, '2020-11-02 20:03:47', 0, '2020-11-03 02:21:53');
+(53, 7, 3, 2, 4, '2020-11-09', '2020-11-13', '2020-11-16', 5, 4, 5, '\'2\':\'4\'', '', 'no', 'no', 11, NULL, 7, '2020-11-02 20:03:47', 2, '2020-11-11 02:14:00'),
+(54, 7, 3, 2, 4, '2020-11-09', '2020-11-11', '2020-11-12', 3, 4, 5, '\'2\':\'4\'', NULL, 'no', 'no', 5, NULL, 7, '2020-11-11 02:14:00', NULL, '2020-11-11 02:14:00'),
+(58, 7, 3, 2, 4, '2020-11-16', '2020-11-20', '2020-11-23', 5, 4, 0, '\'4\':\'2\'', '', 'no', 'yes', 5, NULL, 7, '2020-11-12 13:19:35', 2, '2020-11-13 01:15:03'),
+(59, 7, 3, 2, 6, '2020-11-24', '2020-11-26', '2020-11-27', 3, 4, 0, '\'4\':\'2\'', 'Testing', 'no', 'yes', 10, NULL, 7, '2020-11-12 19:34:54', 2, '2020-11-16 01:57:09');
 
 -- --------------------------------------------------------
 
@@ -354,8 +460,7 @@ CREATE TABLE `leave_plans` (
 
 INSERT INTO `leave_plans` (`leave_plan_id`, `employee_id`, `department_id`, `department_head_id`, `start_date`, `end_date`, `no_of_days`, `leave_plan_status_id`, `on_behalf`, `comment`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (3, 2, 3, 2, '2020-11-02', '2020-11-18', 13, 5, 'no', 'Done', 2, '2020-09-04 23:25:08', 2, '2020-10-25 18:11:02'),
-(8, 4, 3, 2, '2020-09-23', '2020-10-07', 11, 6, 'no', NULL, 4, '2020-09-21 16:34:01', NULL, '2020-09-22 03:43:13'),
-(9, 2, 3, 2, '2020-11-02', '2020-11-18', 13, 5, 'no', 'Done', 2, '2020-10-25 18:07:29', 2, '2020-10-25 18:11:02');
+(8, 4, 3, 2, '2020-09-23', '2020-10-07', 11, 6, 'no', NULL, 4, '2020-09-21 16:34:01', NULL, '2020-09-22 03:43:13');
 
 -- --------------------------------------------------------
 
@@ -460,7 +565,41 @@ CREATE TABLE `levels` (
 --
 
 INSERT INTO `levels` (`level_id`, `name`, `code`, `leave_days`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Senior Manager', 'senior_manager', 22, NULL, 2, '2020-07-15 17:05:43', '2020-07-15 17:05:43');
+(1, 'Senior Manager', 'senior_manager', 22, NULL, 2, '2020-07-15 17:05:43', '2020-07-15 17:05:43'),
+(5, 'Manager', 'manager', 22, 2, NULL, '2020-11-20 04:21:03', '2020-11-20 04:21:03'),
+(6, 'Controller', 'controller', 22, 2, NULL, '2020-11-20 04:21:25', '2020-11-20 04:21:25'),
+(9, 'Assistant Manager', 'assistant_manager', 21, 2, NULL, '2020-11-28 14:44:26', '2020-11-28 14:44:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `levels_pay_elements`
+--
+
+CREATE TABLE `levels_pay_elements` (
+  `level_pay_element_id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL,
+  `pay_element_id` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `levels_pay_elements`
+--
+
+INSERT INTO `levels_pay_elements` (`level_pay_element_id`, `level_id`, `pay_element_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(7, 9, 3, 2, NULL, '2020-11-30 19:36:02', '2020-11-30 19:36:02'),
+(8, 9, 2, 2, NULL, '2020-11-30 19:36:16', '2020-11-30 19:36:16'),
+(9, 6, 2, 2, NULL, '2020-11-30 19:36:41', '2020-11-30 19:36:41'),
+(10, 6, 3, 2, NULL, '2020-11-30 19:36:41', '2020-11-30 19:36:41'),
+(11, 5, 2, 2, NULL, '2020-11-30 19:36:52', '2020-11-30 19:36:52'),
+(12, 5, 3, 2, NULL, '2020-11-30 19:36:52', '2020-11-30 19:36:52'),
+(13, 1, 2, 2, NULL, '2020-11-30 19:37:06', '2020-11-30 19:37:06'),
+(14, 1, 3, 2, NULL, '2020-11-30 19:37:06', '2020-11-30 19:37:06'),
+(15, 1, 5, 2, NULL, '2020-12-03 20:10:58', '2020-12-03 20:10:58');
 
 -- --------------------------------------------------------
 
@@ -484,6 +623,60 @@ CREATE TABLE `martial_statuses` (
 INSERT INTO `martial_statuses` (`martial_status_id`, `name`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (1, 'Single', '2020-07-17 15:42:36', '2020-07-17 15:42:36', NULL, NULL),
 (2, 'Married', '2020-07-17 15:44:16', '2020-07-17 15:44:16', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pay_elements`
+--
+
+CREATE TABLE `pay_elements` (
+  `pay_element_id` int(11) NOT NULL,
+  `name` varchar(500) NOT NULL,
+  `code` varchar(500) NOT NULL,
+  `element_status_id` int(11) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pay_elements`
+--
+
+INSERT INTO `pay_elements` (`pay_element_id`, `name`, `code`, `element_status_id`, `start_date`, `end_date`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(2, 'Transport', 'transport', 2, '2020-12-06', '2021-04-30', 'Transport Allowance', 2, 2, '2020-11-19 12:00:31', '2020-12-06 03:28:49'),
+(3, 'Feeding', 'feeding', 2, '2020-12-06', '2021-03-31', 'Feeding Allowance', 2, 2, '2020-11-23 12:53:25', '2020-12-06 03:28:16'),
+(5, 'Housing', 'housing', 2, '2020-10-04', '2020-11-26', 'Housing', 2, 2, '2020-12-03 20:09:45', '2020-12-06 15:46:20'),
+(7, 'Testing', 'testing', 2, '2020-10-04', '2020-12-05', 'testing', 2, NULL, '2020-12-06 15:24:41', '2020-12-06 15:24:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pay_element_deduction_types`
+--
+
+CREATE TABLE `pay_element_deduction_types` (
+  `pay_element_deduction_type_id` int(11) NOT NULL,
+  `name` varchar(500) NOT NULL,
+  `code` varchar(500) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pay_element_deduction_types`
+--
+
+INSERT INTO `pay_element_deduction_types` (`pay_element_deduction_type_id`, `name`, `code`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Car Loan', 'car_loan', 2, 2, '2020-12-06 18:44:32', '2020-12-07 02:56:27'),
+(3, 'Houses Loan', 'houses_loan', 2, 2, '2020-12-07 16:46:33', '2020-12-08 10:04:30');
 
 -- --------------------------------------------------------
 
@@ -535,19 +728,6 @@ CREATE TABLE `requisitions` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `requisitions`
---
-
-INSERT INTO `requisitions` (`requisition_id`, `created_date`, `requisition_type_id`, `subject`, `requester_id`, `supervisor_id`, `recipients`, `file_url`, `requisition_status_id`, `comment`, `approved_by`, `declined_by`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(6, '2020-10-20', 3, 'Testing', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/mel-michael-(a.).vcf', 7, '', 4, 4, 7, 7, '2020-10-20 18:08:44', '2020-10-21 13:57:57'),
-(7, '2020-10-23', 3, 'Testing', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/tableExport.sql', 8, 'It just can\'t work.', 0, 4, 7, 4, '2020-10-23 10:48:09', '2020-10-24 01:24:02'),
-(8, '2020-10-23', 3, 'Second Test', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/Project proposal.pdf', 6, '', 2, 0, 7, 2, '2020-10-23 10:53:37', '2020-10-24 13:13:23'),
-(9, '2020-10-23', 3, 'Third Test', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/User Guide - Recruitment & Payroll.pdf', 5, 'It Can\'t work', 0, 2, 7, 2, '2020-10-23 10:55:49', '2020-10-24 01:22:47'),
-(10, '2020-10-23', 3, 'Forth Test with email', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/New Doc 2019-03-19 17.23.30.pdf', 4, 'It can\'t work for me', 0, 2, 7, 2, '2020-10-23 10:57:02', '2020-10-23 13:29:06'),
-(11, '2020-10-23', 3, 'Fifth Tests', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/ay6.png', 4, NULL, 0, 0, 7, 7, '2020-10-23 12:02:24', '2020-10-23 12:07:37'),
-(12, '2020-10-25', 3, 'Testing 1', 7, 2, '\'4\':\'2\':\'7\'', 'filesUpload/requisitions/Leaves.sql', 7, '', 2, 0, 7, 7, '2020-10-25 18:56:12', '2020-10-25 19:00:31');
 
 -- --------------------------------------------------------
 
@@ -682,7 +862,20 @@ CREATE TABLE `support_tickets` (
 INSERT INTO `support_tickets` (`support_ticket_id`, `issue_report_date`, `issue_type_id`, `issue_description`, `file_url`, `issue_for`, `department_id`, `employees`, `support_ticket_status_id`, `comment`, `resolved_by`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 (26, '2020-10-25', 5, 'Testing support ticket', 'filesUpload/supportTickets/Olotu Oluwaseun Joseph CV (7).pdf', 'employees', NULL, '\'4\':\'7\'', 3, NULL, NULL, 2, NULL, '2020-10-25 12:51:12', '2020-10-25 14:19:36'),
 (27, '2020-10-25', 5, 'Testing Departments', 'filesUpload/supportTickets/with_pay.csv', 'department', 3, NULL, 3, NULL, NULL, 2, NULL, '2020-10-25 14:15:18', '2020-10-25 14:22:18'),
-(29, '2020-10-25', 5, 'Testing 1', 'filesUpload/supportTickets/mel-michael-(a.).vcf', 'employees', 0, '\'2\':\'7\'', 3, 'Closed', 2, 7, 7, '2020-10-25 18:30:15', '2020-10-25 18:51:00');
+(29, '2020-10-25', 5, 'Testing 1', 'filesUpload/supportTickets/mel-michael-(a.).vcf', 'employees', 0, '\'2\':\'7\'', 3, 'Closed', 2, 7, 7, '2020-10-25 18:30:15', '2020-10-25 18:51:00'),
+(30, '2020-11-17', 5, 'Testing the Red Zone', 'filesUpload/supportTickets/without_pay.csv', 'employees', 0, '\'4\':\'2\'', 2, 'Has been resolved', 2, 7, 2, '2020-11-17 01:24:54', '2020-11-17 01:26:55'),
+(33, '2020-11-17', 5, 'Testing', 'filesUpload/supportTickets/with_pay.csv', 'department', 3, NULL, 2, 'Done', 4, 7, 4, '2020-11-17 01:33:20', '2020-11-17 01:34:08'),
+(34, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:47', '2020-12-04 11:05:47'),
+(35, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:47', '2020-12-04 11:05:47'),
+(36, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:47', '2020-12-04 11:05:47'),
+(37, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:49', '2020-12-04 11:05:49'),
+(38, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:50', '2020-12-04 11:05:50'),
+(39, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:50', '2020-12-04 11:05:50'),
+(40, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:50', '2020-12-04 11:05:50'),
+(41, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:50', '2020-12-04 11:05:50'),
+(42, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:50', '2020-12-04 11:05:50'),
+(43, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:51', '2020-12-04 11:05:51'),
+(44, '2020-12-04', 5, 'Testing', 'filesUpload/supportTickets/without_pay.csv', 'employees', NULL, '\'4\':\'2\'', 1, NULL, NULL, 7, NULL, '2020-12-04 11:05:51', '2020-12-04 11:05:51');
 
 -- --------------------------------------------------------
 
@@ -713,6 +906,12 @@ INSERT INTO `support_ticket_statues` (`support_ticket_status_id`, `name`, `code`
 --
 
 --
+-- Indexes for table `boundaries`
+--
+ALTER TABLE `boundaries`
+  ADD PRIMARY KEY (`boundary_id`);
+
+--
 -- Indexes for table `branches`
 --
 ALTER TABLE `branches`
@@ -737,10 +936,22 @@ ALTER TABLE `department_heads`
   ADD PRIMARY KEY (`department_head_id`);
 
 --
+-- Indexes for table `element_statues`
+--
+ALTER TABLE `element_statues`
+  ADD PRIMARY KEY (`element_status_id`);
+
+--
 -- Indexes for table `employees`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`employee_id`);
+
+--
+-- Indexes for table `employee_pay_elements`
+--
+ALTER TABLE `employee_pay_elements`
+  ADD PRIMARY KEY (`employee_pay_element_id`);
 
 --
 -- Indexes for table `employee_roles`
@@ -809,10 +1020,28 @@ ALTER TABLE `levels`
   ADD PRIMARY KEY (`level_id`);
 
 --
+-- Indexes for table `levels_pay_elements`
+--
+ALTER TABLE `levels_pay_elements`
+  ADD PRIMARY KEY (`level_pay_element_id`);
+
+--
 -- Indexes for table `martial_statuses`
 --
 ALTER TABLE `martial_statuses`
   ADD PRIMARY KEY (`martial_status_id`);
+
+--
+-- Indexes for table `pay_elements`
+--
+ALTER TABLE `pay_elements`
+  ADD PRIMARY KEY (`pay_element_id`);
+
+--
+-- Indexes for table `pay_element_deduction_types`
+--
+ALTER TABLE `pay_element_deduction_types`
+  ADD PRIMARY KEY (`pay_element_deduction_type_id`);
 
 --
 -- Indexes for table `red_zones`
@@ -867,6 +1096,12 @@ ALTER TABLE `support_ticket_statues`
 --
 
 --
+-- AUTO_INCREMENT for table `boundaries`
+--
+ALTER TABLE `boundaries`
+  MODIFY `boundary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
@@ -891,16 +1126,28 @@ ALTER TABLE `department_heads`
   MODIFY `department_head_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `element_statues`
+--
+ALTER TABLE `element_statues`
+  MODIFY `element_status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `employee_pay_elements`
+--
+ALTER TABLE `employee_pay_elements`
+  MODIFY `employee_pay_element_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `employee_roles`
 --
 ALTER TABLE `employee_roles`
-  MODIFY `employee_role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `employee_role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `employee_status`
@@ -930,7 +1177,7 @@ ALTER TABLE `issue_types`
 -- AUTO_INCREMENT for table `leaves`
 --
 ALTER TABLE `leaves`
-  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `leave_plans`
@@ -960,13 +1207,31 @@ ALTER TABLE `leave_types`
 -- AUTO_INCREMENT for table `levels`
 --
 ALTER TABLE `levels`
-  MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `levels_pay_elements`
+--
+ALTER TABLE `levels_pay_elements`
+  MODIFY `level_pay_element_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `martial_statuses`
 --
 ALTER TABLE `martial_statuses`
   MODIFY `martial_status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `pay_elements`
+--
+ALTER TABLE `pay_elements`
+  MODIFY `pay_element_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `pay_element_deduction_types`
+--
+ALTER TABLE `pay_element_deduction_types`
+  MODIFY `pay_element_deduction_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `red_zones`
@@ -978,7 +1243,7 @@ ALTER TABLE `red_zones`
 -- AUTO_INCREMENT for table `requisitions`
 --
 ALTER TABLE `requisitions`
-  MODIFY `requisition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `requisition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `requisition_statues`
@@ -1002,13 +1267,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `states`
 --
 ALTER TABLE `states`
-  MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `support_tickets`
 --
 ALTER TABLE `support_tickets`
-  MODIFY `support_ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `support_ticket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `support_ticket_statues`

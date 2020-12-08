@@ -40,7 +40,7 @@ public class EditEmployeePayElementController extends HttpServlet {
 					int count = eped.updateEmployeePayElement(epe);
 					if(count >= 1) {
 						session.setAttribute("success", "Employee pay element updated....");
-						response.sendRedirect("allEmployeePayElementReport.jsp");
+						response.sendRedirect("viewEmployeePayElement.jsp");
 					}
 					else {
 						session.setAttribute("error", "Enable to update employee pay element....");

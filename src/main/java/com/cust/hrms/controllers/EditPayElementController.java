@@ -23,12 +23,16 @@ public class EditPayElementController extends HttpServlet {
 			updatedBy = (int)session.getAttribute("employeeId");
 		}
 		PayElementNotification pen = new PayElementNotification();
+		DateDao dd = new DateDao();
 		PayElementDao ped = new PayElementDao();
 		int payElementId = Integer.parseInt(request.getParameter("payElementId"));
 		PayElement pe = ped.getPayElementById(payElementId);
 		pe.setUpdatedBy(updatedBy); 
 		String name = request.getParameter("name");
 		pe.setName(name);
+		String dates[] = request.getParameter("dates").split(" - ");
+		pe.setStartDate(dd.convertDateFormat(dates[0], "/"));
+		pe.setEndDate(dd.convertDateFormat(dates[1], "/"));
 		int elementStatusId = Integer.parseInt(request.getParameter("elementStatusId"));
 		pe.setElementStatusId(elementStatusId);
 		String description = request.getParameter("description");

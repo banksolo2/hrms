@@ -132,10 +132,6 @@
 											<tr>
 												<th>Employee</th>
 												<th>Level</th>
-												<th>Pay Element</th>
-												<th>Amount</th>
-												<th>created By</th>
-												<th>Updated By</th>
 												<th></th>
 											</tr>
 										</thead>
@@ -145,26 +141,16 @@
 										LevelDao ld = new LevelDao();
 										PayElementDao ped = new PayElementDao();
 										EmployeePayElementDao eped = new EmployeePayElementDao();
-										ResultSet rs = eped.getAllEmployeePayElementReport();
-										String createdBy = null;
-										String updatedBy = null;
+										ResultSet rs = eped.getEmployeesPayElementReport();
 										while(rs.next()){
-											createdBy = ed.getEmployeeName(rs.getInt("created_by"));
-											if(createdBy == null) createdBy = "";
-											updatedBy = ed.getEmployeeName(rs.getInt("updated_by"));
-											if(updatedBy == null) updatedBy = "";
 										%>
 											<tr>
 												<td><%=ed.getEmployeeName(rs.getInt("employee_id")) %></td>
 												<td><%=ld.getLevelName(rs.getInt("level_id")) %></td>
-												<td><%=ped.getName(rs.getInt("pay_element_id")) %></td>
-												<td><%=rs.getDouble("amount") %></td>
-												<td><%=createdBy %></td>
-												<td><%=updatedBy %></td>
 												<td>
-													<form action="editEmployeePayElement.jsp" method="post">
-													<input type="hidden" name="employeePayElementId" value="<%=rs.getInt("employee_pay_element_id") %>" />
-													<button type="submit" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edit</button>
+													<form action="viewEmployeePayElement.jsp" method="post">
+													<input type="hidden" name="employeeId" value="<%=rs.getInt("employee_id")%>">
+													<button type="submit" class="btn btn-primary">View & Edit</button>
 													</form>
 												</td>
 											</tr>

@@ -169,7 +169,7 @@
 												<td>
 													<form action="deleteEmployee" method="post">
 													<input type="hidden" name="email" value="<%=rs.getString("email") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+													<button type="submit" class="btn btn-danger" id="save" onsubmit="disableSaveButton()"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
 											</tr>

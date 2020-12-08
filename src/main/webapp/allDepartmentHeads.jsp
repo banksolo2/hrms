@@ -108,7 +108,7 @@
 												<td>
 													<form action="deleteDepartmentHead" method="post">
 													<input type="hidden" name="departmentHeadId" value="<%=rs.getInt("department_head_id") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+													<button type="submit" class="btn btn-danger" id="save" onsubmit="disableSaveButton()"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
 											</tr>

@@ -97,7 +97,7 @@
 												<td>
 													<form action="deleteLeaveStatus" method="post">
 													<input type="hidden" name="leaveStatusId" value="<%=rs.getInt("leave_status_id") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+													<button type="submit" class="btn btn-danger" id="save" onsubmit="disableSaveButton()"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
 											</tr>

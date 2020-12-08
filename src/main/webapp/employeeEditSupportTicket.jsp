@@ -220,7 +220,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Authorize</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Authorize</button>
 			                  <a class="btn btn-info" href="employeeResolveSupportTicketReport.jsp">Go Back</a>
 			                </div>
 						</div>

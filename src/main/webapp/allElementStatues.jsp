@@ -150,7 +150,7 @@
 												<td>
 													<form action="deleteElementStatus" method="post">
 													<input type="hidden" name="elementStatusId" value="<%=rs.getString("element_status_id") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+													<button type="submit" class="btn btn-danger" id="save" onsubmit="disableSaveButton()"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
 											</tr>

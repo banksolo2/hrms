@@ -119,7 +119,7 @@
 												<td>
 													<form action="deleteRedZone" method="post">
 													<input type="hidden" name="redZoneId" value="<%=rs.getInt("red_zone_id") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+													<button type="submit" class="btn btn-danger" id="save" onsubmit="disableSaveButton()"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
 											</tr>

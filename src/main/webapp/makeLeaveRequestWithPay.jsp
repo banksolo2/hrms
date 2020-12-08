@@ -390,7 +390,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Create Leave</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Create Leave</button>
 			                  <!--<a class="btn btn-info" href="allStates.jsp">Go Back</a> -->
 			                </div>
 						</div>

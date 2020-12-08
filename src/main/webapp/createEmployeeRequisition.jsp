@@ -241,7 +241,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Create Requisition</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Create Requisition</button>
 			                </div>
 						</div>
 						<!-- /.card -->

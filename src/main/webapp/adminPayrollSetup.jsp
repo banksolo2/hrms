@@ -73,6 +73,7 @@
                   <a class="nav-link active" id="vert-tabs-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-pay-element-inquiry" role="tab" aria-controls="vert-tabs-pay-element-inquiry" aria-selected="false">Pay Element Inquiry</a>
                   <a class="nav-link" id="vert-tabs-level-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-level-pay-element-inquiry" role="tab" aria-controls="vert-tabs-level-pay-element-inquiry" aria-selected="false">Level Pay Element Inquiry</a>
                   <a class="nav-link" id="vert-tabs-boundary-inquiry-tab" data-toggle="pill" href="#vert-tabs-boundary-inquiry" role="tab" aria-controls="vert-tabs-boundary-inquiry" aria-selected="false">Pay Boundary Inquiry</a>
+                  <a class="nav-link" id="vert-tabs-pay-element-deduction-inquiry-tab" data-toggle="pill" href="#vert-tabs-pay-element-deduction-inquiry" role="tab" aria-controls="vert-tabs-pay-element-deduction-inquiry" aria-selected="false">Pay Element Deduction Inquiry</a>
                   <a class="nav-link" id="vert-tabs-employee-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-employee-pay-element-inquiry" role="tab" aria-controls="vert-tabs-employee-pay-element-inquiry" aria-selected="false">Employee Pay Element Inquiry</a>   
                 </div>
               </div>
@@ -97,6 +98,13 @@
                      <ul class="chart-legend clearfix">
                       <li><a href="uncreatedPaymentBoundary.jsp"><i class="far fa-circle text-primary"></i> All UnCreated Pay Boundary </a></li>
                       <li><a href="allPaymentBoundariesReport.jsp"><i class="far fa-circle text-primary"></i> All Pay Boundary</a></li>
+                    </ul> 
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-pay-element-deduction-inquiry" role="tabpanel" aria-labelledby="vert-tabs-pay-element-deduction-inquiry-tab">
+                     <h5>Pay Element Deduction Inquiry</h5>
+                     <ul class="chart-legend clearfix">
+                      <li><a href="createPayElementDeductionType.jsp"><i class="far fa-circle text-primary"></i> Create Pay Element Deduction Type </a></li>
+                      <li><a href="allPayElementDeductionTypesReport.jsp"><i class="far fa-circle text-primary"></i> All Pay Element Deduction Types </a></li>
                     </ul> 
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-employee-pay-element-inquiry" role="tabpanel" aria-labelledby="vert-tabs-employee-pay-element-inquiry-tab">

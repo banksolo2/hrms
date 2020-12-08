@@ -1,0 +1,233 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="com.cust.hrms.dao.*"%>
+<%@ page import="com.cust.hrms.models.*" %>
+<%@ page import="java.sql.*"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>HRMS | Employee Pay Elements</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:include page="css.jsp"></jsp:include>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<%
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	if (session.getAttribute("employeeId") == null || session.getAttribute("email") == null
+			|| session.getAttribute("staffId") == null) {
+		response.sendRedirect("login.jsp");
+
+	}
+	session.setAttribute("parent", "admin");
+	session.setAttribute("page", "admin_payroll_setup");
+	if(session.getAttribute("isSupervisor") != null || session.getAttribute("isSuperAdmin") != null){
+		boolean isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
+		boolean isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
+		if(isHrAdmin == false && isSuperAdmin == false){
+			response.sendRedirect("index.jsp");
+		}
+	}
+	%>
+	<div class="wrapper">
+		<jsp:include page="topNav.jsp"></jsp:include>
+
+		<jsp:include page="sideNav.jsp"></jsp:include>
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark">Employees Pay Element</h1>
+						</div>
+						<!-- /.col -->
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Admin</a></li>
+								<li class="breadcrumb-item"><a href="adminPayrollSetup.jsp">Payroll Setup</a></li>
+								<li class="breadcrumb-item"><a href="allEmployeePayElementReport.jsp">All Employees Pay Elements</a></li>
+								<li class="breadcrumb-item active">Employee Pay Elements</li>
+							</ol>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+														<%
+								String successMessage = (String) session.getAttribute("success");
+								if(successMessage != null){
+								%>
+									<div class="col-md-12">
+							            <div class="card bg-success">
+							              <div class="card-header">
+							                <h3 class="card-title"><i class="icon fas fa-check"></i> Success Message</h3>
+							
+							                <div class="card-tools">
+							                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							                  </button>
+							                </div>
+							                <!-- /.card-tools -->
+							              </div>
+							              <!-- /.card-header -->
+							              <div class="card-body">
+							                <%=successMessage %>
+							              </div>
+							              <!-- /.card-body -->
+							            </div>
+							            <!-- /.card -->
+							          </div>
+							          <!-- /.col -->
+							        <%
+								}
+								session.setAttribute("success", null);
+								String errorMessage = (String) session.getAttribute("error");
+								if(errorMessage != null){
+							        %>
+							        <div class="col-md-12">
+							            <div class="card bg-danger">
+							              <div class="card-header">
+							                <h3 class="card-title"><i class="icon fas fa-ban"></i> Error Message</h3>
+							                <div class="card-tools">
+							                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							                  </button>
+							                </div>
+							                <!-- /.card-tools -->
+							              </div>
+							              <div class="card-body">
+							                <%=errorMessage %>
+							              </div>
+							              <!-- /.card-body -->
+							            </div>
+							            <!-- /.card -->
+							          </div>
+							          <!-- /.col -->
+							          <%
+								}
+								session.setAttribute("error", null);
+							          %>
+						
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- /.content -->
+			<section class="content">
+		      <div class="container-fluid">
+		        <div class="row">
+		          <div class="col-12">
+		            <!-- Main content -->
+		            <div class="invoice p-3 mb-3">
+		              <!-- title row -->
+		              <div class="row">
+		                <div class="col-12">
+		                <%
+		                String employee = request.getParameter("employeeId");
+		                int employeeId = (employee != null) ? Integer.parseInt(employee) : (int)session.getAttribute("otherEmployeeId"); 
+		                EmployeeDao ed = new EmployeeDao();
+		                EmployeePayElementDao eped = new EmployeePayElementDao();
+		                PayElementDao ped = new PayElementDao();
+		                LevelDao ld = new LevelDao();
+		                MoneyFormatDao mfd = new MoneyFormatDao();
+		                Employee e = ed.getEmployeeById(employeeId);
+		                String fullName = e.getFirstName()+" "+e.getMiddleName()+" "+e.getLastName();
+		                int employeePayElementsId[] = eped.getEmployeePayElementsId(employeeId);
+		                ResultSet rs = eped.getEmployeePayElementByArray(employeePayElementsId);
+		                session.setAttribute("otherEmployeeId", null);
+		                %>
+		                  <h4>
+		                    <i class="fas fa-user"></i> &nbsp;&nbsp;<%=fullName.toUpperCase() %>
+		                  </h4>
+		                </div>
+		                <!-- /.col -->
+		              </div>
+		              <!-- info row -->
+		              <div class="row invoice-info">
+		                <div class="col-sm-4 invoice-col">
+		                  <br>
+		                  <b>Staff No:</b>&nbsp;&nbsp;<%=e.getStaffId() %><br>
+		                  <b>Level:</b>&nbsp;&nbsp;<%=ld.getLevelName(e.getLevelId()).toUpperCase() %><br>
+		                  <b>&nbsp;</b> &nbsp;
+		                  <br/>
+		                </div>
+		                <!-- /.col -->
+		              </div>
+		              <!-- /.row -->
+		
+		              <!-- Table row -->
+		              <div class="row">
+		                <div class="col-12 table-responsive">
+		                  <table class="table table-striped">
+		                    <thead>
+		                    <tr>
+		                      <th>S/N</th>
+		                      <th>Pay Element</th>
+		                      <th>Amount (&#8358;)</th>
+		                      <th></th>
+		                    </tr>
+		                    </thead>
+		                    <tbody>
+		                    <%
+		                    int rows = 1;
+		                    while(rs.next()){
+		                    %>
+		                    <tr>
+		                      <td><%=rows %></td>
+		                      <td><%=ped.getName(rs.getInt("pay_element_id")) %></td>
+		                      <td><%=mfd.moneyFormatPattern(rs.getDouble("amount"), 2) %></td>
+		                      <td>
+		                      	<form action="editEmployeePayElement.jsp" method="post">
+								<input type="hidden" name="employeePayElementId" value="<%=rs.getInt("employee_pay_element_id") %>" />
+								<input type="hidden" name="employeeId" value="<%=rs.getInt("employee_id")%>">
+								<button type="submit" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edit</button>
+								</form>
+		                      </td>
+		                    </tr>
+		                    <%
+		                    rows++;
+		                    }
+		                    %>
+		                    </tbody>
+		                  </table>
+		                </div>
+		                <!-- /.col -->
+		              </div>
+		              <!-- /.row -->
+		            </div>
+		            <!-- /.invoice -->
+		          </div><!-- /.col -->
+		        </div><!-- /.row -->
+		      </div><!-- /.container-fluid -->
+		    </section>
+		    <!-- /.content -->
+
+		</div>
+		<!-- /.content-wrapper -->
+		<jsp:include page="footer.jsp"></jsp:include>
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
+	</div>
+	<!-- ./wrapper -->
+
+	<jsp:include page="javascript.jsp"></jsp:include>
+</body>
+</html>

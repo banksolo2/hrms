@@ -1459,6 +1459,9 @@ $(document).ready(function(){
 			},
 			description : {
 				required : true
+			},
+			dates : {
+				required : true
 			}
 		},
 		messages : {
@@ -1470,6 +1473,9 @@ $(document).ready(function(){
 			},
 			description : {
 				required : "Please provide description"
+			},
+			dates : {
+				required : "Please provide start and end dates"
 			}
 		},
 		errorElement: 'span',
@@ -1538,6 +1544,19 @@ $(document).ready(function(){
 	        $(element).removeClass('is-invalid');
 	      }
 	});
+	
+	/* $("#createState").submit(function (e) {
+
+         //stop submitting the form to see the disabled button effect
+         e.preventDefault();
+
+         //disable the submit button
+         $("#save").attr("disabled", true);
+
+
+         return true;
+
+     });*/
 	
 	//document.getElementById("inline").style.display = "none";
 	document.getElementById("comment").style.display = "none";

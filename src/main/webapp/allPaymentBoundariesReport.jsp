@@ -123,9 +123,9 @@
 											<tr>
 												<th>Level</th>
 												<th>Pay Element</th>
-												<th>Highest Amount</th>
-												<th>Lowest Amount</th>
-												<th>Default Amount</th>
+												<th>Highest Amount (&#8358;)</th>
+												<th>Lowest Amount (&#8358;)</th>
+												<th>Default Amount (&#8358;)</th>
 												<th></th>
 												<th></th>
 											</tr>
@@ -136,6 +136,7 @@
 										LevelDao ld = new LevelDao();
 										PayElementDao ped = new PayElementDao();
 										BoundaryDao bd = new BoundaryDao();
+										MoneyFormatDao mfd = new MoneyFormatDao();
 										ResultSet rs = bd.getAllBoundariesReport();
 										String createdBy = null;
 										String updatedBy = null;
@@ -148,9 +149,9 @@
 											<tr>
 												<td><%=ld.getLevelName(rs.getInt("level_id")) %></td>
 												<td><%=ped.getName(rs.getInt("pay_element_id")) %></td>
-												<td><%=rs.getDouble("highest_amount") %></td>
-												<td><%=rs.getDouble("lowest_amount") %></td>
-												<td><%=rs.getDouble("default_amount") %></td>
+												<td><%=mfd.moneyFormatPattern(rs.getDouble("highest_amount"), 2) %></td>
+												<td><%=mfd.moneyFormatPattern(rs.getDouble("lowest_amount"), 2) %></td>
+												<td><%=mfd.moneyFormatPattern(rs.getDouble("default_amount"), 2) %></td>
 												<td>
 													<form action="editBoundary.jsp" method="post">
 													<input type="hidden" name="boundaryId" value="<%=rs.getInt("boundary_id") %>" />
@@ -161,7 +162,7 @@
 												<td>
 													<form action="deleteBoundary" method="post">
 													<input type="hidden" name="boundaryId" value="<%=rs.getInt("boundary_id") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+													<button type="submit" class="btn btn-danger" id="save" onsubmit="disableSaveButton()"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
 											</tr>

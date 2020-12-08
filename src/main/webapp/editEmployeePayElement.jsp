@@ -53,6 +53,7 @@
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
 								<li class="breadcrumb-item"><a href="adminPayrollSetup.jsp">Payroll Setup</a></li>
 								<li class="breadcrumb-item"><a href="allEmployeePayElementReport.jsp">All Employees Pay Elements</a></li>
+								<li class="breadcrumb-item"><a href="viewEmployeePayElement.jsp">Employee Pay Elements</a></li>
 								<li class="breadcrumb-item active">Edit Employee Pay Element</li>
 							</ol>
 						</div>
@@ -184,9 +185,12 @@
 								<!-- /.row -->
 							</div>
 							<!-- /.card-body -->
+							<%
+			                  session.setAttribute("otherEmployeeId", epe.getEmployeeId());
+			                  %>
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Save</button>
-			                  <a href="allEmployeePayElementReport.jsp" class="btn btn-info">Go Back</a>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Save</button>
+			                  <a class="btn btn-info" href="viewEmployeePayElement.jsp">Go Back</a>
 			                </div>
 						</div>
 						<!-- /.card -->

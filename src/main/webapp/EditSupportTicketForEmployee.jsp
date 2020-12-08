@@ -191,7 +191,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Resolved</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Resolved</button>
 			                  <a class="btn btn-info" href="allPendingSupportTicketReportForEmployee.jsp">Go Back</a>
 			                </div>
 						</div>

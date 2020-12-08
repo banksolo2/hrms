@@ -25,13 +25,20 @@ public class CreatePayElementController extends HttpServlet {
 		PayElementNotification pen = new PayElementNotification();
 		PayElementDao ped = new PayElementDao();
 		PayElement pe = new PayElement();
+		DateDao dd = new DateDao();
 		pe.setCreatedBy(createdBy);
 		String name = request.getParameter("name");
 		pe.setName(name);
+		String dates[] = request.getParameter("dates").split(" - ");
+		String startDate = dd.convertDateFormat(dates[0], "/");
+		pe.setStartDate(startDate);
+		String endDate = dd.convertDateFormat(dates[1], "/");
+		pe.setEndDate(endDate);
 		int elementStatusId = Integer.parseInt(request.getParameter("elementStatusId"));
 		pe.setElementStatusId(elementStatusId);
 		String description = request.getParameter("description");
 		pe.setDescription(description);
+		//out.println(pe.toString());
 		//Check if name already exist
 		boolean isNameExist = ped.isNameExist(name);
 		if(isNameExist == false) {
@@ -50,5 +57,6 @@ public class CreatePayElementController extends HttpServlet {
 			session.setAttribute("error", pen.getNameAlreadyExistErrorMessage());
 			rd.forward(request, response);
 		}
+		
 	} 
 }

@@ -161,6 +161,32 @@
 											<label>Name</label> <input type="text" value="<%=pe.getName() %>"
 												name="name" class="form-control" />
 										</div>
+										<!-- Date range -->
+						                <div class="form-group">
+						                  <label>Start Date to End Date</label>
+										<%
+										DateDao dd = new DateDao();
+										String dates = null;
+										String date[] = dd.getTodayDate().split("-");
+										String todayDate = date[1]+"/"+date[2]+"/"+date[0];
+										if(pe.getStartDate().equals("null") || pe.getEndDate().equals("null")){
+											dates = todayDate+" - "+todayDate;
+										}
+										else{
+											dates = dd.joinStartDateAndEndDate(pe.getStartDate(), pe.getEndDate());
+										}
+										%>
+						                  <div class="input-group">
+						                    <div class="input-group-prepend">
+						                      <span class="input-group-text">
+						                        <i class="far fa-calendar-alt"></i>
+						                      </span>
+						                    </div>
+						                    <input type="text" class="form-control float-right" id="reservation" name="dates" value="<%=dates %>">
+						                  </div>
+						                  <!-- /.input group -->
+						                </div>
+						                <!-- /.form group -->
 										<div class="form-group">
 											<%
 											ElementStatusDao esd = new ElementStatusDao();
@@ -192,7 +218,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Save</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Save</button>
 			                  <a href="allPayElementReport.jsp" class="btn btn-info">Go Back</a>
 			                </div>
 						</div>

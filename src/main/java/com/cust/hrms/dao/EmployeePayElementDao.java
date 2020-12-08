@@ -159,10 +159,101 @@ public class EmployeePayElementDao {
 		return rs;
 	}
 	
+	public ResultSet getEmployeesPayElementReport() {
+		query = "select distinct employee_id, level_id from employee_pay_elements";
+		dbcon.getConnection();
+		try {
+			stat = dbcon.con.createStatement();
+			rs = stat.executeQuery(query);
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.toString());
+		}
+		return rs;
+	}
+	
+	public int getEmployeePayElementCount(int employeeId) {
+		query = "select count(*) as count_no from employee_pay_elements where employee_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("count_no");
+			}
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int[] getEmployeePayElementsId(int employeeId) {
+		int length = getEmployeePayElementCount(employeeId);
+		if(length >= 1) {
+			int result[] = new int[length];
+			query = "select employee_pay_element_id from employee_pay_elements where employee_id = ?";
+			dbcon.getConnection();
+			try {
+				ps = dbcon.con.prepareStatement(query);
+				ps.setInt(1, employeeId);
+				rs = ps.executeQuery();
+				int i = 0;
+				while(rs.next()) {
+					result[i] = rs.getInt("employee_pay_element_id");
+					i++;
+				}
+				dbcon.con.close();
+			}
+			catch(SQLException ex) {
+				System.out.println(ex.fillInStackTrace());
+			}
+			return result;
+		}
+		else {
+			int result[] = {0};
+			return result;
+		}
+	}
+	
+	public ResultSet getEmployeePayElementByArray(int employeePayElementId[]) {
+		String quote = "";
+		for(int i = 0; i < employeePayElementId.length; i++) {
+			quote += employeePayElementId[i];
+			if(i != (employeePayElementId.length - 1)) {
+				quote += ",";
+			}
+		}
+		PayElementDao ped = new PayElementDao();
+		int payElementsId[] = ped.getInvalidPayElementsId();
+		String quote2 = "";
+		for(int i = 0; i < payElementsId.length; i++) {
+			quote2 += payElementsId[i];
+			if(i != (payElementsId.length - 1)) {
+				quote2 += ",";
+			}
+		}
+		query = "select * from employee_pay_elements where employee_pay_element_id in ("+quote+") and "
+				+ "pay_element_id not in ("+quote2+")";
+		dbcon.getConnection();
+		try {
+			stat = dbcon.con.createStatement();
+			rs = stat.executeQuery(query);
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
 	public static void main(String args[]) {
 		EmployeePayElementDao eped = new EmployeePayElementDao();
 		EmployeePayElement epe = eped.getEmployeePayElement(2,2, 4);
-		int count = eped.deleteEmployeePayElement(epe);
-		System.out.println(count);
+		int result[] = eped.getEmployeePayElementsId(2);
+		for(int x : result) {
+			System.out.println(x);
+		}
 	}
 }

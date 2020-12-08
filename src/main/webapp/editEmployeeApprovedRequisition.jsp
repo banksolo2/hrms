@@ -222,7 +222,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Close Requisition</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Close Requisition</button>
 			                  <a class="btn btn-info" href="allApprovedEmployeeRequisitionReport.jsp">Go Back</a>
 			                </div>
 						</div>

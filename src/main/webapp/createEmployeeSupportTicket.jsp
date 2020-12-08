@@ -204,7 +204,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Create Ticket</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Create Ticket</button>
 			                </div>
 						</div>
 						<!-- /.card -->

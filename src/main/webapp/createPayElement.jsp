@@ -157,6 +157,26 @@
 											<label>Name</label> <input type="text" value="<%=name %>"
 												name="name" class="form-control" />
 										</div>
+										<!-- Date range -->
+						                <div class="form-group">
+						                  <label>Start Date to End Date</label>
+										<%
+										DateDao dd = new DateDao();
+										%>
+						                  <div class="input-group">
+						                    <div class="input-group-prepend">
+						                      <span class="input-group-text">
+						                        <i class="far fa-calendar-alt"></i>
+						                      </span>
+						                    </div>
+						                    <%
+						                    String dates = request.getParameter("dates");
+						                    %>
+						                    <input type="text" class="form-control float-right" id="reservation" name="dates" value="<%=dates %>">
+						                  </div>
+						                  <!-- /.input group -->
+						                </div>
+						                <!-- /.form group -->
 										<div class="form-group">
 											<%
 											String elementStatus = request.getParameter("elementStatusId");
@@ -194,7 +214,7 @@
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-			                  <button type="submit" class="btn btn-primary">Submit</button>
+			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Submit</button>
 			                </div>
 						</div>
 						<!-- /.card -->

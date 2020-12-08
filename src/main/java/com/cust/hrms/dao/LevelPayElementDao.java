@@ -159,7 +159,16 @@ public class LevelPayElementDao {
 	}
 	
 	public ResultSet getLevelPayElementReport() {
-		query = "select * from levels_pay_elements";
+		PayElementDao ped = new PayElementDao();
+		int invalidPayElementsId[] = ped.getInvalidPayElementsId();
+		String quote = "";
+		for(int i = 0; i < invalidPayElementsId.length; i++) {
+			quote += invalidPayElementsId[i];
+			if(i != (invalidPayElementsId.length - 1)) {
+				quote += ",";
+			}
+		}
+		query = "select * from levels_pay_elements where pay_element_id not in ("+quote+")";
 		dbcon.getConnection();
 		try {
 			stat = dbcon.con.createStatement();

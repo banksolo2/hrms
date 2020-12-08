@@ -123,10 +123,8 @@
 												<th>Name</th>
 												<th>Status</th>
 												<th>Description</th>
-												<th>Created By</th>
-												<th>Created At</th>
-												<th>Updated By</th>
-												<th>Updated At</th>
+												<th>Start Date</th>
+												<th>End Date</th>
 												<th></th>
 												<th></th>
 											</tr>
@@ -135,24 +133,21 @@
 										<%
 										EmployeeDao ed = new EmployeeDao();
 										ElementStatusDao esd = new ElementStatusDao();
+										DateDao dd = new DateDao();
 										PayElementDao ped = new PayElementDao();
 										ResultSet rs = ped.getAllPayElementReport();
-										String createdBy = null;
-										String updatedBy = null;
+										String startDate = null;
+										String endDate = null;
 										while(rs.next()){
-											createdBy = ed.getEmployeeName(rs.getInt("created_by"));
-											if(createdBy == null) createdBy = "";
-											updatedBy = ed.getEmployeeName(rs.getInt("updated_by"));
-											if(updatedBy == null) updatedBy = "";
+											startDate = (rs.getDate("start_date") == null) ? "" : dd.changeFormatDate(String.valueOf(rs.getDate("start_date")));
+											endDate = (rs.getDate("end_date") == null) ? "" : dd.changeFormatDate(String.valueOf(rs.getDate("end_date")));
 										%>
 											<tr>
 												<td><%=rs.getString("name") %></td>
 												<td><%=esd.getElementStatusName(rs.getInt("element_status_id")) %></td>
 												<td><%=rs.getString("description") %></td>
-												<td><%=createdBy %></td>
-												<td><%=rs.getTimestamp("created_at") %></td>
-												<td><%=updatedBy %></td>
-												<td><%=rs.getTimestamp("updated_at") %></td>
+												<td><%=startDate %></td>
+												<td><%=endDate %></td>
 												<td>
 													<form action="editPayElement.jsp" method="post">
 													<input type="hidden" name="payElementId" value="<%=rs.getInt("pay_element_id") %>" />
@@ -163,7 +158,7 @@
 												<td>
 													<form action="deletePayElement" method="post">
 													<input type="hidden" name="payElementId" value="<%=rs.getInt("pay_element_id") %>" />
-													<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+													<button type="submit" class="btn btn-danger" id="save" onsubmit="disableSaveButton()"><i class="fas fa-trash"></i> Delete</button>
 													</form>
 												</td>
 											</tr>
