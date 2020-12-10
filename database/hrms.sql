@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 08, 2020 at 11:24 AM
+-- Generation Time: Dec 10, 2020 at 07:14 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -270,6 +270,25 @@ INSERT INTO `employee_pay_elements` (`employee_pay_element_id`, `employee_id`, `
 (51, 5, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:06', '2020-12-03 20:13:06'),
 (52, 6, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:06', '2020-12-03 20:13:06'),
 (53, 8, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:06', '2020-12-03 20:13:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_pay_element_deductions`
+--
+
+CREATE TABLE `employee_pay_element_deductions` (
+  `employee_pay_element_deduction_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `pay_element_deduction_type_id` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  `month_no` varchar(50) NOT NULL,
+  `year` varchar(50) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -627,6 +646,35 @@ INSERT INTO `martial_statuses` (`martial_status_id`, `name`, `created_at`, `upda
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `months`
+--
+
+CREATE TABLE `months` (
+  `no` varchar(50) NOT NULL,
+  `name` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `months`
+--
+
+INSERT INTO `months` (`no`, `name`) VALUES
+('01', 'January'),
+('02', 'February'),
+('03', 'March'),
+('04', 'April'),
+('05', 'May'),
+('06', 'June'),
+('07', 'July'),
+('08', 'August'),
+('09', 'September'),
+('10', 'October'),
+('11', 'November'),
+('12', 'December ');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pay_elements`
 --
 
@@ -675,8 +723,7 @@ CREATE TABLE `pay_element_deduction_types` (
 --
 
 INSERT INTO `pay_element_deduction_types` (`pay_element_deduction_type_id`, `name`, `code`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Car Loan', 'car_loan', 2, 2, '2020-12-06 18:44:32', '2020-12-07 02:56:27'),
-(3, 'Houses Loan', 'houses_loan', 2, 2, '2020-12-07 16:46:33', '2020-12-08 10:04:30');
+(1, 'Car Loan', 'car_loan', 2, 2, '2020-12-06 18:44:32', '2020-12-07 02:56:27');
 
 -- --------------------------------------------------------
 
@@ -954,6 +1001,12 @@ ALTER TABLE `employee_pay_elements`
   ADD PRIMARY KEY (`employee_pay_element_id`);
 
 --
+-- Indexes for table `employee_pay_element_deductions`
+--
+ALTER TABLE `employee_pay_element_deductions`
+  ADD PRIMARY KEY (`employee_pay_element_deduction_id`);
+
+--
 -- Indexes for table `employee_roles`
 --
 ALTER TABLE `employee_roles`
@@ -1142,6 +1195,12 @@ ALTER TABLE `employees`
 --
 ALTER TABLE `employee_pay_elements`
   MODIFY `employee_pay_element_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT for table `employee_pay_element_deductions`
+--
+ALTER TABLE `employee_pay_element_deductions`
+  MODIFY `employee_pay_element_deduction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employee_roles`
