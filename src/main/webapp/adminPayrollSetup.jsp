@@ -105,6 +105,8 @@
                      <ul class="chart-legend clearfix">
                       <li><a href="createPayElementDeductionType.jsp"><i class="far fa-circle text-primary"></i> Create Pay Element Deduction Type </a></li>
                       <li><a href="allPayElementDeductionTypesReport.jsp"><i class="far fa-circle text-primary"></i> All Pay Element Deduction Types </a></li>
+                      <li><a href="createEmployeePayElementDeduction.jsp"><i class="far fa-circle text-primary"></i> Create Employee Pay Element Deduction</a></li>
+                      <li><a href="allEmployeesPayElementDeductionReport.jsp"><i class="far fa-circle text-primary"></i> All Employees Pay Element Deduction</a></li>
                     </ul> 
                   </div>
                   <div class="tab-pane fade" id="vert-tabs-employee-pay-element-inquiry" role="tabpanel" aria-labelledby="vert-tabs-employee-pay-element-inquiry-tab">

@@ -1545,6 +1545,54 @@ $(document).ready(function(){
 	      }
 	});
 	
+	$('#createEmployeePayElementDeduction').validate({
+		rules : {
+			employeeId : {
+				required : true
+			},
+			payElementDeductionTypeId : {
+				required : true
+			},
+			amount : {
+				required : true
+			},
+			month : {
+				required : true
+			},
+			year : {
+				required : true
+			}
+		},
+		messages : {
+			employeeId : {
+				required : "Please select a employee"
+			},
+			payElementDeductionTypeId : {
+				required : "Please select a deduction type"
+			},
+			amount : {
+				required : "Please provide amount"
+			},
+			month : {
+				required : "Please provide month"
+			},
+			year : {
+				required : "Please provide year"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
 	/* $("#createState").submit(function (e) {
 
          //stop submitting the form to see the disabled button effect
