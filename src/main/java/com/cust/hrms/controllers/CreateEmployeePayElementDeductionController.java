@@ -25,41 +25,37 @@ public class CreateEmployeePayElementDeductionController extends HttpServlet {
 		EmployeePayElementDeductionNotification epedn = new EmployeePayElementDeductionNotification();
 		EmployeePayElementDeductionDao epedd = new EmployeePayElementDeductionDao();
 		EmployeePayElementDeduction eped = new EmployeePayElementDeduction();
+		DateDao dd = new DateDao();
 		eped.setCreatedBy(createdBy);
 		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 		eped.setEmployeeId(employeeId);
 		int payElementDeductionTypeId = Integer.parseInt(request.getParameter("payElementDeductionTypeId"));
 		eped.setPayElementDeductionTypeId(payElementDeductionTypeId);
 		String value = request.getParameter("amount");
-		String month = request.getParameter("month");
-		eped.setMonthNo(month);
-		String year = request.getParameter("year");
-		eped.setYear(year);
+		String dates[] = request.getParameter("dates").split(" - ");
+		eped.setStartDate(dd.convertDateFormat(dates[0], "/"));
+		eped.setEndDate(dd.convertDateFormat(dates[1], "/"));
+		//out.println(eped.toString());
 		// Check amount 
 		if(value.equals("0.0") || value.equals("0")) {
 			session.setAttribute("error", "Please provide amount");
 			rd.forward(request, response);
 		}
 		else {
-			// validate amount
-			if(epedd.isAmountValid(value)) {
-				eped.setAmount(Double.valueOf(value));
-				// validate year
-				if(epedd.isYearValid(eped.getYear())) {
-					// save data in the database table
-					int count = epedd.createEmployeePayElementDeduction(eped);
-					if(count >= 1) {
-						session.setAttribute("success", epedn.getCreateEmployeePayElementDeductionMessage(true));
-						response.sendRedirect("createEmployeePayElementDeduction.jsp");
-					}
-					else {
-						session.setAttribute("error", epedn.getCreateEmployeePayElementDeductionMessage(false));
-						rd.forward(request, response);
-					}
+			//Check if amount is a valid format
+			boolean isAmountValid = epedd.isAmountValid(value);
+			if(isAmountValid) {
+				eped.setAmount(Double.parseDouble(value));
+				// save data in the database
+				int count = epedd.createEmployeePayElementDeduction(eped);
+				if(count >= 1) {
+					session.setAttribute("success", epedn.getCreateEmployeePayElementDeductionMessage(true));
+					response.sendRedirect("createEmployeePayElementDeduction.jsp");
 				}
 				else {
-					session.setAttribute("error", epedn.getInvalidYearFormatErrorMessage());
+					session.setAttribute("error", epedn.getCreateEmployeePayElementDeductionMessage(false));
 					rd.forward(request, response);
+					
 				}
 			}
 			else {

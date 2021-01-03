@@ -141,6 +141,7 @@
 		                int employeeId = (employee != null) ? Integer.parseInt(employee) : (int)session.getAttribute("otherEmployeeId"); 
 		                EmployeeDao ed = new EmployeeDao();
 		                EmployeePayElementDao eped = new EmployeePayElementDao();
+		                DateDao dd = new DateDao();
 		                PayElementDao ped = new PayElementDao();
 		                LevelDao ld = new LevelDao();
 		                MoneyFormatDao mfd = new MoneyFormatDao();
@@ -178,6 +179,8 @@
 		                      <th>S/N</th>
 		                      <th>Pay Element</th>
 		                      <th>Amount (&#8358;)</th>
+		                      <th>Start Date</th>
+		                      <th>End Date</th>
 		                      <th></th>
 		                    </tr>
 		                    </thead>
@@ -190,6 +193,8 @@
 		                      <td><%=rows %></td>
 		                      <td><%=ped.getName(rs.getInt("pay_element_id")) %></td>
 		                      <td><%=mfd.moneyFormatPattern(rs.getDouble("amount"), 2) %></td>
+		                      <td><%=dd.changeFormatDate(rs.getDate("start_date").toString()) %></td>
+		                      <td><%=dd.changeFormatDate(rs.getDate("end_date").toString()) %></td>
 		                      <td>
 		                      	<form action="editEmployeePayElement.jsp" method="post">
 								<input type="hidden" name="employeePayElementId" value="<%=rs.getInt("employee_pay_element_id") %>" />

@@ -133,8 +133,8 @@
 												<th>Employee</th>
 												<th>Deduction Type</th>
 												<th>Amount</th>
-												<th>Month</th>
-												<th>year</th>
+												<th>Start Date</th>
+												<th>End Date</th>
 												<th></th>
 												<th></th>
 											</tr>
@@ -143,6 +143,7 @@
 										<%
 										EmployeeDao ed = new EmployeeDao();
 										MoneyFormatDao mfd = new MoneyFormatDao();
+										DateDao dd = new DateDao();
 										MonthDao md = new MonthDao();
 										PayElementDeductionTypeDao pedtd = new PayElementDeductionTypeDao();
 										EmployeePayElementDeductionDao epedd = new EmployeePayElementDeductionDao(); 
@@ -161,8 +162,8 @@
 												<td><%=ed.getEmployeeName(rs.getInt("employee_id")) %></td>
 												<td><%=pedtd.getName(rs.getInt("pay_element_deduction_type_id")) %></td>
 												<td><%=mfd.moneyFormatPattern(rs.getDouble("amount"), 2) %></td>
-												<td><%=md.getName(rs.getString("month_no")) %></td>
-												<td><%=rs.getString("year") %></td>
+												<td><%=dd.changeFormatDate(rs.getDate("start_date").toString()) %></td>
+												<td><%=dd.changeFormatDate(rs.getDate("end_date").toString()) %></td>
 												<td>
 													<form action="editEmployeePayElementDeduction.jsp" method="post">
 													<input type="hidden" name="employeePayElementDeductionId" value="<%=rs.getInt("employee_pay_element_deduction_id") %>" />

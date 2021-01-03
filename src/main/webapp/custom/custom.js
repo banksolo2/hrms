@@ -1525,11 +1525,17 @@ $(document).ready(function(){
 		rules : {
 			amount : {
 				required : true
+			},
+			dates : {
+				required : true
 			}
 		},
 		messages : {
 			amount : {
 				required : "Please provide amount"
+			},
+			dates : {
+				required : "Please provide start and end dates"
 			}
 		},
 		errorElement: 'span',
@@ -1556,10 +1562,7 @@ $(document).ready(function(){
 			amount : {
 				required : true
 			},
-			month : {
-				required : true
-			},
-			year : {
+			dates : {
 				required : true
 			}
 		},
@@ -1573,8 +1576,93 @@ $(document).ready(function(){
 			amount : {
 				required : "Please provide amount"
 			},
-			month : {
-				required : "Please provide month"
+			dates : {
+				required : "Please provide start and end dates"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	
+	$('#createEmployeePayrollRole').validate({
+		rules : {
+			employeeId : {
+				required : true
+			},
+			payrollRoleNameId : {
+				required : true
+			}
+		},
+		messages : {
+			employeeId : {
+				required : "Please select an employee"
+			},
+			payrollRoleNameId : {
+				required : "Please select a role"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	$('#createPayrollRoleLevel').validate({
+		rules : {
+			payrollRoleNameId : {
+				required : true
+			},
+			levelId : {
+				required : true
+			}
+		},
+		messages : {
+			payrollRoleNameId : {
+				required : "Please select a role option"
+			},
+			levelId : {
+				required : "Please select a level option"
+			}
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+		      error.addClass('invalid-feedback');
+		      element.closest('.form-group').append(error);
+		    },
+	    highlight: function (element, errorClass, validClass) {
+	        $(element).addClass('is-invalid');
+	      },
+	      unhighlight: function (element, errorClass, validClass) {
+	        $(element).removeClass('is-invalid');
+	      }
+	});
+	$('#generatePayroll').validate({
+		rules : {
+			monthNo : {
+				required : true
+			},
+			year : {
+				required : true
+			}
+		},
+		messages : {
+			monthNo : {
+				required : "Please select a month option"
 			},
 			year : {
 				required : "Please provide year"

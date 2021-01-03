@@ -29,6 +29,10 @@ public class EditEmployeePayElementController extends HttpServlet {
 		EmployeePayElement epe = eped.getEmployeePayElementById(employeePayElementId);
 		epe.setUpdatedBy(updatedBy);
 		Boundary b = bd.getBoundaryById(epe.getBoundaryId());
+		String dates[] = request.getParameter("dates").split(" - ");
+		DateDao dd = new DateDao();
+		epe.setStartDate(dd.convertDateFormat(dates[0], "/"));
+		epe.setEndDate(dd.convertDateFormat(dates[1], "/"));
 		String amount = request.getParameter("amount");
 		//Check if amount is a valid format
 		if(bd.isAmountValid(amount)) {

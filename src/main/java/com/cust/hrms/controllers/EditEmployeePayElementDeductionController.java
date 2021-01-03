@@ -23,6 +23,7 @@ public class EditEmployeePayElementDeductionController extends HttpServlet {
 			updatedBy = (int)session.getAttribute("employeeId");
 		}
 		EmployeePayElementDeductionNotification epedn = new EmployeePayElementDeductionNotification();
+		DateDao dd = new DateDao();
 		EmployeePayElementDeductionDao epedd = new EmployeePayElementDeductionDao();
 		int employeePayElementDeductionId = Integer.parseInt(request.getParameter("employeePayElementDeductionId"));
 		EmployeePayElementDeduction eped = epedd.getEmployeePayElementDeductionById(employeePayElementDeductionId);
@@ -32,34 +33,26 @@ public class EditEmployeePayElementDeductionController extends HttpServlet {
 		int payElementDeductionTypeId = Integer.parseInt(request.getParameter("payElementDeductionTypeId"));
 		eped.setPayElementDeductionTypeId(payElementDeductionTypeId);
 		String value = request.getParameter("amount");
-		String month = request.getParameter("month");
-		eped.setMonthNo(month);
-		String year = request.getParameter("year");
-		eped.setYear(year);
+		String dates[] = request.getParameter("dates").split(" - ");
+		eped.setStartDate(dd.convertDateFormat(dates[0], "/"));
+		eped.setEndDate(dd.convertDateFormat(dates[1], "/"));
 		// Check amount 
 		if(value.equals("0.0") || value.equals("0")) {
 			session.setAttribute("error", "Please provide amount");
 			rd.forward(request, response);
 		}
 		else {
-			// validate amount
-			if(epedd.isAmountValid(value)) {
-				eped.setAmount(Double.valueOf(value));
-				// validate year
-				if(epedd.isYearValid(eped.getYear())) {
-					// save data in the database table
-					int count = epedd.updateEmployeePayElementDeduction(eped);
-					if(count >= 1) {
-						session.setAttribute("success", epedn.getUpdateEmployeePayElementDeductionMessage(true));
-						response.sendRedirect("allEmployeesPayElementDeductionReport.jsp");
-					}
-					else {
-						session.setAttribute("error", epedn.getUpdateEmployeePayElementDeductionMessage(false));
-						rd.forward(request, response);
-					}
+			//Valid amount 
+			boolean isAmountValid = epedd.isAmountValid(value);
+			if(isAmountValid) {
+				//update data in the database table
+				int count = epedd.updateEmployeePayElementDeduction(eped);
+				if(count >= 1) {
+					session.setAttribute("success", epedn.getUpdateEmployeePayElementDeductionMessage(true));
+					response.sendRedirect("allEmployeesPayElementDeductionReport.jsp");
 				}
 				else {
-					session.setAttribute("error", epedn.getInvalidYearFormatErrorMessage());
+					session.setAttribute("error", epedn.getUpdateEmployeePayElementDeductionMessage(false));
 					rd.forward(request, response);
 				}
 			}

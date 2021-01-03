@@ -6,6 +6,20 @@ public class ElementStatus {
 	private String code;
 	private String createdAt;
 	private String updatedAt;
+	private int createdBy;
+	private int updatedBy;
+	public int getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
+	}
+	public int getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(int updatedBy) {
+		this.updatedBy = updatedBy;
+	}
 	public int getElementStatusId() {
 		return elementStatusId;
 	}
@@ -39,7 +53,8 @@ public class ElementStatus {
 	@Override
 	public String toString() {
 		return "ElementStatus [elementStatusId=" + elementStatusId + ", name=" + name + ", code=" + code
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", createdBy=" + createdBy + ", updatedBy="
+				+ updatedBy + "]";
 	}
 	
 	

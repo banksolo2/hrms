@@ -21,6 +21,14 @@
 		response.sendRedirect("login.jsp");
 
 	}
+	session.setAttribute("parent", "admin");
+	session.setAttribute("page", "developer_setup");
+	if(session.getAttribute("isSuperAdmin") != null){
+		boolean isSuperAdmin = (boolean)session.getAttribute("isSuperAdmin");
+		if(isSuperAdmin == false){
+			response.sendRedirect("index.jsp");
+		}
+	}
 	%>
 	<div class="wrapper">
 		<jsp:include page="topNav.jsp"></jsp:include>

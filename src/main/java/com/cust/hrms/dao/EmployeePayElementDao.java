@@ -13,8 +13,9 @@ public class EmployeePayElementDao {
 	private EmployeePayElement epe;
 	
 	public int createEmployeePayElement(EmployeePayElement epe) {
-		query = "insert into employee_pay_elements (employee_id, level_id, pay_element_id, boundary_id, amount, created_by) "
-				+ "values (?, ?, ?, ?, ?, ?)";
+		query = "insert into employee_pay_elements (employee_id, level_id, pay_element_id, boundary_id, amount, created_by, "
+				+ "start_date, end_date) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?)";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
@@ -24,6 +25,8 @@ public class EmployeePayElementDao {
 			ps.setInt(4, epe.getBoundaryId());
 			ps.setDouble(5, epe.getAmount());
 			ps.setInt(6, epe.getCreatedBy());
+			ps.setDate(7, Date.valueOf(epe.getStartDate()));
+			ps.setDate(8, Date.valueOf(epe.getEndDate()));
 			count = ps.executeUpdate();
 			dbcon.con.close();
 		}
@@ -75,6 +78,8 @@ public class EmployeePayElementDao {
 				epe.setUpdatedBy(rs.getInt("updated_by"));
 				epe.setCreatedAt(rs.getTimestamp("created_at").toString());
 				epe.setUpdatedAt(rs.getTimestamp("updated_at").toString());
+				epe.setStartDate(rs.getDate("start_date").toString());
+				epe.setEndDate(rs.getDate("end_date").toString());
 			}
 			dbcon.con.close();
 		}
@@ -105,6 +110,8 @@ public class EmployeePayElementDao {
 				epe.setUpdatedBy(rs.getInt("updated_by"));
 				epe.setCreatedAt(rs.getTimestamp("created_at").toString());
 				epe.setUpdatedAt(rs.getTimestamp("updated_at").toString());
+				epe.setStartDate(rs.getDate("start_date").toString());
+				epe.setEndDate(rs.getDate("end_date").toString());
 			}
 			dbcon.con.close();
 		}
@@ -115,13 +122,16 @@ public class EmployeePayElementDao {
 	}
 	
 	public int updateEmployeePayElement(EmployeePayElement epe) {
-		query = "update employee_pay_elements set amount = ?, updated_by = ? where employee_pay_element_id = ?";
+		query = "update employee_pay_elements set amount = ?, updated_by = ?, start_date = ?, end_date = ? where "
+				+ "employee_pay_element_id = ?";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setDouble(1, epe.getAmount());
 			ps.setInt(2, epe.getUpdatedBy());
-			ps.setInt(3, epe.getEmployeePayElementId());
+			ps.setDate(3, Date.valueOf(epe.getStartDate()));
+			ps.setDate(4, Date.valueOf(epe.getEndDate()));
+			ps.setInt(5, epe.getEmployeePayElementId());
 			count = ps.executeUpdate();
 			dbcon.con.close();
 		}
@@ -248,12 +258,32 @@ public class EmployeePayElementDao {
 		return rs;
 	}
 	
+	public ResultSet getEmployeePayElementByEmployee(int employeeId, String date) {
+		Date dates = Date.valueOf(date);
+		query = "select * from employee_pay_elements where employee_id = ? and ( ? between start_date and end_date)";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			ps.setDate(2, dates);
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
 	public static void main(String args[]) {
 		EmployeePayElementDao eped = new EmployeePayElementDao();
-		EmployeePayElement epe = eped.getEmployeePayElement(2,2, 4);
-		int result[] = eped.getEmployeePayElementsId(2);
-		for(int x : result) {
-			System.out.println(x);
+		try {
+			ResultSet rs = eped.getEmployeePayElementByEmployee(2, "2020-12-07");
+			while(rs.next()) {
+				System.out.println(rs.getDouble("amount"));
+			}
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
 		}
 	}
 }

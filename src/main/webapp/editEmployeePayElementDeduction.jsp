@@ -205,37 +205,20 @@
 											<input type="text" class="form-control" name="amount" value="<%=eped.getAmount() %>">
 										</div>
 										<div class="form-group">
-											<label>Month</label>
-											<%
-											MonthDao md = new MonthDao();
-											String month = eped.getMonthNo();
-											rs = md.getMonthOption(month);
-											%>
-											<select class="form-control select2" style="width: 100%;" name="month">
-											<%
-											if(month.equals("00")){
-											%>
-												<option selected="selected" value="">SELECT MONTH</option>	
-											<%
-											}
-											else{
-											%>
-												<option selected="selected" value="<%=month %>"><%=md.getName(month).toUpperCase() %></option>
-											<%
-											}
-											while(rs.next()){
-											%>
-												<option value="<%=rs.getString("no") %>"><%=rs.getString("name").toUpperCase() %></option>
-											<%
-											}
-											%>
-											</select>
-										</div>
-										<div class="form-group">
-											<label>Year (YYYY)</label>
-											
-											<input type="number" value="<%=eped.getYear() %>" class="form-control" name="year" >
-										</div>
+						                  <label>Start Date to End Date</label>
+										<%
+										DateDao dd = new DateDao();
+										%>
+						                  <div class="input-group">
+						                    <div class="input-group-prepend">
+						                      <span class="input-group-text">
+						                        <i class="far fa-calendar-alt"></i>
+						                      </span>
+						                    </div>
+						                    <input type="text" class="form-control float-right" id="reservation" name="dates" value="<%=dd.joinStartDateAndEndDate(eped.getStartDate(), eped.getEndDate()) %>">
+						                  </div>
+						                  <!-- /.input group -->
+						                </div>
 									</div>
 									<!-- /.col -->
 

@@ -7,12 +7,14 @@ public class BoundaryDao {
 	private DbConnection dbcon = new DbConnection();
 	private EmployeePayElementDao eped = new EmployeePayElementDao();
 	private EmployeeDao ed = new EmployeeDao();
+	private PayElementDao ped = new PayElementDao();
 	private int count;
 	private String query;
 	private Statement stat;
 	private PreparedStatement ps;
 	private ResultSet rs;
 	private Boundary b;
+	
 	
 	public int createBoundary(Boundary b) {
 		query = "insert into boundaries (level_pay_element_id, level_id, pay_element_id, highest_amount, lowest_amount, "
@@ -33,12 +35,15 @@ public class BoundaryDao {
 			for(int x : employeesId) {
 				if(x != 0) {
 					EmployeePayElement epe = new EmployeePayElement();
+					PayElement pe = ped.getPayElementById(b.getPayElementId());
 					epe.setEmployeeId(x);
 					epe.setLevelId(b.getLevelId());
 					epe.setPayElementId(b.getPayElementId());
 					epe.setBoundaryId(bo.getBoundaryId());
 					epe.setAmount(b.getDefaultAmount());
 					epe.setCreatedBy(b.getCreatedBy());
+					epe.setStartDate(pe.getStartDate());
+					epe.setEndDate(pe.getEndDate());
 					//Check if employee pay element already exist
 					boolean isEmployeePayElementExist = eped.isEmployeePayElementExist(epe);
 					if(isEmployeePayElementExist == false) {
@@ -201,22 +206,58 @@ public class BoundaryDao {
 	
 	}
 	 
-	public ResultSet getUncreatedBoundaryReport(int levelPayElementsId[]) {
-		String placeHolder = "";
-		for(int i = 0; i < levelPayElementsId.length; i++) {
-			placeHolder += "?";
-			if(i != (levelPayElementsId.length - 1)) {
-				placeHolder = ",";
+	public ResultSet getUncreatedBoundaryLevelsReport() {
+		int levelPayElementsId[] = getCreatedLevelPayElementsId();
+		String quote = "";
+		int length = levelPayElementsId.length;
+		for(int i = 0; i < length; i++) {
+			quote += "?";
+			if(i != (length - 1)) {
+				quote +=",";
 			}
 		}
-		query = "select * from levels_pay_elements";
+		query = "select DISTINCT level_id from levels_pay_elements where level_pay_element_id not in ("+quote+")";
 		dbcon.getConnection();
 		try {
-			stat = dbcon.con.createStatement();
-			rs = stat.executeQuery(query);
+			ps = dbcon.con.prepareStatement(query);
+			count = 1;
+			for(int x : levelPayElementsId) {
+				ps.setInt(count, x);
+				count++;
+			}
+			rs = ps.executeQuery();
 		}
 		catch(SQLException ex) {
 			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	public ResultSet getUncreatedBoundary(int levelId) {
+		int levelPayElementsId[] = getCreatedLevelPayElementsId();
+		String quote = "";
+		int length = levelPayElementsId.length;
+		for(int i = 0; i < length; i++) {
+			quote += "?";
+			if(i != (length - 1)) {
+				quote +=",";
+			}
+		}
+		query = "select * from levels_pay_elements where level_pay_element_id not in ("+quote+") and "
+				+ "level_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			count = 1;
+			for(int x : levelPayElementsId) {
+				ps.setInt(count, x);
+				count++;
+			}
+			ps.setInt(count, levelId);
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.toString());
 		}
 		return rs;
 	}
@@ -241,6 +282,41 @@ public class BoundaryDao {
 			System.out.println(ex.fillInStackTrace());
 		}
 		return rs;
+	}
+	
+	public int uncreatedBoundaryCount(int levelId) {
+		int levelPayElementsId[] = getCreatedLevelPayElementsId();
+		int result = 0;
+		String quote = "";
+		int length = levelPayElementsId.length;
+		for(int i = 0; i < length; i++) {
+			quote += "?";
+			if(i != (length - 1)) {
+				quote +=",";
+			}
+		}
+		query = "select count(*) as count_no from levels_pay_elements where level_pay_element_id not in ("+quote+") and "
+				+ "level_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			count = 1;
+			for(int x : levelPayElementsId) {
+				ps.setInt(count, x);
+				count++;
+			}
+			ps.setInt(count, levelId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("count_no");
+			}
+			rs.close();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
 	}
 	
 	public boolean isAmountValid(String amount) {
@@ -334,9 +410,7 @@ public class BoundaryDao {
 	
 	public static void main(String args[]) {
 		BoundaryDao bd = new BoundaryDao();
-		int result[] = bd.getBoundaryIdByLevelId(6);
-		for(int x : result) {
-			System.out.println(x);
-		}
+		int count = bd.uncreatedBoundaryCount(9);
+		System.out.println(count);
 	}
 }

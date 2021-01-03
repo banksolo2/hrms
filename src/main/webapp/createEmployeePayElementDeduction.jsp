@@ -211,45 +211,20 @@
 											<input type="text" class="form-control" name="amount" value="<%=amount %>">
 										</div>
 										<div class="form-group">
-											<label>Month</label>
-											<%
-											MonthDao md = new MonthDao();
-											String month = request.getParameter("month");
-											month = (month == null) ? "00" : month;
-											rs = md.getMonthOption(month);
-											%>
-											<select class="form-control select2" style="width: 100%;" name="month">
-											<%
-											if(month.equals("00")){
-											%>
-												<option selected="selected" value="">SELECT MONTH</option>	
-											<%
-											}
-											else{
-											%>
-												<option selected="selected" value="<%=month %>"><%=md.getName(month).toUpperCase() %></option>
-											<%
-											}
-											while(rs.next()){
-											%>
-												<option value="<%=rs.getString("no") %>"><%=rs.getString("name").toUpperCase() %></option>
-											<%
-											}
-											%>
-											</select>
-										</div>
-										<div class="form-group">
-											<label>Year (YYYY)</label>
-											<%
-												String year = request.getParameter("year");
-												if(year == null){
-													year = "";
-												}
-											%>
-											<input type="number" value="<%=year %>" class="form-control" name="year" >
-										</div>
-									</div>
-									<!-- /.col -->
+						                  <label>Start Date to End Date</label>
+										<%
+										String dates = request.getParameter("dates");
+										%>
+						                  <div class="input-group">
+						                    <div class="input-group-prepend">
+						                      <span class="input-group-text">
+						                        <i class="far fa-calendar-alt"></i>
+						                      </span>
+						                    </div>
+						                    <input type="text" class="form-control float-right" id="reservation" name="dates" value="<%=dates %>">
+						                  </div>
+						                  <!-- /.input group -->
+						                </div>
 
 								</div>
 								<!-- /.row -->

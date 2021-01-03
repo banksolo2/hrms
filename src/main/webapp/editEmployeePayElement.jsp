@@ -160,6 +160,7 @@
 											EmployeePayElementDao eped = new EmployeePayElementDao();
 											EmployeePayElement epe = eped.getEmployeePayElementById(employeePayElementId);
 											LevelDao ld = new LevelDao();
+											DateDao dd = new DateDao();
 											ResultSet rs = ld.getAllLevelsOnUpdate(epe.getLevelId());
 											%>
 											<input type="hidden" name="employeePayElementId" value="<%=epe.getEmployeePayElementId() %>" >
@@ -177,7 +178,19 @@
 										<div class="form-group">
 											<label>Amount</label>
 											<input type="text" class="form-control" value="<%=epe.getAmount() %>" name="amount">
-										</div>										
+										</div>
+										<div class="form-group">
+						                  <label>Start Date to End Date</label>
+						                  <div class="input-group">
+						                    <div class="input-group-prepend">
+						                      <span class="input-group-text">
+						                        <i class="far fa-calendar-alt"></i>
+						                      </span>
+						                    </div>
+						                    <input type="text" class="form-control float-right" id="reservation" name="dates" value="<%=dd.joinStartDateAndEndDate(epe.getStartDate(), epe.getEndDate()) %>">
+						                  </div>
+						                  <!-- /.input group -->
+						                </div>									
 									</div>
 									<!-- /.col -->
 

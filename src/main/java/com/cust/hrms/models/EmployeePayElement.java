@@ -11,8 +11,22 @@ public class EmployeePayElement {
 	private int updatedBy;
 	private String createdAt;
 	private String updatedAt;
+	private String startDate;
+	private String endDate;
 	public int getEmployeePayElementId() {
 		return employeePayElementId;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	public void setEmployeePayElementId(int employeePayElementId) {
 		this.employeePayElementId = employeePayElementId;
@@ -76,7 +90,7 @@ public class EmployeePayElement {
 		return "EmployeePayElement [employeePayElementId=" + employeePayElementId + ", employeeId=" + employeeId
 				+ ", levelId=" + levelId + ", payElementId=" + payElementId + ", boundaryId=" + boundaryId + ", amount="
 				+ amount + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt
-				+ ", updatedAt=" + updatedAt + "]";
+				+ ", updatedAt=" + updatedAt + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 	
 	

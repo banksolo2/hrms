@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 public class EmployeeDao {
 	DbConnection dbcon = new DbConnection();
+	private EmployeeStatusDao esd = new EmployeeStatusDao();
 	private PreparedStatement ps;
 	private Statement stmt;
 	private String query;
@@ -121,11 +122,12 @@ public class EmployeeDao {
 	
 	public boolean isEmailExist(String email) {
 		boolean result = false;
-		query = "select count(*) as count_no from employees where email = ?";
+		query = "select count(*) as count_no from employees where email = ? and employee_status_id = ?";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setString(1, email);
+			ps.setInt(2,  esd.getEmployeeStatusIdByCode("active"));
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				count = rs.getInt("count_no");
@@ -143,12 +145,13 @@ public class EmployeeDao {
 	public boolean isEmailExistByAnotherEmployee(Employee e) {
 		boolean result = false;
 		emp = e;
-		query = "select count(*) as count_no from employees where employee_id != ? and email = ?";
+		query = "select count(*) as count_no from employees where employee_id != ? and email = ? and employee_status_id = ?";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, emp.getEmployeeId());
 			ps.setString(2, emp.getEmail());
+			ps.setInt(3,  esd.getEmployeeStatusIdByCode("active"));
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
@@ -254,11 +257,12 @@ public class EmployeeDao {
 	}
 	
 	public ResultSet getAllEmployeeOnUpdate(int employeeId) {
-		query = "select * from employees where employee_id != ? order by first_name asc";
+		query = "select * from employees where employee_status_id = ? and employee_id != ? order by first_name asc";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
-			ps.setInt(1, employeeId);
+			ps.setInt(1, esd.getEmployeeStatusIdByCode("active"));
+			ps.setInt(2, employeeId);
 			rs = ps.executeQuery();
 		}
 		catch(SQLException ex) {
@@ -803,16 +807,20 @@ public class EmployeeDao {
 	public int createEmployeePayElement(Employee e) {
 		BoundaryDao bd = new BoundaryDao();
 		EmployeePayElementDao eped = new EmployeePayElementDao();
+		PayElementDao ped = new PayElementDao();
 		int boundariesId[] = bd.getBoundaryIdByLevelId(e.getLevelId());
 		for(int x : boundariesId) {
 			Boundary b = bd.getBoundaryById(x);
 			EmployeePayElement epe = new EmployeePayElement();
+			PayElement pe = ped.getPayElementById(b.getPayElementId());
 			epe.setEmployeeId(e.getEmployeeId());
 			epe.setLevelId(e.getLevelId());
 			epe.setPayElementId(b.getPayElementId());
 			epe.setBoundaryId(b.getBoundaryId());
 			epe.setAmount(b.getDefaultAmount());
 			epe.setCreatedBy(e.getCreatedBy());
+			epe.setStartDate(pe.getStartDate());
+			epe.setEndDate(pe.getEndDate());
 			count += eped.createEmployeePayElement(epe);
 		}
 		return count;
@@ -864,11 +872,83 @@ public class EmployeeDao {
 	}
 	
 	
+	public int getEmployeeStatusTypeCount(int employeeStatusId) {
+		query = "select count(*) as count_no from employees where employee_status_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeStatusId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("count_no");
+			}
+			rs.close();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
+	public int[] getStatusTypeEmployeesId(int employeeStatusId) {
+		int length = getEmployeeStatusTypeCount(employeeStatusId);
+		int result[] = new int[length];
+		query = "select employee_id from employees where employee_status_id = ?";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeStatusId);
+			rs = ps.executeQuery();
+			int i = 0;
+			while(rs.next()) {
+				result[i] = rs.getInt("employee_id");
+				i++;
+			}
+			rs.close();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
+	public ResultSet getEmployeeByLevels(int levelsId[]) {
+		int length = levelsId.length;
+		String quote = "";
+		for(int i = 0; i < length; i++) {
+			quote +="?";
+			if(i != (length - 1)) {
+				quote +=",";
+			}
+		}
+		query = "select * from employees where level_id in ("+quote+")";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			count = 1;
+			for(int x : levelsId) {
+				ps.setInt(count, x);
+				count++;
+			}
+			rs = ps.executeQuery();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return rs;
+	}
+	
+	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();
-		Employee e = ed.getEmployeeById(9);
-		e.setLastName("Sam");
-		int count = ed.updateEmployee(e);
+		EmployeeStatusDao esd = new EmployeeStatusDao();
+		int employeeStatusId = esd.getEmployeeStatusIdByCode("active");
+		int result[] = ed.getStatusTypeEmployeesId(employeeStatusId);
+		for(int i : result) {
+			System.out.println(i);
+		}
 	}	
 	
 }

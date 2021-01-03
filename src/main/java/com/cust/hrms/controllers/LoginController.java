@@ -22,6 +22,11 @@ public class LoginController extends HttpServlet {
 		EmployeeDao ed = new EmployeeDao();
 		DepartmentHeadDao dhd = new DepartmentHeadDao();
 		EmployeeRoleDao erd = new EmployeeRoleDao();
+		PayrollRoleNameDao prnd = new PayrollRoleNameDao();
+		EmployeePayrollRoleDao eprd = new EmployeePayrollRoleDao();
+		int globalOfficerId = prnd.getPayrollRoleNameId("global_officer");
+		int officerId = prnd.getPayrollRoleNameId("officer");
+		int seniorOfficerId = prnd.getPayrollRoleNameId("senior_officer");
 		RoleDao rod = new RoleDao();
 		boolean isValidEmail = ed.isEmailExist(email);
 		
@@ -31,6 +36,10 @@ public class LoginController extends HttpServlet {
 			
 			if(isValidEmployee == true) {
 				Employee e = ed.getEmployee(email);
+				int employeePayrollRoleId = eprd.getEmployeePayrollRoleNameId(e.getEmployeeId());
+				boolean isGlobalOfficer = (globalOfficerId == employeePayrollRoleId);
+				boolean isSeniorOfficer = (seniorOfficerId == employeePayrollRoleId);
+				boolean isOfficer = (officerId == employeePayrollRoleId);
 				session.setAttribute("employeeId", e.getEmployeeId());
 				session.setAttribute("email", e.getEmail());
 				session.setAttribute("firstName", e.getFirstName());
@@ -40,6 +49,9 @@ public class LoginController extends HttpServlet {
 				session.setAttribute("isSupervisor", erd.isEmployeeRoleExistByParam(e.getEmployeeId(), rod.getRoleIdBycode("supervisor")));
 				session.setAttribute("isHrAdmin", erd.isEmployeeRoleExistByParam(e.getEmployeeId(), rod.getRoleIdBycode("hr_admin")));
 				session.setAttribute("isSuperAdmin", erd.isEmployeeRoleExistByParam(e.getEmployeeId(), rod.getRoleIdBycode("super_admin")));
+				session.setAttribute("isGlobalOfficer", isGlobalOfficer);
+				session.setAttribute("isSeniorOfficer", isSeniorOfficer);
+				session.setAttribute("isOfficer", isOfficer);
 				response.sendRedirect("index.jsp");
 			}
 			else {

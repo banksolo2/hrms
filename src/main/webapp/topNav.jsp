@@ -16,7 +16,11 @@
     </ul>
 
     <!-- SEARCH FORM --> 
-    <form class="form-inline ml-3" method="post" action="logout">
+    
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+    	<li class="nav-item dropdown">
+    	<form class="form-inline ml-3" method="post" action="logout">
       <div class="input-group input-group-sm">
        <div class="input-group-append">
           <button class="btn btn-navbar" type="submit">
@@ -25,7 +29,8 @@
         </div>
       </div>
     </form>
-    
+    	</li>
+    </ul>
    
 
     <!-- Right navbar links -->

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 10, 2020 at 07:14 PM
+-- Generation Time: Jan 03, 2021 at 11:31 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -47,15 +47,15 @@ CREATE TABLE `boundaries` (
 --
 
 INSERT INTO `boundaries` (`boundary_id`, `level_pay_element_id`, `level_id`, `pay_element_id`, `highest_amount`, `lowest_amount`, `default_amount`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(13, 13, 1, 2, 100000, 50000, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
-(14, 14, 1, 3, 120000, 90000, 110000, 2, NULL, '2020-11-30 19:40:45', '2020-11-30 19:40:45'),
-(15, 7, 9, 3, 750000, 430000, 550000, 2, NULL, '2020-12-01 11:40:25', '2020-12-01 11:40:25'),
-(16, 8, 9, 2, 140000, 100000, 120000, 2, NULL, '2020-12-01 11:42:20', '2020-12-01 11:42:20'),
-(17, 9, 6, 2, 230000, 140000, 200000, 2, NULL, '2020-12-01 11:43:38', '2020-12-01 11:43:38'),
-(18, 10, 6, 3, 350000, 250000, 300000, 2, NULL, '2020-12-01 11:45:29', '2020-12-01 11:45:29'),
-(19, 11, 5, 2, 220000, 100000, 170000, 2, NULL, '2020-12-01 11:46:39', '2020-12-01 11:46:39'),
-(20, 12, 5, 3, 360000, 200000, 280000, 2, NULL, '2020-12-01 11:47:19', '2020-12-01 11:47:19'),
-(21, 15, 1, 5, 300000, 100000, 200000, 2, NULL, '2020-12-03 20:13:05', '2020-12-03 20:13:05');
+(21, 15, 1, 5, 300000, 100000, 200000, 2, NULL, '2020-12-03 20:13:05', '2020-12-03 20:13:05'),
+(23, 7, 9, 3, 150000, 60000, 100000, 2, NULL, '2020-12-27 12:10:23', '2020-12-27 12:10:23'),
+(24, 8, 9, 2, 120000, 50000, 80000, 2, NULL, '2020-12-27 12:11:07', '2020-12-27 12:11:07'),
+(25, 9, 6, 2, 190000, 100000, 150000, 2, NULL, '2020-12-29 13:23:41', '2020-12-29 13:23:41'),
+(26, 10, 6, 3, 200000, 100000, 130000, 2, NULL, '2020-12-29 13:24:13', '2020-12-29 13:24:13'),
+(27, 11, 5, 2, 150000, 80000, 100000, 2, NULL, '2020-12-29 13:25:00', '2020-12-29 13:25:00'),
+(28, 12, 5, 3, 200000, 120000, 150000, 2, NULL, '2020-12-29 13:25:32', '2020-12-29 13:25:32'),
+(29, 13, 1, 2, 180000, 80000, 120000, 2, NULL, '2020-12-29 13:27:40', '2020-12-29 13:27:40'),
+(30, 14, 1, 3, 220000, 120000, 170000, 2, NULL, '2020-12-29 13:28:10', '2020-12-29 13:28:10');
 
 -- --------------------------------------------------------
 
@@ -230,6 +230,31 @@ INSERT INTO `employees` (`employee_id`, `first_name`, `middle_name`, `last_name`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `employee_payroll_roles`
+--
+
+CREATE TABLE `employee_payroll_roles` (
+  `employee_payroll_role_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `payroll_role_name_id` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employee_payroll_roles`
+--
+
+INSERT INTO `employee_payroll_roles` (`employee_payroll_role_id`, `employee_id`, `payroll_role_name_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(4, 9, 1, 2, NULL, '2020-12-18 11:08:21', '2020-12-18 11:08:21'),
+(5, 2, 4, 2, NULL, '2020-12-18 11:08:39', '2020-12-18 11:08:39'),
+(6, 7, 3, 2, NULL, '2020-12-18 11:10:46', '2020-12-18 11:10:46');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `employee_pay_elements`
 --
 
@@ -240,6 +265,8 @@ CREATE TABLE `employee_pay_elements` (
   `pay_element_id` int(11) NOT NULL,
   `boundary_id` int(11) NOT NULL,
   `amount` double NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -250,26 +277,21 @@ CREATE TABLE `employee_pay_elements` (
 -- Dumping data for table `employee_pay_elements`
 --
 
-INSERT INTO `employee_pay_elements` (`employee_pay_element_id`, `employee_id`, `level_id`, `pay_element_id`, `boundary_id`, `amount`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(27, 2, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
-(28, 4, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
-(29, 5, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
-(30, 6, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
-(32, 8, 1, 2, 13, 80000, 2, NULL, '2020-11-30 19:39:39', '2020-11-30 19:39:39'),
-(33, 2, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
-(34, 4, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
-(35, 5, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
-(36, 6, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
-(38, 8, 1, 3, 14, 110000, 2, NULL, '2020-11-30 19:40:46', '2020-11-30 19:40:46'),
-(41, 9, 6, 2, 17, 210000, 2, 2, '2020-12-01 12:57:31', '2020-12-05 16:54:19'),
-(42, 9, 6, 3, 18, 300000, 2, NULL, '2020-12-01 12:57:31', '2020-12-01 12:57:31'),
-(47, 7, 9, 3, 15, 550000, 2, NULL, '2020-12-02 02:55:14', '2020-12-02 02:55:14'),
-(48, 7, 9, 2, 16, 120000, 2, NULL, '2020-12-02 02:55:14', '2020-12-02 02:55:14'),
-(49, 2, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:05', '2020-12-03 20:13:05'),
-(50, 4, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:05', '2020-12-03 20:13:05'),
-(51, 5, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:06', '2020-12-03 20:13:06'),
-(52, 6, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:06', '2020-12-03 20:13:06'),
-(53, 8, 1, 5, 21, 200000, 2, NULL, '2020-12-03 20:13:06', '2020-12-03 20:13:06');
+INSERT INTO `employee_pay_elements` (`employee_pay_element_id`, `employee_id`, `level_id`, `pay_element_id`, `boundary_id`, `amount`, `start_date`, `end_date`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(55, 7, 9, 3, 23, 100000, '2020-12-06', '2021-03-31', 2, NULL, '2020-12-27 12:10:23', '2020-12-27 12:10:23'),
+(56, 7, 9, 2, 24, 80000, '2020-12-06', '2021-04-30', 2, 2, '2020-12-27 12:11:07', '2020-12-28 04:07:04'),
+(57, 9, 6, 2, 25, 150000, '2020-12-06', '2021-04-30', 2, NULL, '2020-12-29 13:23:41', '2020-12-29 13:23:41'),
+(58, 9, 6, 3, 26, 130000, '2020-12-06', '2021-03-31', 2, NULL, '2020-12-29 13:24:13', '2020-12-29 13:24:13'),
+(59, 2, 1, 2, 29, 120000, '2020-12-06', '2021-04-30', 2, NULL, '2020-12-29 13:27:40', '2020-12-29 13:27:40'),
+(60, 4, 1, 2, 29, 120000, '2020-12-06', '2021-04-30', 2, NULL, '2020-12-29 13:27:40', '2020-12-29 13:27:40'),
+(61, 5, 1, 2, 29, 120000, '2020-12-06', '2021-04-30', 2, NULL, '2020-12-29 13:27:40', '2020-12-29 13:27:40'),
+(62, 6, 1, 2, 29, 120000, '2020-12-06', '2021-04-30', 2, NULL, '2020-12-29 13:27:40', '2020-12-29 13:27:40'),
+(63, 8, 1, 2, 29, 120000, '2020-12-06', '2021-04-30', 2, NULL, '2020-12-29 13:27:40', '2020-12-29 13:27:40'),
+(64, 2, 1, 3, 30, 170000, '2020-12-06', '2021-03-31', 2, NULL, '2020-12-29 13:28:10', '2020-12-29 13:28:10'),
+(65, 4, 1, 3, 30, 170000, '2020-12-06', '2021-03-31', 2, NULL, '2020-12-29 13:28:10', '2020-12-29 13:28:10'),
+(66, 5, 1, 3, 30, 170000, '2020-12-06', '2021-03-31', 2, NULL, '2020-12-29 13:28:10', '2020-12-29 13:28:10'),
+(67, 6, 1, 3, 30, 170000, '2020-12-06', '2021-03-31', 2, NULL, '2020-12-29 13:28:10', '2020-12-29 13:28:10'),
+(68, 8, 1, 3, 30, 170000, '2020-12-06', '2021-03-31', 2, NULL, '2020-12-29 13:28:11', '2020-12-29 13:28:11');
 
 -- --------------------------------------------------------
 
@@ -282,13 +304,20 @@ CREATE TABLE `employee_pay_element_deductions` (
   `employee_id` int(11) NOT NULL,
   `pay_element_deduction_type_id` int(11) NOT NULL,
   `amount` double NOT NULL,
-  `month_no` varchar(50) NOT NULL,
-  `year` varchar(50) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employee_pay_element_deductions`
+--
+
+INSERT INTO `employee_pay_element_deductions` (`employee_pay_element_deduction_id`, `employee_id`, `pay_element_deduction_type_id`, `amount`, `start_date`, `end_date`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(3, 9, 1, 20000, '2020-12-01', '2021-02-28', 2, 2, '2020-12-22 19:41:30', '2021-01-01 02:41:51');
 
 -- --------------------------------------------------------
 
@@ -314,7 +343,9 @@ INSERT INTO `employee_roles` (`employee_role_id`, `employee_id`, `role_id`, `cre
 (2, 2, 2, '2020-07-12 13:34:49', '2020-07-23 00:13:12', NULL, NULL),
 (6, 5, 4, '2020-08-02 23:53:58', '2020-08-03 10:40:43', 2, 2),
 (8, 8, 4, '2020-09-28 12:57:10', '2020-09-28 12:57:10', 2, NULL),
-(9, 2, 3, '2020-11-08 05:07:19', '2020-11-08 05:07:19', 2, NULL);
+(9, 2, 3, '2020-11-08 05:07:19', '2020-11-08 05:07:19', 2, NULL),
+(10, 7, 3, '2020-12-16 19:58:36', '2020-12-16 19:58:36', 2, NULL),
+(11, 9, 3, '2020-12-16 19:59:53', '2020-12-16 19:59:53', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -325,6 +356,7 @@ INSERT INTO `employee_roles` (`employee_role_id`, `employee_id`, `role_id`, `cre
 CREATE TABLE `employee_status` (
   `employee_status_id` int(11) NOT NULL,
   `name` varchar(300) NOT NULL,
+  `code` varchar(300) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
@@ -335,9 +367,9 @@ CREATE TABLE `employee_status` (
 -- Dumping data for table `employee_status`
 --
 
-INSERT INTO `employee_status` (`employee_status_id`, `name`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(2, 'Active', '2020-07-14 16:39:47', '2020-07-14 16:39:47', NULL, NULL),
-(3, 'Retried ', '2020-07-14 16:39:47', '2020-07-14 16:39:47', NULL, NULL);
+INSERT INTO `employee_status` (`employee_status_id`, `name`, `code`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(2, 'Active', 'active', '2020-07-14 16:39:47', '2020-12-14 00:55:37', NULL, NULL),
+(3, 'Retried', 'retried', '2020-07-14 16:39:47', '2020-12-14 00:56:40', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -587,7 +619,8 @@ INSERT INTO `levels` (`level_id`, `name`, `code`, `leave_days`, `created_by`, `u
 (1, 'Senior Manager', 'senior_manager', 22, NULL, 2, '2020-07-15 17:05:43', '2020-07-15 17:05:43'),
 (5, 'Manager', 'manager', 22, 2, NULL, '2020-11-20 04:21:03', '2020-11-20 04:21:03'),
 (6, 'Controller', 'controller', 22, 2, NULL, '2020-11-20 04:21:25', '2020-11-20 04:21:25'),
-(9, 'Assistant Manager', 'assistant_manager', 21, 2, NULL, '2020-11-28 14:44:26', '2020-11-28 14:44:26');
+(9, 'Assistant Manager', 'assistant_manager', 21, 2, NULL, '2020-11-28 14:44:26', '2020-11-28 14:44:26'),
+(10, 'Executive', 'executive', 20, 2, NULL, '2020-12-18 22:42:05', '2020-12-18 22:42:05');
 
 -- --------------------------------------------------------
 
@@ -675,6 +708,103 @@ INSERT INTO `months` (`no`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payrolls`
+--
+
+CREATE TABLE `payrolls` (
+  `payroll_id` int(11) NOT NULL,
+  `employee_pay_element_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL,
+  `pay_element_id` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  `month_no` varchar(50) NOT NULL,
+  `year` varchar(50) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payrolls`
+--
+
+INSERT INTO `payrolls` (`payroll_id`, `employee_pay_element_id`, `employee_id`, `level_id`, `pay_element_id`, `amount`, `month_no`, `year`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(17, 2, 2, 1, 2, 120000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(18, 3, 2, 1, 3, 170000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(19, 2, 4, 1, 2, 120000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(20, 3, 4, 1, 3, 170000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(21, 2, 5, 1, 2, 120000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(22, 3, 5, 1, 3, 170000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(23, 2, 6, 1, 2, 120000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(24, 3, 6, 1, 3, 170000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(25, 3, 7, 9, 3, 100000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(26, 2, 7, 9, 2, 80000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(27, 2, 8, 1, 2, 120000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(28, 3, 8, 1, 3, 170000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(29, 2, 9, 6, 2, 150000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(30, 3, 9, 6, 3, 130000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payroll_role_levels`
+--
+
+CREATE TABLE `payroll_role_levels` (
+  `payroll_role_level_id` int(11) NOT NULL,
+  `payroll_role_name_id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payroll_role_levels`
+--
+
+INSERT INTO `payroll_role_levels` (`payroll_role_level_id`, `payroll_role_name_id`, `level_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(3, 4, 9, 2, 2, '2020-12-19 00:03:10', '2020-12-20 01:23:21'),
+(4, 4, 6, 2, NULL, '2020-12-19 00:03:10', '2020-12-19 00:03:10'),
+(5, 4, 10, 2, NULL, '2020-12-19 00:03:10', '2020-12-19 00:03:10'),
+(6, 4, 5, 2, NULL, '2020-12-19 00:03:10', '2020-12-19 00:03:10'),
+(7, 4, 1, 2, NULL, '2020-12-19 00:03:10', '2020-12-19 00:03:10'),
+(9, 3, 9, 2, NULL, '2020-12-20 12:20:16', '2020-12-20 12:20:16'),
+(10, 3, 6, 2, NULL, '2020-12-20 12:20:16', '2020-12-20 12:20:16'),
+(11, 3, 10, 2, NULL, '2020-12-20 12:20:16', '2020-12-20 12:20:16'),
+(16, 1, 10, 2, NULL, '2020-12-20 12:50:19', '2020-12-20 12:50:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payroll_role_names`
+--
+
+CREATE TABLE `payroll_role_names` (
+  `payroll_role_name_id` int(11) NOT NULL,
+  `name` varchar(300) NOT NULL,
+  `code` varchar(300) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payroll_role_names`
+--
+
+INSERT INTO `payroll_role_names` (`payroll_role_name_id`, `name`, `code`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Officer', 'officer', 2, 2, '2020-12-14 21:40:43', '2020-12-15 10:32:34'),
+(3, 'Senior Officer', 'senior_officer', 2, NULL, '2020-12-16 16:40:32', '2020-12-16 16:40:32'),
+(4, 'Global Officer', 'global_officer', 2, NULL, '2020-12-16 16:41:09', '2020-12-16 16:41:09');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pay_elements`
 --
 
@@ -699,8 +829,7 @@ CREATE TABLE `pay_elements` (
 INSERT INTO `pay_elements` (`pay_element_id`, `name`, `code`, `element_status_id`, `start_date`, `end_date`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 (2, 'Transport', 'transport', 2, '2020-12-06', '2021-04-30', 'Transport Allowance', 2, 2, '2020-11-19 12:00:31', '2020-12-06 03:28:49'),
 (3, 'Feeding', 'feeding', 2, '2020-12-06', '2021-03-31', 'Feeding Allowance', 2, 2, '2020-11-23 12:53:25', '2020-12-06 03:28:16'),
-(5, 'Housing', 'housing', 2, '2020-10-04', '2020-11-26', 'Housing', 2, 2, '2020-12-03 20:09:45', '2020-12-06 15:46:20'),
-(7, 'Testing', 'testing', 2, '2020-10-04', '2020-12-05', 'testing', 2, NULL, '2020-12-06 15:24:41', '2020-12-06 15:24:41');
+(5, 'Housing', 'housing', 2, '2020-10-04', '2020-11-26', 'Housing', 2, 2, '2020-12-03 20:09:45', '2020-12-06 15:46:20');
 
 -- --------------------------------------------------------
 
@@ -995,6 +1124,12 @@ ALTER TABLE `employees`
   ADD PRIMARY KEY (`employee_id`);
 
 --
+-- Indexes for table `employee_payroll_roles`
+--
+ALTER TABLE `employee_payroll_roles`
+  ADD PRIMARY KEY (`employee_payroll_role_id`);
+
+--
 -- Indexes for table `employee_pay_elements`
 --
 ALTER TABLE `employee_pay_elements`
@@ -1085,6 +1220,24 @@ ALTER TABLE `martial_statuses`
   ADD PRIMARY KEY (`martial_status_id`);
 
 --
+-- Indexes for table `payrolls`
+--
+ALTER TABLE `payrolls`
+  ADD PRIMARY KEY (`payroll_id`);
+
+--
+-- Indexes for table `payroll_role_levels`
+--
+ALTER TABLE `payroll_role_levels`
+  ADD PRIMARY KEY (`payroll_role_level_id`);
+
+--
+-- Indexes for table `payroll_role_names`
+--
+ALTER TABLE `payroll_role_names`
+  ADD PRIMARY KEY (`payroll_role_name_id`);
+
+--
 -- Indexes for table `pay_elements`
 --
 ALTER TABLE `pay_elements`
@@ -1152,7 +1305,7 @@ ALTER TABLE `support_ticket_statues`
 -- AUTO_INCREMENT for table `boundaries`
 --
 ALTER TABLE `boundaries`
-  MODIFY `boundary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `boundary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `branches`
@@ -1191,28 +1344,34 @@ ALTER TABLE `employees`
   MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `employee_payroll_roles`
+--
+ALTER TABLE `employee_payroll_roles`
+  MODIFY `employee_payroll_role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `employee_pay_elements`
 --
 ALTER TABLE `employee_pay_elements`
-  MODIFY `employee_pay_element_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `employee_pay_element_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `employee_pay_element_deductions`
 --
 ALTER TABLE `employee_pay_element_deductions`
-  MODIFY `employee_pay_element_deduction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `employee_pay_element_deduction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `employee_roles`
 --
 ALTER TABLE `employee_roles`
-  MODIFY `employee_role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `employee_role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `employee_status`
 --
 ALTER TABLE `employee_status`
-  MODIFY `employee_status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `employee_status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `genders`
@@ -1266,7 +1425,7 @@ ALTER TABLE `leave_types`
 -- AUTO_INCREMENT for table `levels`
 --
 ALTER TABLE `levels`
-  MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `levels_pay_elements`
@@ -1279,6 +1438,24 @@ ALTER TABLE `levels_pay_elements`
 --
 ALTER TABLE `martial_statuses`
   MODIFY `martial_status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `payrolls`
+--
+ALTER TABLE `payrolls`
+  MODIFY `payroll_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `payroll_role_levels`
+--
+ALTER TABLE `payroll_role_levels`
+  MODIFY `payroll_role_level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `payroll_role_names`
+--
+ALTER TABLE `payroll_role_names`
+  MODIFY `payroll_role_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pay_elements`

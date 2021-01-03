@@ -53,6 +53,7 @@
 								<li class="breadcrumb-item"><a href="#">Admin</a></li>
 								<li class="breadcrumb-item"><a href="adminPayrollSetup.jsp">Payroll Setup</a></li>
 								<li class="breadcrumb-item"><a href="uncreatedPaymentBoundary.jsp">All Uncreated Pay Boundary</a></li>
+								<li class="breadcrumb-item"><a href="viewLevelBoundary.jsp">View Level Uncreated Boundary</a></li>
 								<li class="breadcrumb-item active">Create Boundary</li>
 							</ol>
 						</div>
@@ -153,10 +154,12 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<%
-											int levelPayElementId = Integer.parseInt(request.getParameter("levelPayElementId"));
+											String levelPayElement = request.getParameter("levelPayElementId");
+											int levelPayElementId = (levelPayElement != null) ? Integer.parseInt(levelPayElement) : (int)session.getAttribute("levelPayElementId");
 											LevelPayElementDao lped = new LevelPayElementDao();
 											PayElementDao ped = new PayElementDao();
 											LevelPayElement lpe = lped.getLevelPayElementById(levelPayElementId);
+											session.setAttribute("levelId", lpe.getLevelId());
 											BoundaryDao bd = new BoundaryDao();
 											LevelDao ld = new LevelDao();
 											%>
@@ -214,7 +217,7 @@
 							<!-- /.card-body -->
 							<div class="card-footer">
 			                  <button type="submit" class="btn btn-primary" id="save" onsubmit="disableSaveButton()">Submit</button>
-			                  <a href="uncreatedPaymentBoundary.jsp" class="btn btn-info">Go Back</a>
+			                  <a href="viewLevelBoundary.jsp" class="btn btn-info">Go Back</a>
 			                </div>
 						</div>
 						<!-- /.card -->

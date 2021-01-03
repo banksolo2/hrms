@@ -13,16 +13,16 @@ public class EmployeePayElementDeductionDao {
 	private ResultSet rs;
 	
 	public int createEmployeePayElementDeduction(EmployeePayElementDeduction eped) {
-		query = "insert into employee_pay_element_deductions (employee_id, pay_element_deduction_type_id, amount, month_no, "
-				+ "year, created_by) values(?, ?, ?, ?, ?, ?)";
+		query = "insert into employee_pay_element_deductions (employee_id, pay_element_deduction_type_id, amount, start_date, "
+				+ "end_date, created_by) values(?, ?, ?, ?, ?, ?)";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, eped.getEmployeeId());
 			ps.setInt(2, eped.getPayElementDeductionTypeId());
 			ps.setDouble(3, eped.getAmount());
-			ps.setString(4, eped.getMonthNo());
-			ps.setString(5, eped.getYear());
+			ps.setDate(4, Date.valueOf(eped.getStartDate()));
+			ps.setDate(5, Date.valueOf(eped.getEndDate()));
 			ps.setInt(6, eped.getCreatedBy());
 			count = ps.executeUpdate();
 			dbcon.con.close();
@@ -72,8 +72,8 @@ public class EmployeePayElementDeductionDao {
 				eped.setEmployeeId(rs.getInt("employee_id"));
 				eped.setPayElementDeductionTypeId(rs.getInt("pay_element_deduction_type_id"));
 				eped.setAmount(rs.getDouble("amount"));
-				eped.setMonthNo(rs.getString("month_no"));
-				eped.setYear(rs.getString("year"));
+				eped.setStartDate(rs.getDate("start_date").toString());
+				eped.setEndDate(rs.getDate("end_date").toString());
 				eped.setCreatedBy(rs.getInt("created_by"));
 				eped.setUpdatedBy(rs.getInt("updated_by"));
 				eped.setCreatedAt(rs.getTimestamp("created_at").toString());
@@ -90,7 +90,7 @@ public class EmployeePayElementDeductionDao {
 	
 	public int updateEmployeePayElementDeduction(EmployeePayElementDeduction eped) {
 		query = "update employee_pay_element_deductions set employee_id = ?, pay_element_deduction_type_id = ?, "
-				+ "amount = ?, month_no = ?, year = ?, updated_by = ? where "
+				+ "amount = ?, start_date = ?, end_date = ?, updated_by = ? where "
 				+ "employee_pay_element_deduction_id = ?";
 		dbcon.getConnection();
 		try {
@@ -98,8 +98,8 @@ public class EmployeePayElementDeductionDao {
 			ps.setInt(1, eped.getEmployeeId());
 			ps.setInt(2, eped.getPayElementDeductionTypeId());
 			ps.setDouble(3, eped.getAmount());
-			ps.setString(4, eped.getMonthNo());
-			ps.setString(5, eped.getYear());
+			ps.setDate(4, Date.valueOf(eped.getStartDate()));
+			ps.setDate(5, Date.valueOf(eped.getEndDate()));
 			ps.setInt(6, eped.getUpdatedBy());
 			ps.setInt(7, eped.getEmployeePayElementDeductionId());
 			count = ps.executeUpdate();
@@ -127,7 +127,7 @@ public class EmployeePayElementDeductionDao {
 	}
 	
 	public ResultSet getAllEmployeePayElementDeductionsReport() {
-		query = "select * from employee_pay_element_deductions order by year desc";
+		query = "select * from employee_pay_element_deductions order by start_date desc";
 		dbcon.getConnection();
 		try {
 			stat = dbcon.con.createStatement();
@@ -139,15 +139,13 @@ public class EmployeePayElementDeductionDao {
 		return rs;
 	}
 	
-	public ResultSet getEmployeePayElementDeduction(int employeeId, String monthNo, String year) {
-		query = "select * from employee_pay_element_deductions where employee_id = ? and month_no = ? "
-				+ "and year = ?";
+	public ResultSet getEmployeePayElementDeduction(int employeeId, String date) {
+		query = "select * from employee_pay_element_deductions where employee_id = ? and (? between start_date and end_date)";
 		dbcon.getConnection();
 		try {
 			ps = dbcon.con.prepareStatement(query);
 			ps.setInt(1, employeeId);
-			ps.setString(2, monthNo.trim());
-			ps.setString(3, year.trim());
+			ps.setDate(2, Date.valueOf(date));
 			rs = ps.executeQuery();
 		}
 		catch(SQLException ex) {
@@ -156,10 +154,52 @@ public class EmployeePayElementDeductionDao {
 		return rs;
 	}
 	
+	public double getEmployeePayElementDeductionTotal(int employeeId, String date) {
+		double result = 0;
+		Date dat = Date.valueOf(date);
+		query = "select sum(amount) as total from employee_pay_element_deductions where employee_id = ? and (? between start_date and end_date)";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			ps.setDate(2, dat);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getDouble("total");
+			}
+			rs.close();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return result;
+	}
+	
+	public int getEmployeeDeductionCount(int employeeId, String date) {
+		query = "select count(*) as count_no from employee_pay_element_deductions where employee_id = ? "
+				+ "and (? between start_date and end_date)";
+		dbcon.getConnection();
+		try {
+			ps = dbcon.con.prepareStatement(query);
+			ps.setInt(1, employeeId);
+			ps.setDate(2, Date.valueOf(date));
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("count_no");
+			}
+			rs.close();
+			dbcon.con.close();
+		}
+		catch(SQLException ex) {
+			System.out.println(ex.fillInStackTrace());
+		}
+		return count;
+	}
+	
 	public static void main(String args[]) {
 		EmployeePayElementDeductionDao epedd = new EmployeePayElementDeductionDao();
-		EmployeePayElementDeduction eped = epedd.getEmployeePayElementDeductionById(1);
-		int count = epedd.deleteEmployeePayElementDeduction(eped);
+		int count = epedd.getEmployeeDeductionCount(9, "2021-02-10");
 		System.out.println(count);
 	}
 }

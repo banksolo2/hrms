@@ -122,48 +122,28 @@
 										<thead>
 											<tr>
 												<th>Level</th>
-												<th>Pay Element</th>
 												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 										<%
-										EmployeeDao ed = new EmployeeDao();
 										LevelDao ld = new LevelDao();
-										PayElementDao ped = new PayElementDao();
 										BoundaryDao bd = new BoundaryDao();
-										int resultsId[] = bd.getCreatedLevelPayElementsId();
-										String quote = "";
-										for(int i = 0; i < resultsId.length; i++) {
-											quote += resultsId[i];
-											if(i != (resultsId.length - 1)) {
-												quote += ",";
-											}
-										}
-										String query ="select * from levels_pay_elements where level_pay_element_id not in ("+quote+")";
-										try{
-											Class.forName("com.mysql.jdbc.Driver");
-											Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrms", "root", "");
-											Statement stat = con.createStatement();
-											ResultSet rs = stat.executeQuery(query);
-											while(rs.next()){
+										ResultSet rs = bd.getUncreatedBoundaryLevelsReport();
+										while(rs.next()){
 									%>
 										<tr>
 											<td><%=ld.getLevelName(rs.getInt("level_id")) %></td>
-											<td><%=ped.getName(rs.getInt("pay_element_id")) %></td>
 											<td>
-													<form action="createBoundary.jsp" method="post">
-													<input type="hidden" name="levelPayElementId" value="<%=rs.getInt("level_pay_element_id") %>" />
-													<button type="submit" class="btn btn-primary">Create Boundary</button>
+													<form action="viewLevelBoundary.jsp" method="post">
+													<input type="hidden" name="levelId" value="<%=rs.getInt("level_id") %>" />
+													<button type="submit" class="btn btn-primary">View & Create Boundary</button>
 													</form>
 											</td>
 										</tr>
 									<%
-											}
 										}
-										catch(SQLException ex){
-											System.out.println(ex.fillInStackTrace());
-										}
+										rs.close();
 										%>
 										</tbody>
 										<tfoot>

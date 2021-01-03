@@ -28,8 +28,10 @@ public class CreateBoundaryController extends HttpServlet {
 		b.setCreatedBy(createdBy);
 		int levelPayElementId = Integer.parseInt(request.getParameter("levelPayElementId"));
 		b.setLevelPayElementId(levelPayElementId);
+		session.setAttribute("levelPayElementId", levelPayElementId);
 		int levelId = Integer.parseInt(request.getParameter("levelId"));
 		b.setLevelId(levelId);
+		session.setAttribute("levelId", levelId);
 		int payElementId = Integer.parseInt(request.getParameter("payElementId"));
 		b.setPayElementId(payElementId);
 		String amount = request.getParameter("highestAmount");
@@ -61,7 +63,15 @@ public class CreateBoundaryController extends HttpServlet {
 											int count = bd.createBoundary(b);
 											if(count >= 1) {
 												session.setAttribute("success", bn.createBoundaryMessage(true));
-												response.sendRedirect("uncreatedPaymentBoundary.jsp");
+												int uncreatedCount = bd.uncreatedBoundaryCount(b.getLevelId());
+												if(uncreatedCount >= 1) {
+													response.sendRedirect("viewLevelBoundary.jsp");
+												}
+												else {
+													session.setAttribute("levelId", null);
+													session.setAttribute("levelPayElementId", null);
+													response.sendRedirect("uncreatedPaymentBoundary.jsp");
+												}
 											}
 											else {
 												session.setAttribute("error", bn.createBoundaryMessage(false));

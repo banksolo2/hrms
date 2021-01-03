@@ -16,9 +16,17 @@
 	}
 	session.setAttribute("parent", "admin");
 	session.setAttribute("page", "admin_payroll_setup");
+	boolean isGlobalOfficer = false;
+	boolean isSeniorOfficer = false;
+	boolean isOfficer = false;
+	boolean isHrAdmin = false;
+	boolean isSuperAdmin = false;
 	if(session.getAttribute("isSupervisor") != null || session.getAttribute("isSuperAdmin") != null){
-		boolean isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
-		boolean isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
+		isHrAdmin = (boolean) session.getAttribute("isHrAdmin");
+		isSuperAdmin = (boolean) session.getAttribute("isSuperAdmin");
+		isGlobalOfficer = (boolean) session.getAttribute("isGlobalOfficer");
+		isSeniorOfficer = (boolean) session.getAttribute("isSeniorOfficer");
+		isOfficer = (boolean) session.getAttribute("isOfficer");
 		if(isHrAdmin == false && isSuperAdmin == false){
 			response.sendRedirect("index.jsp");
 		}
@@ -26,7 +34,7 @@
 	%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HRMS | Admin Leave Setup</title>
+  <title>HRMS | Admin Payroll Setup</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <jsp:include page="css.jsp"></jsp:include>
@@ -66,6 +74,7 @@
             <h3 class="card-title">
             </h3>
           </div>
+      
           <div class="card-body">
             <div class="row">
               <div class="col-6 col-sm-4">
@@ -74,7 +83,11 @@
                   <a class="nav-link" id="vert-tabs-level-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-level-pay-element-inquiry" role="tab" aria-controls="vert-tabs-level-pay-element-inquiry" aria-selected="false">Level Pay Element Inquiry</a>
                   <a class="nav-link" id="vert-tabs-boundary-inquiry-tab" data-toggle="pill" href="#vert-tabs-boundary-inquiry" role="tab" aria-controls="vert-tabs-boundary-inquiry" aria-selected="false">Pay Boundary Inquiry</a>
                   <a class="nav-link" id="vert-tabs-pay-element-deduction-inquiry-tab" data-toggle="pill" href="#vert-tabs-pay-element-deduction-inquiry" role="tab" aria-controls="vert-tabs-pay-element-deduction-inquiry" aria-selected="false">Pay Element Deduction Inquiry</a>
-                  <a class="nav-link" id="vert-tabs-employee-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-employee-pay-element-inquiry" role="tab" aria-controls="vert-tabs-employee-pay-element-inquiry" aria-selected="false">Employee Pay Element Inquiry</a>   
+                  <a class="nav-link" id="vert-tabs-employee-pay-element-inquiry-tab" data-toggle="pill" href="#vert-tabs-employee-pay-element-inquiry" role="tab" aria-controls="vert-tabs-employee-pay-element-inquiry" aria-selected="false">Employee Pay Element Inquiry</a>
+                  <% if(isGlobalOfficer || isSuperAdmin){ %>
+                  <a class="nav-link" id="vert-tabs-employee-payroll-role-inquiry-tab" data-toggle="pill" href="#vert-tabs-employee-payroll-role-inquiry" role="tab" aria-controls="vert-tabs-employee-payroll-role-inquiry" aria-selected="false">Payroll Role Inquiry</a> 
+                  <% } %> 
+                  <a class="nav-link" id="vert-tabs-payroll-inquiry-tab" data-toggle="pill" href="#vert-tabs-payroll-inquiry" role="tab" aria-controls="vert-tabs-payroll-inquiry" aria-selected="false">Payroll Inquiry</a> 
                 </div>
               </div>
               <div class="col-6 col-sm-8">
@@ -113,6 +126,21 @@
                      <h5>Employee Pay Element Inquiry</h5>
                      <ul class="chart-legend clearfix">
                       <li><a href="allEmployeePayElementReport.jsp"><i class="far fa-circle text-primary"></i> All Employees Pay Elements </a></li>
+                    </ul> 
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-employee-payroll-role-inquiry" role="tabpanel" aria-labelledby="vert-tabs-employee-payroll-role-inquiry-tab">
+                     <h5>Payroll Role Inquiry</h5>
+                     <ul class="chart-legend clearfix">
+                      <li><a href="allPayrollRoleLevelReport.jsp"><i class="far fa-circle text-primary"></i>  All Payroll Role Levels</a></li>
+                      <li><a href="createEmployeePayrollRole.jsp"><i class="far fa-circle text-primary"></i>  Create Employee Payroll Role</a></li>
+                      <li><a href="allEmployeePayrollRoles.jsp"><i class="far fa-circle text-primary"></i>  All Employee Payroll Roles</a></li>
+                    </ul> 
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-payroll-inquiry" role="tabpanel" aria-labelledby="vert-tabs-payroll-inquiry-tab">
+                     <h5>Payroll Inquiry</h5>
+                     <ul class="chart-legend clearfix">
+                      <li><a href="generatePayroll.jsp"><i class="far fa-circle text-primary"></i> Generate Payroll </a></li>
+                      <li><a href="allPayrollHistory.jsp"><i class="far fa-circle text-primary"></i> All Payroll History </a></li>
                     </ul> 
                   </div>
                 </div>

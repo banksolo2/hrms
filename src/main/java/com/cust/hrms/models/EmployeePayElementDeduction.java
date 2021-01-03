@@ -5,8 +5,8 @@ public class EmployeePayElementDeduction {
 	private int employeeId;
 	private int payElementDeductionTypeId;
 	private double amount;
-	private String monthNo;
-	private String year;
+	private String startDate;
+	private String endDate;
 	private int createdBy;
 	private int updatedBy;
 	private String createdAt;
@@ -35,17 +35,17 @@ public class EmployeePayElementDeduction {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public String getMonthNo() {
-		return monthNo;
+	public String getStartDate() {
+		return startDate;
 	}
-	public void setMonthNo(String monthNo) {
-		this.monthNo = monthNo;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
-	public String getYear() {
-		return year;
+	public String getEndDate() {
+		return endDate;
 	}
-	public void setYear(String year) {
-		this.year = year;
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	public int getCreatedBy() {
 		return createdBy;
@@ -75,7 +75,7 @@ public class EmployeePayElementDeduction {
 	public String toString() {
 		return "EmployeePayElementDeduction [employeePayElementDeductionId=" + employeePayElementDeductionId
 				+ ", employeeId=" + employeeId + ", payElementDeductionTypeId=" + payElementDeductionTypeId
-				+ ", amount=" + amount + ", monthNo=" + monthNo + ", year=" + year + ", createdBy=" + createdBy
+				+ ", amount=" + amount + ", startDate=" + startDate + ", endDate=" + endDate + ", createdBy=" + createdBy
 				+ ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 	

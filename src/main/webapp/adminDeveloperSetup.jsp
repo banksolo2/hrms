@@ -62,6 +62,8 @@
 				<div class="card card-primary card-outline">
               <div class="card-body">
                 <h5 class="card-title"></h5>
+                <a href="createEmployeeStatus.jsp" class="card-link">Create Employee Status</a><br/>
+                <a href="allEmployeeStatusReport.jsp" class="card-link">All Employee Statues</a><br/>
                 <a href="createRole.jsp" class="card-link">Create Role</a><br/>
                 <a href="allRoles.jsp" class="card-link">All Roles</a><br/>
 				<a href="allStates.jsp" class="card-link">All States</a><br/>
@@ -79,6 +81,8 @@
 				<a href="allRequisitionStatus.jsp" class="card-link">All Requisition Statues</a><br/>
 				<a href="createElementStatus.jsp" class="card-link">Create Element Status</a><br/>
 				<a href="allElementStatues.jsp" class="card-link">All Element Statues</a><br/>
+				<a href="createPayrollRole.jsp" class="card-link">Create Payroll Role</a><br/>
+				<a href="allPayrollRole.jsp" class="card-link">All Payroll Roles</a><br/>
               </div>
             </div><!-- /.card -->
 				<!-- /.card -->
