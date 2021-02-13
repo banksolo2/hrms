@@ -47,6 +47,8 @@ public class EditEmployeeController extends HttpServlet {
 		String dateOfBirth = request.getParameter("dateOfBirth");
 		String currentAddress = request.getParameter("currentAddress");
 		String personalProduction = request.getParameter("personalProductionTarget");
+		String accountNo = request.getParameter("accountNo");
+		int bankId = Integer.parseInt(request.getParameter("bankId"));
 		if(personalProduction == null) personalProduction = "0";
 		boolean isPersonalProductionTarget = ed.isPersonalProductionTargetValid(personalProduction);
 		
@@ -78,7 +80,8 @@ public class EditEmployeeController extends HttpServlet {
 			e.setPersonalProductionTarget(personalProductionTarget);
 			e.setUpdatedBy(updatedBy);
 			e.setCreatedBy(updatedBy);
-			
+			e.setAccountNo(accountNo);
+			e.setBankId(bankId);
 			//check if email already exist
 			boolean isEmailExist = ed.isEmailExistByAnotherEmployee(e);
 			

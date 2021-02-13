@@ -33,6 +33,8 @@ public class EditProfileController extends HttpServlet {
 		String personalEmail = request.getParameter("personalEmail").trim();
 		String currentAddress = request.getParameter("currentAddress").trim();
 		String dateOfBirth = request.getParameter("dateOfBirth").trim();
+		String accountNo = request.getParameter("accountNo").trim();
+		int bankId = Integer.parseInt(request.getParameter("bankId"));
 		RequestDispatcher rd = request.getRequestDispatcher("editProfile.jsp");
 		HttpSession session = request.getSession();
 		
@@ -59,6 +61,8 @@ public class EditProfileController extends HttpServlet {
 		e.setPersonalEmail(personalEmail);
 		e.setCurrentAddress(currentAddress);
 		e.setDateOfBirth(dateOfBirth);
+		e.setAccountNo(accountNo);
+		e.setBankId(bankId);
 		
 		int count = ed.updateEmployee(e);
 		

@@ -37,6 +37,8 @@ public class CreateEmployeeController extends HttpServlet {
 		String currentAddress = request.getParameter("currentAddress").trim();
 		String dateOfBirth = request.getParameter("dateOfBirth").trim();
 		int leaveSupervisorId = Integer.parseInt(request.getParameter("leaveSupervisorId"));
+		String accountNo = request.getParameter("accountNo");
+		int bankId = Integer.parseInt(request.getParameter("bankId"));
 		RequestDispatcher rd = request.getRequestDispatcher("createEmployee.jsp");
 		
 		
@@ -82,6 +84,8 @@ public class CreateEmployeeController extends HttpServlet {
 					e.setLeaveSupervisorId(leaveSupervisorId);
 					e.setCreatedBy(createdBy);
 					e.setPersonalProductionTarget(personalProductionTarget);
+					e.setAccountNo(accountNo);
+					e.setBankId(bankId);
 					count = ed.createEmployee(e);
 					if(count >= 1) {
 						session.setAttribute("success", "Employee has been created..");
