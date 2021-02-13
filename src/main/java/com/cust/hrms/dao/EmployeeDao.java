@@ -28,8 +28,8 @@ public class EmployeeDao {
 		query = "insert into employees (first_name, middle_name, last_name, date_of_employment, email, employee_status_id,"
 				+" state_id, mobile_number, department_id, level_id, branch_id, company_id, title, date_of_birth, "
 				+ "name_initials, gender_id, martial_status_id, current_address, personal_email, password, staff_id, "
-				+ "leave_supervisor_id, personal_production_target, created_by) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "leave_supervisor_id, personal_production_target, created_by, bank_id, account_no) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		dbcon.getConnection();
 		try
 		{
@@ -60,6 +60,8 @@ public class EmployeeDao {
 			ps.setInt(22, emp.getLeaveSupervisorId());
 			ps.setDouble(23, emp.getPersonalProductionTarget());
 			ps.setInt(24, emp.getCreatedBy());
+			ps.setInt(25, emp.getBankId());
+			ps.setString(26, emp.getAccountNo());
 			count = ps.executeUpdate();
 			if(count >= 1) {
 				Employee ep = getEmployee(emp.getEmail());
@@ -110,6 +112,8 @@ public class EmployeeDao {
 				emp.setStaffId(rs.getString("staff_id"));
 				emp.setLeaveSupervisorId(rs.getInt("leave_supervisor_id"));
 				emp.setPersonalProductionTarget(rs.getDouble("personal_production_target"));
+				emp.setBankId(rs.getInt("bank_id"));
+				emp.setAccountNo(rs.getString("account_no"));
 			}
 			dbcon.con.close();
 		}
@@ -172,7 +176,8 @@ public class EmployeeDao {
 				+ "email = ?, employee_status_id = ?, state_id = ?, mobile_number = ?, department_id = ?, "
 				+ "level_id = ?, branch_id = ?, company_id = ?, title = ?, date_of_birth = ?, name_initials = ?, "
 				+ "gender_id = ?, martial_status_id = ?, current_address = ?, personal_email = ?, staff_id = ?, "
-				+ "leave_supervisor_id = ?, personal_production_target = ?, updated_by = ? "
+				+ "leave_supervisor_id = ?, personal_production_target = ?, updated_by = ?, "
+				+ "bank_id = ?, account_no = ? "
 				+ "where employee_id = ?";
 		dbcon.getConnection();
 		try {
@@ -200,7 +205,9 @@ public class EmployeeDao {
 			ps.setInt(21, e.getLeaveSupervisorId());
 			ps.setDouble(22, e.getPersonalProductionTarget());
 			ps.setInt(23, e.getUpdatedBy());
-			ps.setInt(24, e.getEmployeeId());
+			ps.setInt(24, e.getBankId());
+			ps.setString(25, e.getAccountNo());
+			ps.setInt(26, e.getEmployeeId());
 			count = ps.executeUpdate();
 			dbcon.con.close();
 			if(count >= 1) {
@@ -434,6 +441,8 @@ public class EmployeeDao {
 				emp.setPersonalProductionTarget(rs.getDouble("personal_production_target"));
 				emp.setCreatedBy(rs.getInt("created_by"));
 				emp.setUpdatedBy(rs.getInt("updated_by"));
+				emp.setBankId(rs.getInt("bank_id"));
+				emp.setAccountNo(rs.getString("account_no"));
 			}
 			dbcon.con.close();
 		}
@@ -943,12 +952,11 @@ public class EmployeeDao {
 	
 	public static void main(String args[]) {
 		EmployeeDao ed = new EmployeeDao();
-		EmployeeStatusDao esd = new EmployeeStatusDao();
-		int employeeStatusId = esd.getEmployeeStatusIdByCode("active");
-		int result[] = ed.getStatusTypeEmployeesId(employeeStatusId);
-		for(int i : result) {
-			System.out.println(i);
-		}
+		Employee e = ed.getEmployee("seunolo2@gmail.com");
+		e.setBankId(1);
+		e.setAccountNo("2083541214");
+		int count = ed.updateEmployee(e);
+		System.out.println(count);
 	}	
 	
 }
