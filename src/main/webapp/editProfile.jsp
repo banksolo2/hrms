@@ -243,6 +243,10 @@
 											</select>
 										</div>
 										<div class="form-group">
+											<label>Account Number:</label>
+										    <input type="text" class="form-control" name="accountNo" value="<%=e.getAccountNo() %>">
+										</div>
+										<div class="form-group">
 											<label>Current Address</label>
 											<textarea rows="5" cols="50" class="form-control" name="currentAddress"><%=e.getCurrentAddress() %></textarea>
 										</div>
@@ -335,6 +339,32 @@
 										<div class="form-group">
 											<label>Personal Email Address</label>
 											<input type="email" name="personalEmail" id="personalEmail" class="form-control" value="<%=e.getPersonalEmail() %>" />
+										</div>
+										<div class="form-group">
+											<label>Bank</label>
+											<%
+											BankDao bad = new BankDao();
+											Bank b = bad.getBankById(e.getBankId());
+											%>
+											<select class="form-control select2" style="width: 100%;" name="bankId">
+												<% if(e.getBankId() == 0){ %>
+												<option selected="selected" value="0">SELECT BANK OPTION</option>
+												<%
+												}
+												else{
+												%>
+												<option selected="selected" value="<%=e.getBankId() %>"><%=b.getName().toUpperCase() %></option>
+												<%
+												}
+												rs = bad.getBankOptions(e.getBankId());
+												while(rs.next()){
+												%>
+												<option value="<%=rs.getInt("bank_id")%>"><%=rs.getString("name").toUpperCase() %></option>
+												<%
+												}
+												rs.close();
+												%>
+											</select>
 										</div>
 										<div class="form-group">
 											<label>Date Of Birth:</label>

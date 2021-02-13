@@ -337,6 +337,14 @@
 											</select>
 										</div>
 										<div class="form-group">
+											<label>Account Number</label>
+											<%
+											String accountNo = request.getParameter("accountNo");
+											if(accountNo == null) accountNo="";
+											%>
+											<input type="text" class="form-control" value="<%=accountNo%>" name="accountNo">
+										</div>
+										<div class="form-group">
 											<label>Current Address</label>
 											<%
 											String currentAddress = request.getParameter("currentAddress");
@@ -521,6 +529,32 @@
 												</div>
 											</div> -->
 											<!-- /.input group -->
+										</div>
+										<div class="form-group">
+											<label>Bank</label>
+											<%
+											String bank = request.getParameter("bankId");
+											int bankId = (bank == null) ? 0 : Integer.parseInt(bank);
+											BankDao bad = new BankDao();
+											%>
+											<select class="form-control select2" style="width: 100%;" name="bankId">
+											<% if(bankId == 0){ %>
+												<option selected="selected" value="0">SELECT BANK OPTION</option>
+											<%
+											}
+											else{
+											%>
+												<option selected="selected" value="<%=bankId %>"><%=bad.getName(bankId).toUpperCase() %></option>
+											<%
+											}
+											rs = bad.getBankOptions(bankId);
+											while(rs.next()){
+											%>
+												<option value="<%=rs.getInt("bank_id")%>"><%=rs.getString("name").toUpperCase() %></option>
+											<%
+											}
+											%>
+											</select>
 										</div>
 										<div class="form-group">
 											<label>Personal Production Target</label>

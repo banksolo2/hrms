@@ -273,6 +273,14 @@
 											</select>
 										</div>
 										<div class="form-group">
+											<label>Account Number</label>
+											<%
+											String accountNo = e.getAccountNo();
+											if(accountNo == null) accountNo = "";
+											%>
+											<input type="text" class="form-control" name="accountNo" value="<%=accountNo %>">
+										</div>
+										<div class="form-group">
 											<label>Current Address</label>
 											<textarea rows="5" cols="50" class="form-control" name="currentAddress"><%=e.getCurrentAddress() %></textarea>
 										</div>
@@ -399,6 +407,29 @@
 													data-inputmask-inputformat="yyyy-mm-dd" data-mask>
 											</div>
 											<!-- /.input group -->
+										</div>
+										<div class="form-group">
+											<label>Bank</label>
+											<%
+											BankDao bad = new BankDao();
+											Bank b = bad.getBankById(e.getBankId());
+											%>
+											<select class="form-control select2" style="width: 100%;" name="bankId">
+											<% if(e.getBankId() == 0){ %>
+												<option selected="selected" value="0">SELECT BANK OPTION</option>
+											<%
+											} 
+											else{
+											%>
+												<option selected="selected" value="<%=b.getBankId()%>"><%=b.getName().toUpperCase() %></option>
+											<%
+											}
+											rs = bad.getBankOptions(e.getBankId());
+											while(rs.next()){
+											%>
+												<option value="<%=rs.getInt("bank_id") %>"><%=rs.getString("name").toUpperCase() %></option>
+											<%} %>
+											</select>
 										</div>
 										<div class="form-group">
 											<label>Personal Production Target</label>
