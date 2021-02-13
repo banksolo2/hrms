@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jan 03, 2021 at 11:31 PM
--- Server version: 10.4.6-MariaDB
--- PHP Version: 7.3.8
+-- Host: 127.0.0.1
+-- Generation Time: Feb 13, 2021 at 08:32 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -21,6 +20,34 @@ SET time_zone = "+00:00";
 --
 -- Database: `hrms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `banks`
+--
+
+CREATE TABLE `banks` (
+  `bank_id` int(11) NOT NULL,
+  `name` varchar(500) NOT NULL,
+  `code` varchar(500) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `banks`
+--
+
+INSERT INTO `banks` (`bank_id`, `name`, `code`, `created_at`, `updated_at`) VALUES
+(1, 'United Bank for Africa Plc', 'united_bank_for_africa_plc', '2021-02-10 20:13:03', '2021-02-12 20:01:28'),
+(4, 'Access Bank Plc', 'access_bank_plc', '2021-02-13 01:21:26', '2021-02-13 01:21:26'),
+(5, 'Fidelity Bank Plc', 'fidelity_bank_plc', '2021-02-13 01:21:46', '2021-02-13 01:21:46'),
+(6, 'First City Monument Bank Limited', 'first_city_monument_bank_limited', '2021-02-13 01:22:07', '2021-02-13 01:22:07'),
+(7, 'First Bank of Nigeria Limited', 'first_bank_of_nigeria_limited', '2021-02-13 01:22:24', '2021-02-13 01:22:24'),
+(8, 'Guaranty Trust Bank Plc', 'guaranty_trust_bank_plc', '2021-02-13 01:22:38', '2021-02-13 01:22:38'),
+(9, 'Union Bank of Nigeria Plc', 'union_bank_of_nigeria_plc', '2021-02-13 01:23:02', '2021-02-13 01:23:02'),
+(10, 'Zenith Bank Plc', 'zenith_bank_plc', '2021-02-13 01:23:17', '2021-02-13 01:23:17');
 
 -- --------------------------------------------------------
 
@@ -211,21 +238,23 @@ CREATE TABLE `employees` (
   `last_login_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `image_url` varchar(500) DEFAULT NULL
+  `image_url` varchar(500) DEFAULT NULL,
+  `account_no` varchar(50) DEFAULT NULL,
+  `bank_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`employee_id`, `first_name`, `middle_name`, `last_name`, `date_of_employment`, `email`, `employee_status_id`, `state_id`, `mobile_number`, `department_id`, `level_id`, `staff_id`, `branch_id`, `company_id`, `title`, `date_of_birth`, `name_initials`, `gender_id`, `martial_status_id`, `current_address`, `personal_email`, `password`, `leave_supervisor_id`, `personal_production_target`, `created_at`, `updated_at`, `last_login_at`, `created_by`, `updated_by`, `image_url`) VALUES
-(2, 'Oluwaseun', 'Joseph', 'Olotu', '2018-03-14', 'seunolo2@gmail.com', 2, 2, '(234) 808-0643-360', 3, 1, '0007', 2, 2, 'Mr', '1985-03-21', 'SJO', 1, 1, 'Iba Housing Estate', 'seunolo2@gmail.com', '4a290d0dab6aca812b26312ef2277dea', 0, 0, '2020-07-09 11:12:45', '2020-12-02 02:42:34', '2020-12-02 02:42:34', NULL, 0, NULL),
-(4, 'Joseph', 'Banks', 'Olotu', '2010-03-21', 'josepholo2@yahoo.ca', 2, 4, '(234) 808-0643-360', 3, 1, '2345', 2, 3, 'Mr', '1985-03-21', 'JBO', 1, 1, 'Block 103, Flat 3, Zone A, 1st car park\r\nIba Housing Estate', 'josepholo2@yahoo.ca', '2c6a318823de58496bc99edc52881984', 2, 0, '2020-07-22 21:55:17', '2020-10-18 12:51:42', '2020-10-18 12:51:42', NULL, 2, NULL),
-(5, 'Chisom', 'Charis', 'Akunaka', '2020-01-05', 'chisomakunaka@bankstech.com', 2, 6, '(234) 706-5434-814', 6, 1, '2222', 5, 2, 'Miss', '2000-05-12', 'CCA', 2, 1, 'Block 502, Flat 6, Zone E, Iba Housing Estate, Ojo, Lagos', 'charisAkunaka@gmail.com', '2c6a318823de58496bc99edc52881984', 2, 200000, '2020-07-31 13:35:54', '2020-10-11 13:56:04', '2020-10-11 13:56:04', 2, 2, NULL),
-(6, 'Bunmi', 'Mary', 'Olotu', '2016-10-02', 'bunmio@bankstech.com', 2, 7, '(234) 808-0643-360', 3, 1, '5678', 2, 4, 'Mrs', '1989-10-16', 'BMO', 2, 2, 'Block 103 Iba', 'bunmiolo2@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 4, 20000, '2020-07-31 15:30:30', '2020-08-02 14:11:14', '2020-08-02 14:11:14', 2, 2, NULL),
-(7, 'Omogbolahan', 'John', 'Adeeko', '2010-05-11', 'Femex2006wes@gmail.com', 2, 4, '(234) 823-4444-444', 3, 9, '34556', 2, 2, 'Mr', '1986-04-22', 'OJA', 1, 2, 'Yaba', 'Adeeko@gmail.com', '2c6a318823de58496bc99edc52881984', 2, 500000, '2020-09-28 12:52:31', '2020-12-02 02:55:14', '2020-12-02 02:55:14', 2, 2, NULL),
-(8, 'Femi', 'James', 'Ajayi', '2019-04-22', 'femiA@custodian.com', 2, 4, '(234) 555-666-6666', 3, 1, '55666', 2, 4, 'Mr', '1973-05-23', 'FJA', 1, 2, 'Yaba', 'femiA@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 2, 750000000, '2020-09-28 12:56:30', '2020-09-28 12:56:30', NULL, 2, NULL, NULL),
-(9, 'Ben', 'John', 'Peter', '2020-11-17', 'benpeter@gmail.com', 2, 2, '(080) 344-554-7489', 6, 6, '34557', 2, 2, 'Mr', '1985-03-21', 'BJP', 1, 2, 'Block 103, Flat 3, Zone A, 1st car park\r\nIba Housing Estate', 'Ben@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 2, 600000, '2020-12-01 11:53:53', '2020-12-01 11:53:53', NULL, 2, NULL, NULL);
+INSERT INTO `employees` (`employee_id`, `first_name`, `middle_name`, `last_name`, `date_of_employment`, `email`, `employee_status_id`, `state_id`, `mobile_number`, `department_id`, `level_id`, `staff_id`, `branch_id`, `company_id`, `title`, `date_of_birth`, `name_initials`, `gender_id`, `martial_status_id`, `current_address`, `personal_email`, `password`, `leave_supervisor_id`, `personal_production_target`, `created_at`, `updated_at`, `last_login_at`, `created_by`, `updated_by`, `image_url`, `account_no`, `bank_id`) VALUES
+(2, 'Oluwaseun', 'Joseph', 'Olotu', '2018-03-14', 'seunolo2@gmail.com', 2, 2, '(234) 808-0643-360', 3, 1, '0007', 2, 2, 'Mr', '1985-03-21', 'SJO', 1, 1, 'Iba Housing Estate', 'seunolo2@gmail.com', '4a290d0dab6aca812b26312ef2277dea', 0, 0, '2020-07-09 11:12:45', '2021-02-13 02:09:28', '2021-02-13 02:09:28', NULL, 0, NULL, '2083541214', 1),
+(4, 'Joseph', 'Banks', 'Olotu', '2010-03-21', 'josepholo2@yahoo.ca', 2, 4, '(234) 808-0643-360', 3, 1, '2345', 2, 3, 'Mr', '1985-03-21', 'JBO', 1, 1, 'Block 103, Flat 3, Zone A, 1st car park\r\nIba Housing Estate', 'josepholo2@yahoo.ca', '2c6a318823de58496bc99edc52881984', 2, 0, '2020-07-22 21:55:17', '2021-02-13 03:01:24', '2021-02-13 03:01:24', NULL, 2, NULL, '5477556999606', 7),
+(5, 'Chisom', 'Charis', 'Akunaka', '2020-01-05', 'chisomakunaka@bankstech.com', 2, 6, '(234) 706-5434-814', 6, 1, '2222', 5, 2, 'Miss', '2000-05-12', 'CCA', 2, 1, 'Block 502, Flat 6, Zone E, Iba Housing Estate, Ojo, Lagos', 'charisAkunaka@gmail.com', '2c6a318823de58496bc99edc52881984', 2, 200000, '2020-07-31 13:35:54', '2021-02-13 03:00:25', '2021-02-13 03:00:25', 2, 2, NULL, '35465758699970', 1),
+(6, 'Bunmi', 'Mary', 'Olotu', '2016-10-02', 'bunmio@bankstech.com', 2, 7, '(234) 808-0643-360', 3, 1, '5678', 2, 4, 'Mrs', '1989-10-16', 'BMO', 2, 2, 'Block 103 Iba', 'bunmiolo2@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 4, 20000, '2020-07-31 15:30:30', '2021-02-13 03:00:05', '2021-02-13 03:00:05', 2, 2, NULL, '3536457758990', 5),
+(7, 'Omogbolahan', 'John', 'Adeeko', '2010-05-11', 'Femex2006wes@gmail.com', 2, 4, '(234) 823-4444-444', 3, 9, '34556', 2, 2, 'Mr', '1986-04-22', 'OJA', 1, 2, 'Yaba', 'Adeeko@gmail.com', '2c6a318823de58496bc99edc52881984', 2, 500000, '2020-09-28 12:52:31', '2021-02-13 03:02:08', '2021-02-13 03:02:08', 2, 2, NULL, '0002003185', 8),
+(8, 'Femi', 'James', 'Ajayi', '2019-04-22', 'femiA@custodian.com', 2, 4, '(234) 555-6666-666', 3, 1, '55666', 2, 4, 'Mr', '1973-05-23', 'FJA', 1, 2, 'Yaba', 'femiA@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 2, 750000000, '2020-09-28 12:56:30', '2021-02-13 03:00:52', '2021-02-13 03:00:52', 2, 2, NULL, '457586999606', 6),
+(9, 'Ben', 'John', 'Peter', '2020-11-17', 'benpeter@gmail.com', 2, 2, '(080) 344-5547-489', 6, 6, '34557', 2, 2, 'Mr', '1985-03-21', 'BJP', 1, 2, 'Block 103, Flat 3, Zone A, 1st car park\r\nIba Housing Estate', 'Ben@gmail.com', '117b0abd13b7eccc8fa9ed546b322a05', 2, 600000, '2020-12-01 11:53:53', '2021-02-13 02:59:03', '2021-02-13 02:59:03', 2, 2, NULL, '293847758599', 4);
 
 -- --------------------------------------------------------
 
@@ -477,10 +506,12 @@ CREATE TABLE `leaves` (
 --
 
 INSERT INTO `leaves` (`leave_id`, `employee_id`, `department_id`, `supervisor_id`, `leave_type_id`, `start_date`, `end_date`, `resumption_date`, `no_of_days`, `primary_relief_office_id`, `secondary_relief_office_id`, `staff_to_notify`, `comment`, `inline_with_leave_plan`, `with_pay`, `leave_status_id`, `file_url`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(53, 7, 3, 2, 4, '2020-11-09', '2020-11-13', '2020-11-16', 5, 4, 5, '\'2\':\'4\'', '', 'no', 'no', 11, NULL, 7, '2020-11-02 20:03:47', 2, '2020-11-11 02:14:00'),
+(53, 7, 3, 2, 4, '2020-11-09', '2020-11-13', '2020-11-16', 5, 4, 5, '\'2\':\'4\'', '', 'no', 'no', 5, NULL, 7, '2020-11-02 20:03:47', 2, '2021-02-02 17:10:11'),
 (54, 7, 3, 2, 4, '2020-11-09', '2020-11-11', '2020-11-12', 3, 4, 5, '\'2\':\'4\'', NULL, 'no', 'no', 5, NULL, 7, '2020-11-11 02:14:00', NULL, '2020-11-11 02:14:00'),
 (58, 7, 3, 2, 4, '2020-11-16', '2020-11-20', '2020-11-23', 5, 4, 0, '\'4\':\'2\'', '', 'no', 'yes', 5, NULL, 7, '2020-11-12 13:19:35', 2, '2020-11-13 01:15:03'),
-(59, 7, 3, 2, 6, '2020-11-24', '2020-11-26', '2020-11-27', 3, 4, 0, '\'4\':\'2\'', 'Testing', 'no', 'yes', 10, NULL, 7, '2020-11-12 19:34:54', 2, '2020-11-16 01:57:09');
+(59, 7, 3, 2, 6, '2020-11-24', '2020-11-26', '2020-11-27', 3, 4, 0, '\'4\':\'2\'', 'Testing', 'no', 'yes', 10, NULL, 7, '2020-11-12 19:34:54', 2, '2020-11-16 01:57:09'),
+(61, 7, 3, 2, 4, '2021-01-25', '2021-01-29', '2021-02-01', 5, 4, 0, '\'4\':\'2\'', 'Approved', 'no', 'yes', 5, NULL, 7, '2021-01-21 13:28:33', 2, '2021-01-21 13:35:32'),
+(62, 7, 3, 2, 6, '2021-02-01', '2021-02-05', '2021-02-08', 5, 4, 0, '\'4\':\'2\'', NULL, 'no', 'yes', 6, NULL, 7, '2021-01-21 13:55:48', NULL, '2021-01-21 13:55:48');
 
 -- --------------------------------------------------------
 
@@ -744,7 +775,21 @@ INSERT INTO `payrolls` (`payroll_id`, `employee_pay_element_id`, `employee_id`, 
 (27, 2, 8, 1, 2, 120000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
 (28, 3, 8, 1, 3, 170000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
 (29, 2, 9, 6, 2, 150000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
-(30, 3, 9, 6, 3, 130000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20');
+(30, 3, 9, 6, 3, 130000, '12', '2020', 2, NULL, '2020-12-31 14:29:20', '2020-12-31 14:29:20'),
+(31, 2, 2, 1, 2, 120000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(32, 3, 2, 1, 3, 170000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(33, 2, 4, 1, 2, 120000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(34, 3, 4, 1, 3, 170000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(35, 2, 5, 1, 2, 120000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(36, 3, 5, 1, 3, 170000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(37, 2, 6, 1, 2, 120000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(38, 3, 6, 1, 3, 170000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(39, 3, 7, 9, 3, 100000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(40, 2, 7, 9, 2, 80000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(41, 2, 8, 1, 2, 120000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(42, 3, 8, 1, 3, 170000, '01', '2021', 2, NULL, '2021-01-25 13:34:54', '2021-01-25 13:34:54'),
+(43, 2, 9, 6, 2, 150000, '01', '2021', 2, NULL, '2021-01-25 13:34:55', '2021-01-25 13:34:55'),
+(44, 3, 9, 6, 3, 130000, '01', '2021', 2, NULL, '2021-01-25 13:34:55', '2021-01-25 13:34:55');
 
 -- --------------------------------------------------------
 
@@ -1082,6 +1127,12 @@ INSERT INTO `support_ticket_statues` (`support_ticket_status_id`, `name`, `code`
 --
 
 --
+-- Indexes for table `banks`
+--
+ALTER TABLE `banks`
+  ADD PRIMARY KEY (`bank_id`);
+
+--
 -- Indexes for table `boundaries`
 --
 ALTER TABLE `boundaries`
@@ -1302,6 +1353,12 @@ ALTER TABLE `support_ticket_statues`
 --
 
 --
+-- AUTO_INCREMENT for table `banks`
+--
+ALTER TABLE `banks`
+  MODIFY `bank_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `boundaries`
 --
 ALTER TABLE `boundaries`
@@ -1395,7 +1452,7 @@ ALTER TABLE `issue_types`
 -- AUTO_INCREMENT for table `leaves`
 --
 ALTER TABLE `leaves`
-  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `leave_plans`
@@ -1443,7 +1500,7 @@ ALTER TABLE `martial_statuses`
 -- AUTO_INCREMENT for table `payrolls`
 --
 ALTER TABLE `payrolls`
-  MODIFY `payroll_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `payroll_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `payroll_role_levels`
@@ -1503,7 +1560,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `states`
 --
 ALTER TABLE `states`
-  MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `support_tickets`
