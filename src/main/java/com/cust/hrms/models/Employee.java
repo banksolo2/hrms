@@ -35,8 +35,22 @@ public class Employee {
 	private int createdBy;
 	private int updatedBy;
 	private String imageUrl;
+	private String accountNo;
+	private int bankId;
 	
 	
+	public int getBankId() {
+		return bankId;
+	}
+	public void setBankId(int bankId) {
+		this.bankId = bankId;
+	}
+	public String getAccountNo() {
+		return accountNo;
+	}
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -230,7 +244,8 @@ public class Employee {
 				+ ", currentAddress=" + currentAddress + ", personalEmail=" + personalEmail + ", createdAt=" + createdAt
 				+ ", updatedAt=" + updatedAt + ", password=" + password + ", lastLoginAt=" + lastLoginAt
 				+ ", leaveSupervisorId=" + leaveSupervisorId + ", personalProductionTarget=" + personalProductionTarget
-				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", imageUrl=" + imageUrl + "]";
+				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", imageUrl=" + imageUrl + ", bankId="
+				+ bankId + ", accountNo=" + accountNo + "]";
 	}
 	
 	
