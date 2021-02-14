@@ -4,7 +4,7 @@ package com.cust.hrms.dao;
 
 public class FileUploadDao {
 	
-	private final String URL = "/home/bankstech/eclipse-workspace/hrms/src/main/webapp/"; 
+	private final String URL = "/src/main/webapp"; 
 	
 	public String getUrl() {
 		return URL;

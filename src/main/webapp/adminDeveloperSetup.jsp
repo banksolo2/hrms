@@ -69,6 +69,8 @@
 				<a href="allStates.jsp" class="card-link">All States</a><br/>
                 <a href="createState.jsp" class="card-link">Create State</a><br/>
 				<a href="allStates.jsp" class="card-link">All States</a><br/>
+				<a href="createBank.jsp" class="card-link">Create Bank</a><br/>
+				<a href="allBanks.jsp" class="card-link">All Banks</a><br/>
 				<a href="createGender.jsp" class="card-link">Create Gender</a><br/>
 				<a href="allGenders.jsp" class="card-link">All Genders</a><br/>
 				<a href="createMartialStatus.jsp" class="card-link">Create Martial Status</a><br/>
