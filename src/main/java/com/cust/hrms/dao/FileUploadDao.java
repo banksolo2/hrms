@@ -4,7 +4,7 @@ package com.cust.hrms.dao;
 
 public class FileUploadDao {
 	
-	private final String URL = "/src/main/webapp"; 
+	private final String URL = "/C:/Users/Banks_Olo2/OneDrive/Documents/GitHub/hrms/src/main/webapp/"; 
 	
 	public String getUrl() {
 		return URL;
